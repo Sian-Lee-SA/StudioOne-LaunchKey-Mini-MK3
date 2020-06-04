@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SurfaceData surfaceID="{A30E4B8A-47C9-4A7A-8FF5-5EB3F36AE5B9}" revision="8">
+    <SurfaceDeviceAssignment deviceID="{29753296-2C75-4766-B349-F65BCE6B7104}" friendlyName="PadCommandAssignment">
+        <List x:id="pages">
+            <SurfaceAssignmentPage>
+                <Association key="padSection0.handler1.pad0.command" value="Track|Duplicate"/>
+                <Association key="padSection0.handler1.pad0.color" value="#00FFFFFF"/>
+                <Association key="padSection0.handler1.pad1.command" value="Edit|Select All"/>
+                <Association key="padSection0.handler1.pad1.color" value="#0000FFFF"/>
+                <Association key="padSection0.handler1.pad2.command" value="Track|Mute"/>
+                <Association key="padSection0.handler1.pad2.color" value="#FF0000FF"/>
+                <Association key="padSection0.handler1.pad3.command" value="Track|Solo"/>
+                <Association key="padSection0.handler1.pad3.color" value="#FFFF00FF"/>
+                <Association key="padSection0.handler1.pad4.command" value="Instrument Parts|Insert Pattern"/>
+                <Association key="padSection0.handler1.pad4.color" value="#008000FF"/>
+                <Association key="padSection0.handler1.pad5.command" value="Pattern|Duplicate Variation"/>
+                <Association key="padSection0.handler1.pad5.color" value="#FF00FFFF"/>
+                <Association key="padSection0.handler1.pad6.command" value="Pattern|New Variation"/>
+                <Association key="padSection0.handler1.pad6.color" value="#FF00FFFF"/>
+                <Association key="padSection0.handler1.pad7.command" value="Pattern|Delete Variation"/>
+                <Association key="padSection0.handler1.pad7.color" value="#FF00FFFF"/>
+            </SurfaceAssignmentPage>
+        </List>
+    </SurfaceDeviceAssignment>
+    <SurfaceDeviceAssignment deviceID="{11111111-1111-1111-1111-111111111111}" friendlyName="static">
+        <List x:id="pages">
+            <SurfaceAssignmentPage/>
+        </List>
+    </SurfaceDeviceAssignment>
+</SurfaceData>
