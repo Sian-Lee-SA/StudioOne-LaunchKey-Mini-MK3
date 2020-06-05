@@ -24,7 +24,8 @@ function ColorLEDHandler (name, status, address)
     this.address = address;
     this.effect = 0;
     this.state = 1;
-    this.color = 0x00;
+    this.color;
+    this.value = 0x00;
 
     this.setState = function( _state )
     {
@@ -42,15 +43,16 @@ function ColorLEDHandler (name, status, address)
 
     this.sendValue = function( _value, _flags )
     {
-        this.color = new Color( _value ).midi;
+        this.color = new Color( _value );
+        // kDebug.log( this.name +': '+color.toString());
+        this.value = this.color.midi;
         this.update();
     }
 
     this.update = function()
     {
-        let midi = ( this.state ) ? this.color : 0x00;
+        let midi = ( this.state ) ? this.value : 0x00;
         this.sendMidi( this.status|this.effect, this.address, midi );
-        // this.sendMidi( 0xB0|this.effect, this.address, this.color );
     }
 }
 
@@ -92,73 +94,9 @@ function MonoLEDHandler (name, address)
     }
 }
 
-// PadLEDHandler.prototype = new ControlHandler();
-// function PadLEDHandler( name, pad )
-// {
-//     this.pad = pad;
-//     this.name = name;
-//
-//     this.sendValue = function( value, flags )
-//     {
-//
-//         kDebug.log( this.name + ': ' + value + ' ' + Color.to32Bit(value).integer + ' ' + new Color(value).midi);
-//         this.pad.setColor( value );
-//     }
-// }
-
-// function Pad( _device, _index, _sessionPad )
-// {
-//
-//     const SessionPadAddress = [
-//         96, 97, 98, 99, 100, 101, 102, 103,
-//         112, 113, 114, 115, 116, 117, 118, 119
-//     ];
-//
-//     this.hostDevice = _device;
-//     this.index = _index;
-//     this.name = (_sessionPad) ? "sessionPad["+_index+"]" : "drumPad["+_index+"]";
-//     this.status = (_sessionPad) ? 0x90 : 0x99;
-//     this.address = (_sessionPad) ? SessionPadAddress[this.index] : this.index + 36;
-//
-//     this.state = 0;
-//     this.effect = 0;
-//     this.color = 0x02;
-//
-//     this.setAddress = function( value ) { this.address = value; }
-//
-//     this.setEffect = function( effect )
-//     {
-//         this.hostDevice.sendMidi( this.status, this.address, 0x00 );
-//         this.effect = effect;
-//         this.update();
-//     }
-//
-//     this.setColor = function( _val )
-//     {
-//         this.color = new Color(_val).midi;
-//         this.update();
-//     }
-//
-//     this.setState = function( _val )
-//     {
-//         this.state = _val;
-//         kDebug.log('State: '+ _val);
-//         this.update();
-//     }
-//
-//     this.update = function()
-//     {
-//         let midi = ( this.state ) ? this.color : 0x00;
-//         this.hostDevice.sendMidi(this.status|this.effect, this.address, midi);
-//     }
-// }
-
 LaunchKeyMKIIIMidiDevice.prototype = new ControlSurfaceDevice ();
 function LaunchKeyMKIIIMidiDevice ()
 {
-    // this.session_pads = [];
-    // this.drum_pads = [];
-
     this.handlers = {};
 
     this.enableInControlMode = function( bool )
@@ -178,14 +116,8 @@ function LaunchKeyMKIIIMidiDevice ()
 
         kDebug.device = this;
         this.debugLog = true;
-
-        // PADs
-        // for( i = 0; i < 16; i++ )
-        // {
-        //     this.session_pads.push( new Pad(this, i, true) );
-        //     this.drum_pads.push( new Pad(this, i, false) );
-        // }
     }
+
     this.createHandler = function (name, attributes)
     {
         // additional handlers created on the fly via <Handler> in XML
@@ -194,17 +126,8 @@ function LaunchKeyMKIIIMidiDevice ()
 
 
         let handler = null;
-        // let index = name.match(/\d{1,}/);
-        // let pad = ( name.substring(0, 4) == 'drum' ) ? this.drum_pads[index] : this.session_pads[index];
         switch( className )
         {
-
-            // case "PadLEDHandler":
-            //     handler = new PadLEDHandler( name, pad );
-            //     break;
-            // case "PadLEDEffectHandler":
-            //     handler = new ColorLEDEffectHandler( name, pad );
-            //     break;
             case "ColorLEDHandler":
                 let status = parseInt( attributes.getAttribute("status") );
                 handler = new ColorLEDHandler( name, status, address );
@@ -251,7 +174,6 @@ function LaunchKeyMKIIIMidiDevice ()
     {
         // Transmit native mode off message
         this.enableInControlMode( false );
-
         ControlSurfaceDevice.prototype.onExit.call (this);
     }
 }

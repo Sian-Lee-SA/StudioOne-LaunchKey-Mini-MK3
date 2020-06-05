@@ -56,134 +56,149 @@ Color.Values = {
 };
 
 Color.RGB_COLOR_TABLE = [
+    // BANK 1
     0,
-    1973790,
-    8355711,
-    16777215,
-    16731212,
-    16711680,
-    5832704,
-    2105376, // Moved to 71
-    16760172,
-    16733184,
-    5840128,        // 10
-    2562816,
-    16777036,
-    16776960,
-    5855488,
-    1644800,
-    8978252,
-    5570304,
-    1923328,
-    1321728,
-    5046092,        // 20
-    65280,
-    22784,
-    6400,
-    5046110,
-    65305,
-    22797,
-    6402,
-    5046152,
-    65365,
-    22813,          // 30
-    7954,
-    5046199,
-    65433,
-    22837,
-    6418,
-    5030911,
-    43519,
-    16722,
-    4121,
-    5015807,        // 40
-    22015,
-    7513,
-    2073,
-    5000447,
-    255,
-    89,
-    25,
-    8867071,
-    5505279,
-    1638500,        // 50
-    983088,
-    16731391,
-    16711935,
-    5832793,
-    1638425,
-    16731271,
-    16711764,
-    5832733,
-    2228243,
-    16717056,       // 60
-    10040576,
-    7950592,
-    4416512,
-    211200,
-    22325,
-    21631,
-    255,
-    17743,
-    2425036,
-    8355711,        // 70
-    1638400, // Moved to 7
-    16711680,
-    12451629,
-    11529478,
-    6618889,
-    1084160,
-    65415,
-    43519,
-    11007,
-    4129023,        // 80
-    7995647,
-    11672189,
-    4202752,
-    16730624,
-    8970502,
-    7536405,
-    65280,
-    3931942,
-    5898097,
-    3735500,        // 90
-    5999359,
-    3232198,
-    8880105,
-    13835775,
-    16711773,
-    16744192,
-    12169216,
-    9502464,
-    8609031,
-    3746560,        // 100
-    1330192,
-    872504,
-    1381674,
-    1450074,
-    6896668,
-    11010058,
-    14569789,
-    14182940,
-    16769318,
-    10412335,       // 110
-    6796559,
-    1973808,
-    14483307,
-    8454077,
-    10131967,
-    9332479,
-    4210752,
-    7697781,
-    14745599,
-    10485760,       // 120
-    3473408,
-    1757184,
-    475648,
-    12169216,
-    4141312,
-    11755264,
-    4920578
+    1973790,        // #1E1E1E
+    8355711,        // #7F7F7F
+    16777215,       // #FFFFFF
+    16731212,       // #FF4C4C lighter than represented
+    16711680,       // #FF0000
+    5832704,        // #590000
+    1638400,
+    16760172,       // #FFBD6C Whiter
+    16733184,       // #FF5400
+    5840128,        // #591D00
+    2562816,        // #271B00
+    16777036,       // #FFFF4C
+    16776960,       // #FFFF00
+    5855488,        // #595900
+    1644800,        // #191900
+
+    // BANK 2 (16)
+    8978252,        // #88FF4C      rgb(147, 223, 94)
+    5570304,        // #54FF00
+    1923328,        // #1D5900
+    1321728,        // #142B00
+    5046092,        // #4CFF4C
+    65280,          // #00FF00
+    22784,          // #005900
+    6400,           // #001900
+    5046110,        // #4CFF5E
+    65305,          // #00FF19
+    22797,          // #00590D
+    6402,           // #001902
+    5046152,        // #4CFF88
+    65365,          // #00FF55
+    22813,          // #00591D
+    7954,           // #001F12
+
+    // BANK 3 (32)
+    5046199,        // #4CFFB7
+    65433,          // #00FF99
+    22837,          // #005935
+    6418,           // #001912
+    5030911,        // #4CC3FF
+    43519,          // #00A9FF
+    16722,          // #004152
+    4121,           // #001019
+    5015807,        // #4C88FF
+    22015,          // #0055FF
+    7513,           // #001D59
+    2073,           // #000819
+    5000447,        // #4C4CFF
+    255,            // #0000FF
+    89,             // #000059
+    25,             // #000019
+
+    // BANK 4 (48)
+    8867071,        // #874CFF
+    5505279,        // #5400FF
+    1638500,        // #190064
+    983088,         // #0F0030
+    16731391,       // #FF4CFF
+    16711935,       // #FF00FF
+    5832793,        // #590059
+    1638425,        // #190019
+    16731271,       // #FF4C87
+    16711764,       // #FF0054
+    5832733,        // #59001D
+    2228243,        // #220013
+    16717056,       // #FF1500
+    10040576,       // #993500
+    7950592,        // #795100
+    4416512,        // #436400
+
+    // BANK 5 (64)
+    211200,         // #033900
+    22325,          // #005735
+    21631,          // #00547F
+    255,            // #0000FF
+    17743,          // #00454F
+    2425036,        // #2500CC
+    8355711,        // #7F7F7F
+    2105376,        // #202020
+    16711680,       // #FF0000
+    12451629,       // #BDFF2D
+    11529478,       // #AFED06
+    6618889,        // #64FF09
+    1084160,        // #108B00
+    65415,          // #00FF87
+    43519,          // #00A9FF
+    11007,          // #002AFF
+
+    // BANK 6 (80)
+    4129023,        // #3F00FF
+    7995647,        // #7A00FF
+    11672189,       // #B21A7D
+    4202752,        // #402100
+    16730624,       // #FF4A00
+    8970502,        // #88E106
+    7536405,        // #72FF15
+    65280,          // #00FF00
+    3931942,        // #3BFF26
+    5898097,        // #59FF71
+    3735500,        // #38FFCC
+    5999359,        // #5B8AFF
+    3232198,        // #3151C6
+    8880105,        // #877FE9
+    13835775,       // #D31DFF
+    16711773,       // #FF005D
+
+    // BANK 7 (96)
+    16744192,       // #FF7F00
+    12169216,       // #B9B000
+    9502464,        // #90FF00
+    8609031,        // #835D07
+    3746560,        // #392B00
+    1330192,        // #144C10
+    872504,         // #0D5038
+    1381674,        // #15152A
+    1450074,        // #16205A
+    6896668,        // #693C1C
+    11010058,       // #A8000A
+    14569789,       // #DE513D
+    14182940,       // #D86A1C
+    16769318,       // #FFE126
+    10412335,       // #9EE12F
+    6796559,        // #67B50F
+
+    // BANK 8 (112)
+    1973808,        // #1E1E30
+    14483307,       // #DCFF6B
+    8454077,        // #80FFBD
+    10131967,       // #9A99FF
+    9332479,        // #8E66FF
+    4210752,        // #404040
+    7697781,        // #757575
+    14745599,       // #E0FFFF
+    10485760,       // #A00000
+    3473408,        // #350000
+    1757184,        // #1AD000
+    475648,         // #074200
+    12169216,       // #B9B000
+    4141312,        // #3F3100
+    11755264,       // #B35F00
+    4920578         // #4B1502
 ];
 
 Color.PRESONUS_SNAP = {
@@ -276,60 +291,69 @@ Color.PRESONUS_SNAP = {
 	15460857: 68
 };
 
-Color.to32Bit = function( value )
+Color.convert = function( value )
 {
-    // 7 bit per color channel
-    let alpha = (value >> 24) & 0xFF;
-    let r = (value >> 1) & 0x7F;
-    let g = (value >> 9) & 0x7F;
-    let b = (value >> 17) & 0x7F;
+    let r = value & 0xFF;
+    let g = (value >> 8) & 0xFF;
+    let b = (value >> 16) & 0xFF;
 
-    let rgb = ( Math.floor(r / 127 * 255) );
-    rgb = (rgb << 8) + ( Math.floor(g / 127 * 255) );
-    rgb = (rgb << 8) + ( Math.floor(b / 127 * 255) );
+    let hex = r.toString(16) + g.toString(16) + b.toString(16);
+
     return {
         red: r,
         green: g,
         blue: b,
-        integer: rgb
+        hex: hex,
+        int: parseInt('0x'+hex)
     };
+}
+
+Color.intToRGB = function(int)
+{
+    if( ! int )
+        return [ 0, 0, 0 ];
+    return [
+        (int & 16711680) >> 16,
+        (int & 65280) >> 8,
+        int & 255
+    ];
 }
 
 function Color( _v ) {
 
+    this.original_value = _v;
+    this.converted_values;
+    this.midi;
+
+    this.toString = function()
+    {
+        return JSON.stringify(
+            {
+                values: this.converted_values,
+                midi: this.midi,
+                orgValue: this.original_value
+            }
+        );
+    }
+
     this.find_nearest_color = function( goal )
     {
-        // function hex_to_channels(color_in_hex) {
-        //     return [
-        //         (color_in_hex & 16711680) >> 16,
-        //         (color_in_hex & 65280) >> 8,
-        //         color_in_hex & 255
-        //     ];
-        // }
-        //
-        // function squared_distance(color) {
-        //     // return sum([ (a - b) ** 2 for a, b in zip(hex_to_channels(src_hex_color, hex_to_channels(color[1]))
-        //     //            ])
-        // }
 
         table = Color.RGB_COLOR_TABLE.slice(0);
-        table.sort(function(a, b) {
-            return a - b;
-        });
 
         const closest = table.reduce(function(prev, curr) {
-            return Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev;
+
+            let rgb_c = Color.intToRGB(curr);
+            let rgb_p = Color.intToRGB(prev);
+
+            current_value = Math.abs(goal.red - rgb_c[0]) + Math.abs(goal.green - rgb_c[1]) + Math.abs(goal.blue - rgb_c[2]);
+            prev_value = Math.abs(goal.red - rgb_p[0]) + Math.abs(goal.green - rgb_p[1]) + Math.abs(goal.blue - rgb_p[2]);
+
+            return ( Math.abs(current_value) < Math.abs(prev_value) ) ? curr : prev;
         });
 
-        // return closest;
-        // if( ! closest )
-        //     return 0;
 
         return Color.RGB_COLOR_TABLE.indexOf( closest );
-        // rgb_groups = RGB_COLOR_TABLE;
-
-        // return min(rgb_table, key=squared_distance)[0]
-        // return hex_to_channels( this.value );
     }
 
     this.determineMidiValue = function( value )
@@ -341,17 +365,16 @@ function Color( _v ) {
             return value;
         }
 
-        let _value = Color.to32Bit(value).integer;
+        this.converted_values = Color.convert(value);
 
-        if(Color.PRESONUS_SNAP[Math.abs(value)]) {
-            return Color.PRESONUS_SNAP[Math.abs(value)];
+        // if(Color.PRESONUS_SNAP[Math.abs(value)]) {
+        //     return Color.PRESONUS_SNAP[Math.abs(value)];
+        // }
+        if( Color.RGB_COLOR_TABLE.indexOf(this.converted_values.int) != -1 ) {
+            return Color.RGB_COLOR_TABLE.indexOf(this.converted_values.int);
         }
-        if( Color.RGB_COLOR_TABLE.indexOf(_value) != -1 ) {
-            return Color.RGB_COLOR_TABLE.indexOf(_value);
-        }
-        return this.find_nearest_color( _value );
+        return this.find_nearest_color(this.converted_values);
     }
 
-    this.val = (_v == -1) ? 0 : _v;
-    this.midi = this.determineMidiValue(_v);
+    this.midi = this.determineMidiValue(this.original_value);
 }

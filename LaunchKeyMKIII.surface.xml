@@ -202,7 +202,7 @@
             <MidiMessage status="Controller" address="108" />
         </Control>
 
-        <Control name="scene" title="Scene Launch" options="receive" type="toggle">
+        <Control name="scene" title="Scene" options="receive" type="toggle">
             <MidiMessage status="Controller" address="104" />
         </Control>
         <Control name="sceneLED" options="transmit"> <Handler class="ColorLEDHandler" status="176" address="104" /> </Control>
@@ -249,6 +249,7 @@
         </Control>
 
 		<Control name="timeCode" options="transmit fastupdate" />
+        <Control name="assignmentDisplay" options="transmit" />
     </Controls>
 
     <Mappings>
@@ -280,11 +281,11 @@
         <define name="$HUI_SOLO_MODE" value="1" />
         <define name="$HUI_MUTE_MODE" value="2" />
 
-        <define name="$HUI_ROW[0]" value="8" />
-
         <!-- ******************************************************************************************** -->
         <!-- GENERIC MAPPING (used for "on the fly" control assignment) -->
         <!-- ******************************************************************************************** -->
+        <!-- PlacementBank | ScrollBank -->
+        <!-- RemoteBank | AllBank | FollowBank | MasterBank | PlacementBank -->
         <GenericMapping>
             <Bank>
                 <Strip name="knob[0]"><Relative control="knob[0]" param="value" options="above"/></Strip>
@@ -331,15 +332,25 @@
         <!-- NOTE MIXER CONSOLE -->
         <!-- ******************************************************************************************** -->
         <DeviceMapping device="MixerConsole" name="MixerMapping">
-            <ScrollBank target="FollowBank" name="FocusBankElement">
+            <!-- <ScrollBank target="FollowBank" name="FocusBankElement">
                 <Strip />
-            </ScrollBank>
+            </ScrollBank> -->
 
             <ParamVariant using="@global" param="sessionMode">
                 <Group value="$HUI_MODE">
-                    <PlacementBank target="RemoteBank" pagesize="8">
+
+                    <using device="@global"> <Toggle control="scene" param="subModifier" options="nonlatching" /> </using>
+
+                    <ScrollBank target="RemoteBank" pagesize="8">
+
                         <!-- The Channel Strips -->
                         <foreach variable="$channel" count="8">
+
+                            <using device="@global">
+                                <Value control="sessionHigherPadState[$channel]" param="padFocusMode" />
+                                <Value control="sessionLowerPadState[$channel]" param="padFocusMode" />
+                            </using>
+
                             <Strip>
                                 <ParamVariant using="@global" param="devicePotMode">
                                     <Group value="$DEVICE_POT_MODE_VOLUME">
@@ -350,60 +361,74 @@
                                     </Group>
                                 </ParamVariant>
 
-
-                                <using device="@global">
-                                    <Value control="sessionHigherPadState[$channel]" param="padFocusMode" />
-                                    <Value control="sessionLowerPadState[$channel]" param="padFocusMode" />
-                                </using>
-
                                 <!-- SELECTION -->
                                 <Toggle control="sessionHigherPad[$channel]" param="selected" />
+                                <PlainValue control="sessionHigherPadLED[$channel]" param="color" />
                                 <ParamVariant param="selected">
-                                    <using device="@global"><PlainValue control="sessionHigherPadLED[$channel]" param="DARK_GREY" /></using>
-                                    <using device="@global"><PlainValue control="sessionHigherPadLED[$channel]" param="WHITE" /></using>
+                                    <using device="@global"></using>
+                                    <using device="@global"> <PlainValue control="sessionHigherPadEffect[$channel]" param="EFFECT_PULSE" /> </using>
                                 </ParamVariant>
 
-                                <!-- HUI MODE -->
-                                <ParamVariant using="@global" param="huiSSMMode">
-
-                                    <Group value="$HUI_MONITOR_MODE">
-                                        <using device="@global">
-                                            <Radio control="ssm" param="huiSSMMode" value="$HUI_SOLO_MODE" options="toggle" />
-                                            <PlainValue control="ssmLED" param="BLUE" />
-                                        </using>
-                                        <Toggle control="sessionLowerPad[$channel]" param="monitor" />
-                                        <ParamVariant param="monitor">
-                                            <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="SKY_BLUE_DIMMED" /></using>
-                                            <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="SKY_BLUE" /></using>
-                                        </ParamVariant>
-                                    </Group>
-                                    <Group value="$HUI_SOLO_MODE">
-                                        <using device="@global">
-                                            <Radio control="ssm" param="huiSSMMode" value="$HUI_MUTE_MODE" options="toggle" />
-                                            <PlainValue control="ssmLED" param="YELLOW" />
-                                        </using>
-                                        <Toggle control="sessionLowerPad[$channel]" param="solo" />
-                                        <ParamVariant param="solo">
-                                            <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="YELLOW_DIMMED" /></using>
-                                            <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="YELLOW" /></using>
-                                        </ParamVariant>
-                                    </Group>
-                                    <Group value="$HUI_MUTE_MODE">
-                                        <using device="@global">
-                                            <Radio control="ssm" param="huiSSMMode" value="$HUI_MONITOR_MODE" options="toggle" />
-                                            <PlainValue control="ssmLED" param="RED" />
-                                        </using>
-                                        <Toggle control="sessionLowerPad[$channel]" param="mute" />
-                                        <ParamVariant param="mute">
-                                            <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="RED_DIMMED" /></using>
-                                            <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="RED" /></using>
-                                        </ParamVariant>
-                                    </Group>
+                                <ParamVariant using="@global" param="subModifier" options="nonlatching">
+                                    <!-- HUI MODE -->
+                                    <ParamVariant using="@global" param="huiSSMMode">
+                                        <Group value="$HUI_MONITOR_MODE">
+                                            <using device="@global">
+                                                <Radio control="ssm" param="huiSSMMode" value="$HUI_SOLO_MODE" options="toggle" />
+                                                <PlainValue control="ssmLED" param="BLUE" />
+                                            </using>
+                                            <Toggle control="sessionLowerPad[$channel]" param="monitor" />
+                                            <ParamVariant param="monitor">
+                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="SKY_BLUE_DIMMED" /></using>
+                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="SKY_BLUE" /></using>
+                                            </ParamVariant>
+                                        </Group>
+                                        <Group value="$HUI_SOLO_MODE">
+                                            <using device="@global">
+                                                <Radio control="ssm" param="huiSSMMode" value="$HUI_MUTE_MODE" options="toggle" />
+                                                <PlainValue control="ssmLED" param="YELLOW" />
+                                            </using>
+                                            <Toggle control="sessionLowerPad[$channel]" param="solo" />
+                                            <ParamVariant param="solo">
+                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="YELLOW_DIMMED" /></using>
+                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="YELLOW" /></using>
+                                            </ParamVariant>
+                                        </Group>
+                                        <Group value="$HUI_MUTE_MODE">
+                                            <using device="@global">
+                                                <Radio control="ssm" param="huiSSMMode" value="$HUI_MONITOR_MODE" options="toggle" />
+                                                <PlainValue control="ssmLED" param="RED" />
+                                            </using>
+                                            <Toggle control="sessionLowerPad[$channel]" param="mute" />
+                                            <ParamVariant param="mute">
+                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="RED_DIMMED" /></using>
+                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="RED" /></using>
+                                            </ParamVariant>
+                                        </Group>
+                                    </ParamVariant>
+                                    <Group />
                                 </ParamVariant>
-
                             </Strip>
                         </foreach>
-                    </PlacementBank>
+
+                        <ParamVariant using="@global" param="subModifier" options="nonlatching">
+                            <Group />
+                            <Group>
+                                <ScrollButton control="sessionLowerPad[0]" direction="pageleft" />
+                                <ScrollButton control="sessionLowerPad[1]" direction="stepleft" />
+                                <ScrollButton control="sessionLowerPad[6]" direction="stepright" />
+                                <ScrollButton control="sessionLowerPad[7]" direction="pageright" />
+                                <using device="@global">
+                                    <PlainValue control="sessionLowerPadLED[0]" param="GREEN" />
+                                    <PlainValue control="sessionLowerPadLED[1]" param="GREEN_HALF" />
+                                    <PlainValue control="sessionLowerPadLED[6]" param="GREEN_HALF" />
+                                    <PlainValue control="sessionLowerPadLED[7]" param="GREEN" />
+                                </using>
+                            </Group>
+                        </ParamVariant>
+                    </ScrollBank>
+
+
                 </Group>
             </ParamVariant>
         </DeviceMapping>
@@ -466,15 +491,6 @@
 
                             <Toggle control="arp" param="subModifier" options="latching" />
                             <Value control="arpLED" param="subModifier" />
-                            <!-- <ParamVariant param="subModifier">
-                                <PlainValue control="arpLED" param="MONO_OFF" />
-                                <PlainValue control="arpLED" param="MONO_FULL" />
-                            </ParamVariant> -->
-                            <!-- <ParamVariant param="shiftModifier">
-                                <Toggle control="ssm" param="subModifier" options="nonlatching" />
-                                <Command control="ssm" command.category="Transport" command.name="Toggle Loop" />
-
-                            </ParamVariant> -->
 
                             <ParamVariant using="device:///TransportPanel" param="loop">
                                 <PlainValue control="ssmLED" param="MONO_OFF" />

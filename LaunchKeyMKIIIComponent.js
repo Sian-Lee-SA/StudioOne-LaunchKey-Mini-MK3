@@ -172,11 +172,11 @@ function LaunchKeyMKIIIMidiComponent ()
         paramList.addInteger(1, 1, "EFFECT_BLINK");
         paramList.addInteger(2, 2, "EFFECT_PULSE");
 
-        // for(i in padSnapColors)
-        // {
-        //     c.addPadPaletteColor(padSnapColors[i]);
-        //     d.addPadPaletteColor(padSnapColors[i]);
-        // }
+        for(i in padSnapColors)
+        {
+            c.addPadPaletteColor(padSnapColors[i]);
+            d.addPadPaletteColor(padSnapColors[i]);
+        }
 
 
         for(let mode = 0; mode <= kLastPadMode; mode++)
@@ -211,7 +211,7 @@ function LaunchKeyMKIIIMidiComponent ()
                         PadSection.addCommand(commands, PadIndex.SetupMode.MetronomeClick, "Transport", "Click");
                         PadSection.addCommand(commands, PadIndex.SetupMode.MetronomePreCount, "Transport", "Precount");
 
-                        PadSection.addCommand(commands, PadIndex.Global.Delete, "Edit", "Delete", 0, null, '#FF0000');
+                        PadSection.addCommand(commands, PadIndex.Global.Delete, "Edit", "Delete", 0, null, 'red');
 
                         c.addCommandInputHandler(commands);
                         c.getHandler(mode).setPadColor(kPadCommandColor);
@@ -287,6 +287,9 @@ function LaunchKeyMKIIIMidiComponent ()
             }
         }
 
+
+        kDebug.log(PadSectionRole.prototype);
+
         this.devicePadMode.setValue(1, true); // Drum Mode
         this.padFocusMode.setValue(1, true);
         this.huiSSMMode.setValue(0, true);
@@ -321,6 +324,9 @@ function LaunchKeyMKIIIMidiComponent ()
                             .setFocusPadWhenPressed(param.value);
 
             case this.sessionMode:
+                // Reset modifier incase it was toggles in another scene
+                // NOTE stepedit has a latching subModifier
+                this.subModifier.setValue(0, true);
                 return this.updateSessionMode();
 
             case this.fullVelocityMode:
