@@ -297,7 +297,13 @@ Color.convert = function( value )
     let g = (value >> 8) & 0xFF;
     let b = (value >> 16) & 0xFF;
 
-    let hex = r.toString(16) + g.toString(16) + b.toString(16);
+    let h = [r.toString(16), g.toString(16), b.toString(16)];
+    for( let i = 0; i < 3; i++ )
+    {
+        if( h[i].length == 1 )
+            h[i] = '0'+h[i];
+    }
+    let hex = h.join('');
 
     return {
         red: r,
@@ -338,6 +344,9 @@ function Color( _v ) {
 
     this.find_nearest_color = function( goal )
     {
+        if( Color.RGB_COLOR_TABLE.indexOf(goal.int) != -1 ) {
+            return Color.RGB_COLOR_TABLE.indexOf(goal.int);
+        }
 
         table = Color.RGB_COLOR_TABLE.slice(0);
 
@@ -367,12 +376,10 @@ function Color( _v ) {
 
         this.converted_values = Color.convert(value);
 
-        // if(Color.PRESONUS_SNAP[Math.abs(value)]) {
-        //     return Color.PRESONUS_SNAP[Math.abs(value)];
-        // }
-        if( Color.RGB_COLOR_TABLE.indexOf(this.converted_values.int) != -1 ) {
-            return Color.RGB_COLOR_TABLE.indexOf(this.converted_values.int);
+        if(Color.PRESONUS_SNAP[Math.abs(value)]) {
+            return Color.PRESONUS_SNAP[Math.abs(value)];
         }
+
         return this.find_nearest_color(this.converted_values);
     }
 

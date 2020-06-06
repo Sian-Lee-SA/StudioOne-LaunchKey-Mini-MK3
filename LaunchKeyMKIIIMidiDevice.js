@@ -44,7 +44,9 @@ function ColorLEDHandler (name, status, address)
     this.sendValue = function( _value, _flags )
     {
         this.color = new Color( _value );
-        // kDebug.log( this.name +': '+color.toString());
+        if( this.name == 'ssmLED' )
+            kDebug.log( this.name +': '+this.color.toString());
+
         this.value = this.color.midi;
         this.update();
     }
