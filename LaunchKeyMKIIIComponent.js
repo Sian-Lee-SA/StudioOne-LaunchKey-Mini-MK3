@@ -100,6 +100,8 @@ function LaunchKeyMKIIIMidiComponent ()
         this.padSessionSection =    root.find("PadSessionSectionElement");
         this.padDrumSection =       root.find("PadDrumSectionElement");
 
+        this.focusChannelElement =  root.find("MixerElement").find("FocusBankElement").getElement (0);
+
         this.noteRepeatElement =    root.find("NoteRepeatElement");
 
         // Params
@@ -108,7 +110,7 @@ function LaunchKeyMKIIIMidiComponent ()
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.subModifier =          paramList.addParam("subModifier");
 
-        this.devicePadMode = 	    paramList.addInteger(0, DevicePadModes.length - 1, "devicePadMode");
+        this.devicePadMode = 	    paramList.addInteger(0, 126, "devicePadMode");
         this.devicePotMode = 	    paramList.addInteger(0, DevicePotModes.length - 1, "devicePotMode");
 
         this.sessionMode = 			paramList.addInteger(0, kLastPadMode, "sessionMode");
@@ -130,7 +132,6 @@ function LaunchKeyMKIIIMidiComponent ()
         this.editorModeActive =     paramList.addParam("editorModeActive");
 
         this.bankMenuColor =        paramList.addColor("bankButtonColor");
-
         this.updateBankMenuColor();
 
         // setup pad section
@@ -151,6 +152,10 @@ function LaunchKeyMKIIIMidiComponent ()
         paramList.addInteger(1, 1, "EFFECT_BLINK");
         paramList.addInteger(2, 2, "EFFECT_PULSE");
 
+        paramList.addColor("loopColor").fromString('aqua');
+        paramList.addColor("padFocusOnColor").fromString("orange");
+        paramList.addColor("padFocusOffColor").fromString("blue");
+
         for(let mode = 0; mode <= kLastPadMode; mode++)
         {
             switch(mode)
@@ -160,6 +165,7 @@ function LaunchKeyMKIIIMidiComponent ()
                         c.addHandlerForRole(PadSectionRole.kStepEdit);
                         d.addHandlerForRole(PadSectionRole.kMusicInput);
                         this.togglePadDisplayMode(true, 1);
+                        d.getHandler(mode).setPadColor(kDefaultBankColor);
                         for(let i = 0; i < kBankCount; i++)
                             d.getHandler(mode).setBankColor(i, bankColors[i]);
                     }
@@ -257,10 +263,10 @@ function LaunchKeyMKIIIMidiComponent ()
             }
         }
 
-        this.devicePadMode.setValue(1, true); // Drum Mode
+        this.devicePadMode.setValue(2, true); // Drum Mode
         this.padFocusMode.setValue(1, true);
 
-        this.setSessionMode(kSetupMode);
+        this.setSessionMode(kHUIMode);
         this.updateSessionMode();
 
         d.setActiveHandler(kPlayMode);
@@ -276,8 +282,12 @@ function LaunchKeyMKIIIMidiComponent ()
 
     this.paramChanged = function(param)
     {
+
         switch( param )
         {
+            case this.devicePadMode:
+                break;
+
             case this.subModifier:
                 this.padDrumSection.component.setModifierActive(param.value);
                 this.padSessionSection.component.setModifierActive(param.value);
@@ -293,6 +303,8 @@ function LaunchKeyMKIIIMidiComponent ()
                 // NOTE stepedit has a latching subModifier
                 this.subModifier.setValue(0, true);
                 return this.updateSessionMode();
+
+
 
             case this.huiMode:
                 return this.updateHuiMode();
@@ -385,6 +397,13 @@ function LaunchKeyMKIIIMidiComponent ()
         }
     }
 
+    this.openEditorAndFocus = function(state)
+    {
+        if( ! state )
+            return;
+        HostUtils.openEditorAndFocus (this, this.focusChannelElement, HostUtils.kInstrumentEditor, true);
+    }
+
     this.onConnectNoteRepeat = function ()
     {
         this.noteRepeatElement.connectAliasParam(this.repeatRateAlias, NoteRepeat.kRate);
@@ -466,12 +485,18 @@ function LaunchKeyMKIIIMidiComponent ()
 
         c.setActiveHandler(mode);
 
+        if( mode == kHUIMode )
+            this.updateHuiMode();
+
         this.editorModeActive.value = mode == kEventEditMode || mode == kStepEditMode;
     }
 
     this.updateHuiMode = function()
     {
         let hui = HuiModes[this.huiMode.value];
+
+        for( let i = 0; i < kPadCount; i++ )
+            this.padSessionSection.component.setPadState(i, 1);
 
         this.huiColor.fromString( hui.color );
         this.huiLowerColorOff.fromString( hui.toggleColor[0] );
@@ -493,18 +518,6 @@ function LaunchKeyMKIIIMidiComponent ()
         this.updateHuiMode();
     }
 
-    this.onDevicePadModeChanged = function(value)
-    {
-        let key = (value * 1024 >> 3) & 0x7F;
-        this.devicePadMode.setValue( key, true );
-    }
-
-    this.onDevicePotModeChanged = function(value)
-    {
-        let key = (value * 1024 >> 3) & 0x7F;
-        this.devicePotMode.setValue( key, true );
-    }
-
     this.notify = function (subject, msg)
     {
         if(msg.id == HostUtils.kTrackEditorChanged)
@@ -517,7 +530,10 @@ function LaunchKeyMKIIIMidiComponent ()
     this.updateBankMenuColor = function()
     {
         let c = this.padSessionSection.component;
+        let d = this.padDrumSection.component;
         let bankIndex = c.getCurrentBank();
+        let bankColor = bankColors[bankIndex];
+        let bankIndex = d.getCurrentBank();
         let bankColor = bankColors[bankIndex];
         this.bankMenuColor.fromString (bankColor);
     }

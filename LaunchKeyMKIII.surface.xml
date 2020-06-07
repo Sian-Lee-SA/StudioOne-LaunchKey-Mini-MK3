@@ -190,12 +190,12 @@
             <MidiMessage status="Controller" address="#1C" />
         </Control>
 
-        <Control name="devicePadMode" title="Device Pad Mode" options="receive">
-            <MidiMessage status="Controller" address="3" />
+        <Control name="devicePadMode" title="Device Pad Mode" options="transmit receive">
+            <MidiMessage status="#B0" channel="15" address="3" />
         </Control>
 
-        <Control name="devicePotMode" title="Device Knob Mode" options="receive">
-            <MidiMessage status="Controller" address="9" />
+        <Control name="devicePotMode" title="Device Pot Mode" options="transmit receive">
+            <MidiMessage status="#B0" channel="15" address="9" />
         </Control>
 
         <Control name="shift" title="Shift" options="receive" type="button">
@@ -289,14 +289,14 @@
         <!-- RemoteBank | AllBank | FollowBank | MasterBank | PlacementBank -->
         <GenericMapping>
             <Bank>
-                <Strip name="knob[0]"><Relative control="knob[0]" param="value" options="above"/></Strip>
-                <Strip name="knob[1]"><Relative control="knob[1]" param="value" options="above"/></Strip>
-                <Strip name="knob[2]"><Relative control="knob[2]" param="value" options="above"/></Strip>
-                <Strip name="knob[3]"><Relative control="knob[3]" param="value" options="above"/></Strip>
-                <Strip name="knob[4]"><Relative control="knob[4]" param="value" options="above"/></Strip>
-                <Strip name="knob[5]"><Relative control="knob[5]" param="value" options="above"/></Strip>
-                <Strip name="knob[6]"><Relative control="knob[6]" param="value" options="above"/></Strip>
-                <Strip name="knob[7]"><Relative control="knob[7]" param="value" options="above"/></Strip>
+                <Strip name="knob[0]"><Value control="knob[0]" param="value" options="above"/></Strip>
+                <Strip name="knob[1]"><Value control="knob[1]" param="value" options="above"/></Strip>
+                <Strip name="knob[2]"><Value control="knob[2]" param="value" options="above"/></Strip>
+                <Strip name="knob[3]"><Value control="knob[3]" param="value" options="above"/></Strip>
+                <Strip name="knob[4]"><Value control="knob[4]" param="value" options="above"/></Strip>
+                <Strip name="knob[5]"><Value control="knob[5]" param="value" options="above"/></Strip>
+                <Strip name="knob[6]"><Value control="knob[6]" param="value" options="above"/></Strip>
+                <Strip name="knob[7]"><Value control="knob[7]" param="value" options="above"/></Strip>
             </Bank>
         </GenericMapping>
 
@@ -334,6 +334,10 @@
         <!-- ******************************************************************************************** -->
         <DeviceMapping device="MixerConsole" name="MixerElement" onConnect="onHuiMixerConnect">
 
+            <ScrollBank target="FollowBank" name="FocusBankElement">
+                <Strip/> <!-- element representing the focus channel for use in script -->
+            </ScrollBank>
+
             <ScrollBank target="RemoteBank" pagesize="8" name="RemoteBankElement">
                 <!-- The Channel Strips -->
                 <ParamVariant using="@global" param="subModifier" options="nonlatching">
@@ -350,12 +354,17 @@
                     <Strip>
                         <ParamVariant using="@global" param="sessionMode">
                             <Group value="$HUI_MODE">
-                                <ParamVariant using="@global" param="devicePotMode">
-                                    <Group value="$DEVICE_POT_MODE_VOLUME">
-                                        <Value control="knob[$channel]" param="volume"/>
-                                    </Group>
-                                    <Group value="$DEVICE_POT_MODE_PAN">
-                                        <Value control="knob[$channel]" param="pan"/>
+
+                                <ParamVariant using="@global" param="devicePadMode">
+                                    <Group value="$DEVICE_PAD_MODE_SESSION">
+                                        <ParamVariant using="@global" param="devicePotMode">
+                                            <Group value="$DEVICE_POT_MODE_VOLUME">
+                                                <Value control="knob[$channel]" param="volume"/>
+                                            </Group>
+                                            <Group value="$DEVICE_POT_MODE_PAN">
+                                                <Value control="knob[$channel]" param="pan"/>
+                                            </Group>
+                                        </ParamVariant>
                                     </Group>
                                 </ParamVariant>
 
@@ -367,11 +376,6 @@
                                     <Group />
                                     <using device="@global"> <PlainValue control="sessionHigherPadEffect[$channel]" param="EFFECT_PULSE" /> </using>
                                 </ParamVariant>
-
-                                <using device="@global">
-                                    <Value control="sessionHigherPadState[$channel]" param="padFocusMode" />
-                                    <Value control="sessionLowerPadState[$channel]" param="padFocusMode" />
-                                </using>
 
                                 <ParamVariant using="@global" param="subModifier" options="nonlatching">
                                     <!-- HUI MODE -->
@@ -428,10 +432,14 @@
             <ParamVariant param="active">
                 <Group />
                 <Group>
-                    <Relative control="knob[0]" param="rate" />
-                    <Relative control="knob[1]" param="gate" />
-                    <Relative control="knob[2]" param="quantize" />
-                    <Relative control="knob[3]" param="pressureHandling" />
+                    <ParamVariant using="@global" param="devicePadMode">
+                        <Group value="$DEVICE_PAD_MODE_DRUM">
+                            <Value control="knob[0]" param="rate" />
+                            <Value control="knob[1]" param="gate" />
+                            <Value control="knob[2]" param="quantize" />
+                            <Value control="knob[3]" param="pressureHandling" />
+                        </Group>
+                    </ParamVariant>
                 </Group>
             </ParamVariant>
         </DeviceMapping>
@@ -443,8 +451,9 @@
         <Global>
 
             <Toggle control="shift" param="shiftModifier" options="nonlatching" />
-            <Invoke control="devicePadMode" onReceive="onDevicePadModeChanged" />
-            <Invoke control="devicePotMode" onReceive="onDevicePotModeChanged" />
+
+            <Value control="devicePadMode" param="devicePadMode" />
+            <Value control="devicePotMode" param="devicePotMode" />
 
             <ParamVariant param="shiftModifier">
                 <Group />
@@ -471,7 +480,9 @@
                                     <Command control="scene" command.category="Navigation" command.name="Up" options="autorepeat"/>
                                     <Command control="ssm" command.category="Navigation" command.name="Down" options="autorepeat"/>
                                 </Group>
-                                <Group />
+                                <Group>
+                                    <Invoke control="ssm" onReceive="openEditorAndFocus" />
+                                </Group>
                             </ParamVariant>
 
                             <Toggle control="arp" param="subModifier" options="latching" />
@@ -479,7 +490,7 @@
 
                             <ParamVariant using="device:///TransportPanel" param="loop">
                                 <PlainValue control="ssmLED" param="MONO_OFF" />
-                                <PlainValue control="ssmLED" param="YELLOW_HALF" />
+                                <PlainValue control="ssmLED" param="loopColor" />
                             </ParamVariant>
 
                         </Group>
@@ -513,7 +524,7 @@
 
                             <ParamVariant using="device:///TransportPanel" param="loop">
                                 <PlainValue control="ssmLED" param="MONO_OFF" />
-                                <PlainValue control="ssmLED" param="YELLOW_HALF" />
+                                <PlainValue control="ssmLED" param="loopColor" />
                             </ParamVariant>
                         </Group>
 
@@ -525,6 +536,10 @@
 
                 <Group value="$DEVICE_PAD_MODE_DRUM">
 
+                    <using device="device:///NoteRepeater">
+                        <Value control="ssmLED" param="active"/>
+                    </using>
+
                     <ParamVariant param="shiftModifier">
                         <Group>
                             <Command control="scene" command.category="Navigation" command.name="Up" options="autorepeat"/>
@@ -532,6 +547,7 @@
                         </Group>
                         <Group>
                             <Toggle control="scene" param="fullVelocityMode" />
+                            <Invoke control="ssm" onReceive="onNoteRepeatButtonPressed" />
                         </Group>
                     </ParamVariant>
 
