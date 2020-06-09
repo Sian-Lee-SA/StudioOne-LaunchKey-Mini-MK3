@@ -53,7 +53,7 @@ function TouchPitchHandler(name, channel)
     this.status = 0xE0;
     this.channel = channel - 1;
 
-    this.lastValue = [0, 0];
+    this.lastValue = [0, 0, 0];
     this.counter = 0;
 
     this.receiveMidi = function(status, address, value)
@@ -72,15 +72,21 @@ function TouchPitchHandler(name, channel)
             return true;
         }
 
-        this.counter += ( combined_value > this.lastValue[1] ) ? 1 : -1;
-        this.lastValue = [address, combined_value];
+        let dir = ( combined_value > this.lastValue[1] ) ? 1 : -1;
+        
+        if( this.lastValue[2] != dir )
+            this.counter = 0;
+        else
+            this.counter += dir;
 
-        if( Math.abs(this.counter) < 10 )
+        this.lastValue = [address, combined_value, dir];
+
+        if( Math.abs(this.counter) < 8 )
             return true;
 
         // Divide by 10 as counter could be positive or negative
         // Giving a result of 1 or -1
-        this.updateValue(this.counter / 10);
+        this.updateValue(this.counter / 8);
 
         this.counter = 0;
         return true;
