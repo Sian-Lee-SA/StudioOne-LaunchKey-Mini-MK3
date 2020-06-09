@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ControlSurface>
     <Controls>
-		<Control name="pitch" title="Pitch" options="receive">
-			<MidiMessage status="#E0" channel="0" options="signed" />
+		<Control name="freescroll" title="Freescroll" options="receive">
+			<Handler class="TouchPitchHandler" channel="16" />
 		</Control>
-		<Control name="mod" title="Modulator" type="relative" options="receive">
-            <Handler class="TouchHandler" channel="16" />
+		<Control name="navigationUpDown" title="Modulator" type="relative" options="receive">
+            <Handler class="TouchModHandler" channel="16" />
 		</Control>
 
         <Control name="masterFader" title="Master Fader" type="fader" options="transmit receive public">
@@ -25,7 +25,8 @@
         </DeviceMapping>
 
 		<DeviceMapping device="TransportPanel">
-			<Command control="mod" command.category="Navigation" command.name="Down"
+            <Relative control="freescroll" param="freeCursorTime" />
+			<Command control="navigationUpDown" command.category="Navigation" command.name="Down"
 						command2.category="Navigation" command2.name="Up" />
 		</DeviceMapping>
 

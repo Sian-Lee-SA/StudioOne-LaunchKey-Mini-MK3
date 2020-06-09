@@ -15,8 +15,8 @@ include_file("Debug.js");
 
 const kDebug = new Debug;
 
-TouchHandler.prototype = new ControlHandler();
-function TouchHandler(name, channel)
+TouchModHandler.prototype = new ControlHandler();
+function TouchModHandler(name, channel)
 {
     this.name = name;
     this.status = 0xB0;
@@ -33,6 +33,47 @@ function TouchHandler(name, channel)
 
         this.counter += ( value > this.lastValue ) ? 1 : -1;
         this.lastValue = value;
+
+        if( Math.abs(this.counter) < 10 )
+            return true;
+
+        // Divide by 10 as counter could be positive or negative
+        // Giving a result of 1 or -1
+        this.updateValue(this.counter / 10);
+
+        this.counter = 0;
+        return true;
+    }
+};
+
+TouchPitchHandler.prototype = new ControlHandler();
+function TouchPitchHandler(name, channel)
+{
+    this.name = name;
+    this.status = 0xE0;
+    this.channel = channel - 1;
+
+    this.lastValue = [0, 0];
+    this.counter = 0;
+
+    this.receiveMidi = function(status, address, value)
+    {
+        if( status != (this.status|this.channel) )
+            return false;
+
+        let combined_value = (value << 7)|address;
+
+        kDebug.log(combined_value + ' ' + address);
+        // We assume the pitch whell has been released as the resolution
+        // stays the same when returning
+        if( address == this.lastValue[0] )
+        {
+            this.counter = 0;
+            return true;
+        }
+
+        this.counter += ( combined_value > this.lastValue[1] ) ? 1 : -1;
+        this.lastValue = [address, combined_value];
 
         if( Math.abs(this.counter) < 10 )
             return true;
@@ -66,11 +107,16 @@ function LaunchKeyMK3BasicDevice()
 
 
         let handler = null;
+
+        let ch = parseInt( attributes.getAttribute("channel") );
+
         switch( className )
         {
-            case "TouchHandler":
-                let ch = parseInt( attributes.getAttribute("channel") );
-                handler = new TouchHandler(name, ch);
+            case "TouchModHandler":
+                handler = new TouchModHandler(name, ch);
+                break;
+            case "TouchPitchHandler":
+                handler = new TouchPitchHandler(name, ch);
                 break;
         }
 

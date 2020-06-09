@@ -10,12 +10,13 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 
 # Basic mode
 
-Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions
+Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions depending on channel selected. You will have to use different channels to those defined below if you wish to use the pitch or modulation with your instruments. *Nothing more annoying than pitch shifting only to find the track cursor flying around.*
 
-| Channel | Touch Control  | Command                |
-| ------- |:-------------- | ---------------------- |
-| **15**  | Modulation     | Master Fader           |
-| **16**  | Modulation     | Navigate Up and Down (swipe down will navigate up and vise-versa) |
+| Channel | Touch Control  | Command                                                            |
+| ------- |:-------------- | ------------------------------------------------------------------ |
+| **15**  | Modulation     | Master Fader                                                       |
+| **16**  | Pitch          | Move transport Cursor left or right                                |
+| **16**  | Modulation     | Navigate up or down (swipe down will navigate up and vise-versa)   |
 
 
 # Extended Mode

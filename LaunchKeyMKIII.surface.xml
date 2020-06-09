@@ -474,8 +474,30 @@
                         <Group value="$STEP_EDIT_MODE,$LOOP_EDIT_MODE,$EVENT_EDIT_MODE,$INSTRUMENT_EDIT_MODE" default="true">
 
                             <ParamVariant param="shiftModifier">
-                                <Toggle control="ssm" param="subModifier" options="nonlatching" />
-                                <Invoke control="ssm" onReceive="openEditorAndFocus" />
+                                <Group>
+                                    <Toggle control="ssm" param="subModifier" options="nonlatching" />
+                                </Group>
+                                <Group>
+                                    <Invoke control="scene" onReceive="onToggleEditMode" />
+                                    <Invoke control="ssm" onReceive="openEditorAndFocus" />
+                                </Group>
+                            </ParamVariant>
+
+                            <ParamVariant param="sessionMode" strict="true">
+                                <Group value="$LOOP_EDIT_MODE">
+                                    <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
+
+                                    <Command control="ssm" command.category="Transport" command.name="Toggle Loop" />
+
+                                    <using device="device:///TransportPanel">
+                                        <Value control="knob[0]" param="freeCursorTime"/>
+                                    </using>
+
+                                    <ParamVariant using="device:///TransportPanel" param="loop">
+                                        <PlainValue control="ssmLED" param="MONO_OFF" />
+                                        <PlainValue control="ssmLED" param="loopColor" />
+                                    </ParamVariant>
+                                </Group>
                             </ParamVariant>
 
                         </Group>

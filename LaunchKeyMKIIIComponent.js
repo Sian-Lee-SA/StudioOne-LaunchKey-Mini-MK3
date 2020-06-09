@@ -197,8 +197,15 @@ function LaunchKeyMKIIIMidiComponent ()
                 case kLoopEditMode:
                     {
                         let commands = [];
-                        PadSection.addCommand(commands, PadIndex.LoopEditMode.LoopBackwards, "Transport", "Shift Loop Backwards");
-                        PadSection.addCommand(commands, PadIndex.LoopEditMode.LoopForward, "Transport", "Shift Loop");
+                        PadSection.addCommand(commands, 0, "Zoom", "Zoom to Loop", 0, null, '#00FFFF');
+
+                        PadSection.addCommand(commands, 6, "Transport", "Shift Loop Backwards");
+                        PadSection.addCommand(commands, 7, "Transport", "Shift Loop");
+
+                        PadSection.addCommand(commands, 8, "Transport", "Set Loop Start", 0, null, '#00AA00');
+                        PadSection.addCommand(commands, 9, "Transport", "Rewind Bar", 'autorepeat', null, '#0000FF');
+                        PadSection.addCommand(commands, 14, "Transport", "Forward Bar", 'autorepeat', null, '#0000FF');
+                        PadSection.addCommand(commands, 15, "Transport", "Set Loop End", 0, null, '#FF0000');
 
                         c.addCommandInputHandler(commands);
                         c.getHandler(mode).setPadColor(kPadCommandColor);
@@ -402,6 +409,24 @@ function LaunchKeyMKIIIMidiComponent ()
         if( ! state )
             return;
         HostUtils.openEditorAndFocus (this, this.focusChannelElement, HostUtils.kInstrumentEditor, true);
+    }
+
+    this.onToggleEditMode = function(state)
+    {
+        if( ! state )
+            return;
+
+        switch( this.sessionMode.value )
+        {
+            case kStepEditMode:
+            case kEventEditMode:
+                return this.setSessionMode(kLoopEditMode);
+            case kLoopEditMode:
+                return this.setSessionMode(kInstrumentEditMode);
+            case kInstrumentEditMode:
+                return this.onEditorButtonPressed(true);
+        }
+
     }
 
     this.onConnectNoteRepeat = function ()
