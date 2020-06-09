@@ -7,7 +7,7 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch pads to be used as Master Volume and Navigation
 
 | Channel | Device Control | Command                |
-| ------- |:---------------| ---------------------- |
+| ------- |:-------------- | ---------------------- |
 | **15**  | Modulation     | Master Fader           |
 | **16**  | Modulation     | Navigation Up and Down |
 
@@ -19,14 +19,14 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 ###### Global Commands
 
 | Button    | Action                            |
-| -------   | --------------------------------  |
+| --------- | --------------------------------- |
 | Play      | Toggles between play and stop     |
 | Record    | Toggle Recording                  |
 
 *Shift Modifier (Holding down the shift button)*
 
 | Button    | Action                            |
-| -------   | --------------------------------  |
+| --------- | --------------------------------- |
 | Play      | If loop is enabled then return time cursor to loop start otherwise set cursor to zero     |
 | Record    | Toggle Recording                  |
 
@@ -39,7 +39,7 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 *Shift Modifier (Holding down the shift button)*
 
 | Button    | Action                            |
-| -------   | --------------------------------  |
+| --------- | --------------------------------- |
 | Scene     | Toggle Full Velocity              |
 | SSM       | Toggle NoteRepeat                 |
 | ARP       | Changes the pad lighting mode     |
@@ -59,7 +59,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 1. Standard edit mode will give generic commands on pads 7, 8, 11 and 16
 
 | Pad   | Color                                                     | Command               |
-| ----- |:---------------------------------------------------------:| ---------------------:|
+| ----- |:---------------------------------------------------------:| --------------------- |
 | 7     | ![+](https://via.placeholder.com/24/888800/000000?text=+) | Velocity Increase     |
 | 8     | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | Velocity Decrease     |
 | 11    | ![+](https://via.placeholder.com/24/CCCCCC/000000?text=+) | Duplicate             |
@@ -72,7 +72,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 Setup scene give generic setup commands. User assignable commands can be assigned to the top row pads.
 
 | Pad   | On Color                                                  | Off Color                                                 | Command               |
-| ----- |:---------------------------------------------------------:|:---------------------------------------------------------:|                       |
+| ----- |:---------------------------------------------------------:|:---------------------------------------------------------:| --------------------- |
 | 9     | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) |                                                           | Tap Tempo             |
 | 11    | ![+](https://via.placeholder.com/24/CCCCCC/000000?text=+) |                                                           | Duplicate             |
 | 13    | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | ![+](https://via.placeholder.com/24/888800/000000?text=+) | Metronome             |
@@ -93,7 +93,7 @@ Bank scene allows selection of a specific bank for selected devices
 HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo and Mute. A lighter color means off while a darker color is on. The pads and knobs as organised in columns and each column is assigned to a track bank.
 
 | Color                                                     | Toggle      |
-|:---------------------------------------------------------:| ------------|
+|:---------------------------------------------------------:| ----------- |
 | ![+](https://via.placeholder.com/24/00A9FF/000000?text=+) | Monitor     |
 | ![+](https://via.placeholder.com/24/FF4C87/000000?text=+) | Record Arm  |
 | ![+](https://via.placeholder.com/24/FFE126/000000?text=+) | Solo        |
@@ -109,6 +109,6 @@ Changing the device pot mode to either volume or pan will set the knobs to that 
 Holding down the scene button will change the lower pads to scroll mode with the far right being right and far left being left.
 
 | Color                                                     | Action      |
-|:---------------------------------------------------------:| ------------|
+|:---------------------------------------------------------:| ----------- |
 | ![+](https://via.placeholder.com/24/008800/000000?text=+) | Step Scroll |
 | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | Page Scroll |
