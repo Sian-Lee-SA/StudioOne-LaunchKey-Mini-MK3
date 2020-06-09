@@ -4,12 +4,12 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 
 # Basic mode
 
-Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls to be used as separate functions
+Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions
 
 | Channel | Touch Control  | Command                |
 | ------- |:-------------- | ---------------------- |
 | **15**  | Modulation     | Master Fader           |
-| **16**  | Modulation     | Navigation Up and Down (swipe down will navigate up and vise-versa) |
+| **16**  | Modulation     | Navigate Up and Down (swipe down will navigate up and vise-versa) |
 
 
 # Extended Mode
@@ -35,7 +35,8 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 Selecting device modes is the same as the standard for the device. Holding down shift will light up the pads to a mode selection. Selecting a different mode allows for different controls.
 
 #### Drum Mode
-Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XL.
+Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
+
 
 > *Shift Modifier (Holding down the shift button)*
 
@@ -55,7 +56,7 @@ Session mode consists of 5 different scenes. Each scene consists of different co
 ##### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip.
 
-1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color.
+1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that pad.
 
 1. Standard edit mode will give generic commands on pads 7, 8, 11 and 16
 
@@ -65,6 +66,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 | 8     | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | Velocity Decrease     |
 | 11    | ![+](https://via.placeholder.com/24/CCCCCC/000000?text=+) | Duplicate             |
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Delete                |
+
 
 > *Shift Modifier (Holding down the shift button)*
 
@@ -98,12 +100,11 @@ Setup scene give generic setup commands. User assignable commands can be assigne
 |:-----:| ---------- | ------------ |
 | 1     | Absolute   | Change Tempo |
 
-
 ---
 
 ##### ![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+) Bank Scene
 
-Bank scene allows selection of a specific bank for selected devices
+Bank scene allows selection of a specific bank for selected devices. Banks are color coded from pad 1-8
 
 ---
 
