@@ -94,14 +94,14 @@ This scene will display a mode relevant to the capabilities of the selected trac
 
 Setup scene give generic setup commands. User assignable commands can be assigned to the top row pads.
 
-| Pad   | On Color                                                  | Off Color                                                 | Command               |
-| ----- |:---------------------------------------------------------:|:---------------------------------------------------------:| --------------------- |
-| 9     | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) |                                                           | Tap Tempo             |
-| 11    | ![+](https://via.placeholder.com/24/CCCCCC/000000?text=+) |                                                           | Duplicate             |
-| 13    | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | ![+](https://via.placeholder.com/24/888800/000000?text=+) | Metronome             |
-| 14    | ![+](https://via.placeholder.com/24/008800/000000?text=+) | ![+](https://via.placeholder.com/24/888800/000000?text=+) | Metronome Pre-Record  |
-| 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) |                                                           | Delete                |
-| SSM   | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | ![+](https://via.placeholder.com/24/000000/000000?text=+) | Loop Toggle           |
+| Pad                                          | On Color                                                  | Off Color                                                 | Command     |
+|:--------------------------------------------:|:---------------------------------------------------------:|:---------------------------------------------------------:| ----------- |
+| 9                                            | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) |                                                           | Tap Tempo   |
+| 11                                           | ![+](https://via.placeholder.com/24/CCCCCC/000000?text=+) |                                                           | Duplicate   |
+| 13                                           | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | ![+](https://via.placeholder.com/24/888800/000000?text=+) | Metronome   |
+| 14                                           | ![+](https://via.placeholder.com/24/008800/000000?text=+) | ![+](https://via.placeholder.com/24/888800/000000?text=+) | Metronome Pre-Record  |
+| 16                                           | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) |                                                           | Delete      |
+| ![ssm-button](./resources/ssm-button_sm.png) | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | ![+](https://via.placeholder.com/24/000000/000000?text=+) | Loop Toggle |
 
 ###### Pot / Knob Controls
 
