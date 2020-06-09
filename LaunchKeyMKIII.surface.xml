@@ -483,11 +483,6 @@
                             <Toggle control="arp" param="subModifier" options="latching" />
                             <Value control="arpLED" param="subModifier" />
 
-                            <ParamVariant using="device:///TransportPanel" param="loop">
-                                <PlainValue control="ssmLED" param="MONO_OFF" />
-                                <PlainValue control="ssmLED" param="loopColor" />
-                            </ParamVariant>
-
                         </Group>
 
                         <Group value="$HUI_MODE">

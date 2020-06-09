@@ -38,11 +38,11 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 
 *Shift Modifier (Holding down the shift button)*
 
-| Button    | Action                            |
-| --------- | --------------------------------- |
-| Scene     | Toggle Full Velocity              |
-| SSM       | Toggle NoteRepeat                 |
-| ARP       | Changes the pad lighting mode     |
+| Button    | Action                                                                                |
+| --------- | ------------------------------------------------------------------------------------- |
+| Scene     | Toggle Full Velocity                                                                  |
+| SSM       | Toggle NoteRepeat                                                                     |
+| ARP       | Changes the pad lighting mode (the arp will light up reflecting the lighting mode)    |
 
 #### Custom Mode
 Use Novation's component software to assign your own custom midi controls to this mode
@@ -106,7 +106,7 @@ The upper row allows for track selection which also is colored based on the trac
 Changing the device pot mode to either volume or pan will set the knobs to that mode for the track column bank.
 
 ###### Bank Scrolling
-Holding down the scene button will change the lower pads to scroll mode with the far right being right and far left being left.
+Holding down the shift + scene buttons then releasing just the shift button will change the lower pads to scroll mode with the far right being scroll right and far left being scroll left.
 
 | Color                                                     | Action      |
 |:---------------------------------------------------------:| ----------- |
