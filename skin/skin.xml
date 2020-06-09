@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Skin>
+	<Resources>
+		<Image name="NovationBackground"		url="images/Novation.png"/>
+		<ShapeImage name="NovationKnobArrowDec"	url="NovationKnobArrowDecShape" frames="embedded"/>
+		<ShapeImage name="NovationKnobArrowInc"	url="NovationKnobArrowIncShape" frames="embedded"/>
+
+		<Image name="NovationPadAtlas"		url="images/NovationDevicePads.png"/>
+
+		<ImagePart name="NovationPadBackground" 		image="NovationPadAtlas" size="5,5,90,95" 	tile="stretch-xy" margin="16,16,16,16"/>
+		<ImagePart name="NovationPadOverlay"	 		image="NovationPadAtlas" size="105,5,106,102" tile="stretch-xy" margin="16,16,16,16"/>
+		<ImagePart name="NovationPadColorBackground" 	image="NovationPadAtlas" size="5,105,90,95"	tile="stretch-xy" margin="16,16,16,16"/>
+
+	</Resources>
+
+	<Shapes>
+		<Shape name="NovationKnobArrowIncShape">
+			<Shape name="normal" size="0,0,28,20">
+				<Triangle style="fill" point1="2,0" point2="8,3" point3="2,6" Brush.color="hsl(0,0,60)"/>
+			</Shape>
+			<Shape name="mouseover" size="0,0,28,20">
+				<Triangle style="fill" point1="2,0" point2="8,3" point3="2,6" Brush.color="hsl(0,0,90)"/>
+			</Shape>
+			<Shape name="pressed" size="0,0,28,20">
+				<Triangle style="fill" point1="2,0" point2="8,3" point3="2,6" Brush.color="hsl(0,0,100)"/>
+			</Shape>
+		</Shape>
+		<Shape name="NovationKnobArrowDecShape">
+			<Shape name="normal" size="0,0,28,20">
+				<Triangle style="fill" point1="20,3" point2="26,0" point3="26,6" Brush.color="hsl(0,0,60)"/>
+			</Shape>
+			<Shape name="mouseover" size="0,0,28,20">
+				<Triangle style="fill" point1="20,3" point2="26,0" point3="26,6" Brush.color="hsl(0,0,90)"/>
+			</Shape>
+			<Shape name="pressed" size="0,0,28,20">
+				<Triangle style="fill" point1="20,3" point2="26,0" point3="26,6" Brush.color="hsl(0,0,100)"/>
+			</Shape>
+		</Shape>
+	</Shapes>
+
+	<Styles>
+		<Style name="NovationBackcolor">
+			<Color name="backcolor" color="hsl(0,0,4)"/>
+		</Style>
+		<Style name="NovationPadBackcolor">
+			<Color name="backcolor" color="hsl(210,3,12)"/>
+		</Style>
+
+		<Style name="NovationText">
+			<Font name="textfont" themeid="PresonusUI" size="11"/>
+			<Color name="textcolor" color="hsl(0,0,90)"/>
+		</Style>
+		<Style name="FocusText">
+			<Font name="textfont" themeid="PresonusUI" size="12" style="bold"/>
+			<Color name="textcolor" color="hsl(204,40,65)"/>
+		</Style>
+		<Style name="NovationPadText" textoptions="wordbreak">
+			<Font name="textfont" themeid="PresonusUI" size="11" style="bold"/>
+			<Align name="textalign"	align="center"/>
+			<Color name="textcolor" color="hsl(0,0,0)"/>
+			<Color name="textcolor.bright" color="hsl(0,0,90)"/>
+			<Metric name="textcolor.threshold"	value="0.31"/>
+		</Style>
+		<Style name="PadNumberStyle">
+			<Color name="backcolor"	color="hsl(0,0,15,90)"/>
+			<Font name="textfont" themeid="PresonusUI" size="11" style="bold"/>
+			<Color name="textcolor" color="hsl(0,0,35)"/>
+			<Color name="textcolor.alphablend" color="hsl(0,0,100,30)"/>
+		</Style>
+
+		<Style name="NovationPadBackground">
+			<Image name="background" image="NovationPadBackground"/>
+		</Style>
+		<Style name="NovationPadOverlay">
+			<Image name="background" image="NovationPadOverlay"/>
+		</Style>
+		<Style name="NovationPadColorBox">
+			<Image name="background" image="NovationPadColorBackground"/>
+			<Color name="backcolor"	color="hsl(35,10,35)"/>
+		</Style>
+
+	</Styles>
+
+	<Forms>
+		<!-- ******************************************************************************************** -->
+		<!-- Novation -->
+		<!-- ******************************************************************************************** -->
+
+		<Form name="Novation LaunchKeyMKIII" style="NovationBackcolor" options="colorize" width="862" height="270" datatarget="ControlSurface/Editor/ControlList">
+			<ImageView image="NovationBackground"/>
+			<ImageView size="5,149,852,115" options="colorize" style="NovationPadBackcolor"/>
+			<using controller="ControlSurface/Editor">
+
+				<TextBox name="focusDeviceFullName" size="120,12,320,24" options="transparent" style="FocusText"/>
+
+				<Vertical size="16,52" margin="0" spacing="20">
+
+					<!-- Knobs -->
+					<Horizontal size="12,0" margin="0" spacing="1" attach="left top">
+						<foreach variable="$i" start="0" count="8">
+							<View width="100" height="90">
+								<using controller="knob[$i]">
+									<UpDownButton name="controlValue" options="decrement transparent" size="23,10,28,55" icon="NovationKnobArrowDec"/>
+									<UpDownButton name="controlValue" options="increment transparent" size="51,10,28,55" icon="NovationKnobArrowInc"/>
+									<TextBox name="userAssignment" size="1,73,100,18" options="fittext transparent nocontextmenu" style="NovationText"/>
+								</using>
+							</View>
+						</foreach>
+					</Horizontal>
+
+					<!-- Pad Commands in Setup Mode -->
+					<using controller="../PadSection0/Handler1">
+					<Table margin="0" spacing="-2" columns="8">
+						<foreach variable="$i" in="0 1 2 3 4 5 6 7">
+							<View width="106" height="102">
+								<using controller="PadCommand$i">
+									<Button name="" style="NovationPadBackground" options="" size="0,0,106,102"/>
+									<Variant name="commandTitle" size="0,0,106,102">
+										<TextBox name="padNumber" size="11,11,18,18" style="PadNumberStyle"/>
+										<View>
+											<ColorBox name="commandColor" style="NovationPadColorBox" size="0,0,106,102">
+												<SelectBox name="commandColor" size="0,0,106,102" options="transparent hidetext hidefocus ignorekeys hidebutton nocontextmenu"/>
+												<TextBox name="padNumber" colorname="commandColor" size="11,11,18,18" style="PadNumberStyle"/>
+											</ColorBox>
+											<ImageView size="0,0,106,102" style="NovationPadOverlay"/>
+										</View>
+									</Variant>
+									<TextBox name="commandTitle" size="10,32,85,42" colorname="commandColor" options="fittext transparent nocontextmenu multiline" style="NovationPadText"/>
+								</using>
+							</View>
+						</foreach>
+					</Table>
+					</using>
+
+				</Vertical>
+			</using>
+		</Form>
+
+	</Forms>
+</Skin>

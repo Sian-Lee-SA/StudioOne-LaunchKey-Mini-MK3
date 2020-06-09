@@ -15,4 +15,8 @@
     scriptFile="LaunchKeyMKIIIComponent.js"
     scriptFile.functionName="createInstance"
 
-    hostDataFile="LaunchKeyMKIII.surfacedata" />
+    skinFile="skin/"
+    formName="Novation LaunchKeyMKIII"
+
+    hostDataFile="LaunchKeyMKIII.surfacedata"
+/>
