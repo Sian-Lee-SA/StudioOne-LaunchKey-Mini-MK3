@@ -56,8 +56,13 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 Use Novation's component software to assign your own custom midi controls to this mode
 
 ## Session Mode
-Session mode consists of 5 different scenes. Each scene consists of different controls thats relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected. To change scenes, simply press the scene button.
+Session mode consists of 5 different scenes. Each scene consists of different controls thats relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected.
 
+> To change scenes, simply press the scene button.
+
+![scene-button](./resources/scene-button.png)
+
+---
 
 ##### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip.
