@@ -24,18 +24,18 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 
 ###### Global Commands
 
-| Button    | Action                            |
-| --------- | --------------------------------- |
-| Play      | Toggles between play and stop     |
-| Record    | Toggle Recording                  |
+| Button                                          | Action                            |
+| ----------------------------------------------- | --------------------------------- |
+| ![play-button](./resources/play-button.png)     | Toggles between play and stop     |
+| ![record-button](./resources/record-button.png) | Toggle Recording                  |
 
 
 ![shift-button](./resources/shift-button.png)
 
-| Button    | Action                            |
-| --------- | --------------------------------- |
-| Play      | If loop is enabled then return time cursor to loop start otherwise set cursor to zero     |
-| Record    | Toggle Recording                  |
+| Button                                            | Action                            |
+| ------------------------------------------------- | --------------------------------- |
+| ![play-button](./resources/play-button.png)       | If loop is enabled then return time cursor to loop start otherwise set cursor to zero |
+| ![record-button](./resources/record-button.png)   | Toggle Recording                  |
 
 # Extended Device Modes
 Selecting device modes is the same as the standard for the device. Holding down shift will light up the pads to a mode selection. Selecting a different mode allows for different controls.
@@ -46,11 +46,11 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 
 ![shift-button](./resources/shift-button.png)
 
-| Button    | Action                                                                                |
-| --------- | ------------------------------------------------------------------------------------- |
-| Scene     | Toggle Full Velocity                                                                  |
-| SSM       | Toggle NoteRepeat                                                                     |
-| ARP       | Changes the pad lighting mode (the arp will light up reflecting the lighting mode)    |
+| Button                                                  | Action                                     |
+|:-------------------------------------------------------:| ------------------------------------------ |
+| ![scene-button](./resources/scene-button_sm.png)        | Toggle Full Velocity                       |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle NoteRepeat                          |
+| ![arp-button](./resources/arp-button.png)               | Changes the pad lighting mode (the arp will light up reflecting the lighting mode) |
 
 ## Custom Mode
 Use Novation's component software to assign your own custom midi controls to this mode
@@ -81,9 +81,9 @@ This scene will display a mode relevant to the capabilities of the selected trac
 
 ![shift-button](./resources/shift-button.png)
 
-| Button  | Action                                                                                |
-| ------- | ------------------------------------------------------------------------------------- |
-| SSM     | Toggle Show Instrument For Selected track                                             |
+| Button                                                  | Action                                      |
+|:-------------------------------------------------------:| ------------------------------------------- |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Show Instrument For Selected track   |
 
 
 >  _Tip_: If using basic device then change the channel to 16 (shift + transpose) which will allow you to change the selected sequence by using the touch modulation.
@@ -122,6 +122,8 @@ Bank scene allows selection of a specific bank for selected devices. Banks are c
 ##### ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+) HUI Scene
 
 HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo and Mute. A lighter color means off while a darker color is on. The pads and knobs as organised in columns and each column is assigned to a track bank.
+
+![stop-solo-mute-button](./resources/ssm-button.png)
 
 | Color                                                     | Toggle      |
 |:---------------------------------------------------------:| ----------- |
