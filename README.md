@@ -6,7 +6,7 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 
 | Symbol                                        | Meaning                              |
 | --------------------------------------------- | ------------------------------------ |
-| ![shift-button](./resources/shift-button.png) | Anything below this will execute such commands while the shift button is being held down  |
+| ![shift-button](./resources/shift-button.png) | Any table following this will execute such commands / actions while the shift button is being held down  |
 
 # Basic mode
 
@@ -37,10 +37,10 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | Play      | If loop is enabled then return time cursor to loop start otherwise set cursor to zero     |
 | Record    | Toggle Recording                  |
 
-## Device Modes
+# Extended Device Modes
 Selecting device modes is the same as the standard for the device. Holding down shift will light up the pads to a mode selection. Selecting a different mode allows for different controls.
 
-#### Drum Mode
+## Drum Mode
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
 
 
@@ -52,10 +52,10 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 | SSM       | Toggle NoteRepeat                                                                     |
 | ARP       | Changes the pad lighting mode (the arp will light up reflecting the lighting mode)    |
 
-#### Custom Mode
+## Custom Mode
 Use Novation's component software to assign your own custom midi controls to this mode
 
-#### Session Mode
+## Session Mode
 Session mode consists of 5 different scenes. Each scene consists of different controls thats relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected. To change scenes, simply press the scene button.
 
 
