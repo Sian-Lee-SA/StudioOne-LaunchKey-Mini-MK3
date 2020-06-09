@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDefinition
+    classID="{A30E4B8A-47C9-4A7A-8FF5-5EB3F36AE5F7}"
+
+    vendor="Novation"
+    name="LaunchKey MK3 Basic"
+
+    category="Keyboard"
+
+    nativeCode="JSKeyboardDevice"
+    surfaceFile="LaunchKeyMKIII_basic.surface.xml"
+
+    classFile="LaunchKeyMKIIIMidiDevice_basic.js"
+    classFile.functionName="createLaunchKeyMK3BasicDeviceInstance" />
