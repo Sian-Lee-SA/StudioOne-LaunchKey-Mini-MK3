@@ -38,7 +38,7 @@ Selecting device modes is the same as the standard for the device. Holding down 
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
 
 
-> *Shift Modifier (Holding down the shift button)*
+![shift-button](resources/shift-button.png) *Shift Modifier (Holding down the shift button)*
 
 | Button    | Action                                                                                |
 | --------- | ------------------------------------------------------------------------------------- |
@@ -68,7 +68,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Delete                |
 
 
-> *Shift Modifier (Holding down the shift button)*
+![shift-button](resources/shift-button.png) *Shift Modifier (Holding down the shift button)*
 
 | Button  | Action                                                                                |
 | ------- | ------------------------------------------------------------------------------------- |
