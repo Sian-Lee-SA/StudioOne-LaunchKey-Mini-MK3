@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SurfaceData surfaceID="{A30E4B8A-47C9-4A7A-8FF5-5EB3F36AE5B9}" revision="8">
-    <SurfaceDeviceAssignment deviceID="{29753296-2C75-4766-B349-F65BCE6B7104}" friendlyName="PadCommandAssignment">
+    <SurfaceDeviceAssignment deviceID="{A30E4B8A-47C9-4A7A-8FF5-5EB3F36AE5F6}" friendlyName="PadCommandAssignment">
         <List x:id="pages">
             <SurfaceAssignmentPage>
                 <Association key="padSection0.handler1.pad0.command" value="Track|Duplicate"/>

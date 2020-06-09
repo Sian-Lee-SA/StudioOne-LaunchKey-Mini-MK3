@@ -456,10 +456,8 @@
             <Value control="devicePotMode" param="devicePotMode" />
 
             <ParamVariant param="shiftModifier">
+                <Invoke control="scene" onReceive="onScenePressed" />
                 <Group />
-                <Group>
-                    <Invoke control="scene" onReceive="onScenePressed" />
-                </Group>
             </ParamVariant>
 
             <!-- ******************************************************************************************** -->
@@ -476,10 +474,7 @@
                         <Group value="$STEP_EDIT_MODE,$LOOP_EDIT_MODE,$EVENT_EDIT_MODE,$INSTRUMENT_EDIT_MODE" default="true">
 
                             <ParamVariant param="shiftModifier">
-                                <Group>
-                                    <Command control="scene" command.category="Navigation" command.name="Up" options="autorepeat"/>
-                                    <Command control="ssm" command.category="Navigation" command.name="Down" options="autorepeat"/>
-                                </Group>
+                                <Group />
                                 <Group>
                                     <Invoke control="ssm" onReceive="openEditorAndFocus" />
                                 </Group>
@@ -541,10 +536,7 @@
                     </using>
 
                     <ParamVariant param="shiftModifier">
-                        <Group>
-                            <Command control="scene" command.category="Navigation" command.name="Up" options="autorepeat"/>
-                            <Command control="ssm" command.category="Navigation" command.name="Down" options="autorepeat"/>
-                        </Group>
+                        <Group />
                         <Group>
                             <Toggle control="scene" param="fullVelocityMode" />
                             <Invoke control="ssm" onReceive="onNoteRepeatButtonPressed" />
