@@ -460,6 +460,9 @@
                 <Group />
             </ParamVariant>
 
+            <Command control="arp" command.category="Navigation" command.name="Left" options="autorepeat"/>
+            <Command control="f_chord" command.category="Navigation" command.name="Right" options="autorepeat"/>
+
             <!-- ******************************************************************************************** -->
             <!-- SCENE MODES -->
             <!-- ******************************************************************************************** -->
