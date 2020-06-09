@@ -10,7 +10,7 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 
 # Basic mode
 
-Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions depending on channel selected. You will have to use different channels to those defined below if you wish to use the pitch or modulation with your instruments. *Nothing more annoying than pitch shifting only to find the track cursor flying around.*
+Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions depending on channel selected. You will have to use different channels to those defined below if you wish to use the pitch or modulation with your instruments. *Nothing more annoying than pitch shifting only to find the transport cursor flying around.*
 
 | Channel | Touch Control  | Command                                                            |
 | ------- |:-------------- | ------------------------------------------------------------------ |
@@ -26,17 +26,19 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 ###### Global Commands
 
 | Button                                          | Action                            |
-| ----------------------------------------------- | --------------------------------- |
+|:-----------------------------------------------:| --------------------------------- |
 | ![play-button](./resources/play-button.png)     | Toggles between play and stop     |
 | ![record-button](./resources/record-button.png) | Toggle Recording                  |
 
 
 ![shift-button](./resources/shift-button.png)
 
-| Button                                            | Action                            |
-| ------------------------------------------------- | --------------------------------- |
-| ![play-button](./resources/play-button.png)       | If loop is enabled then return time cursor to loop start otherwise set cursor to zero |
-| ![record-button](./resources/record-button.png)   | Toggle Recording                  |
+| Button                                                  | Action                            |
+|:-------------------------------------------------------:| --------------------------------- |
+| ![play-button](./resources/play-button.png)             | If loop is enabled then return time cursor to loop start otherwise set cursor to zero |
+| ![record-button](./resources/record-button.png)         | Toggle Recording                  |
+| ![arp-button](./resources/arp-button.png)               | Select previous track Event       |
+| ![fixedchord-button](./resources/fixedchord-button.png) | Select next track Event           |
 
 # Extended Device Modes
 Selecting device modes is the same as the standard for the device. Holding down shift will light up the pads to a mode selection. Selecting a different mode allows for different controls.
@@ -65,7 +67,7 @@ Session mode consists of 5 different scenes. Each scene consists of different co
 
 ---
 
-##### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
+#### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip.
 
 1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that pad.
@@ -91,9 +93,9 @@ This scene will display a mode relevant to the capabilities of the selected trac
 
 ---
 
-##### ![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+) Setup Scene
+#### ![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+) Setup Scene
 
-Setup scene give generic setup commands. User assignable commands can be assigned to the top row pads.
+Setup scene gives generic setup commands. User assignable commands can be assigned to the top row pads. Open the device assignment view and right click the pads to assign a command. You can then click the pad and assign a color to that pad.
 
 | Pad                                          | On Color                                                  | Off Color                                                 | Command     |
 |:--------------------------------------------:|:---------------------------------------------------------:|:---------------------------------------------------------:| ----------- |
@@ -114,15 +116,15 @@ Setup scene give generic setup commands. User assignable commands can be assigne
 
 ---
 
-##### ![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+) Bank Scene
+#### ![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+) Bank Scene
 
 Bank scene allows selection of a specific bank for selected devices. Banks are color coded from pad 1-8
 
 ---
 
-##### ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+) HUI Scene
+#### ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+) HUI Scene
 
-HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo and Mute. A lighter color means off while a darker color is on. The pads and knobs as organised in columns and each column is assigned to a track bank.
+HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo or Mute. A lighter color on the lower pad means the toggle is off for that track while a darker color is toggled on. The pads and knobs are organised in columns and each column is assigned to a track bank.
 
 ![stop-solo-mute-button](./resources/ssm-button.png)
 
@@ -140,7 +142,7 @@ The upper row allows for track selection which also is colored based on the trac
 Changing the device pot mode to either volume or pan will set the knobs to that mode for the track column bank.
 
 ###### Bank Scrolling
-Holding down the shift + scene buttons then releasing just the shift button will change the lower pads to scroll mode with the far right being scroll right and far left being scroll left.
+Holding down the shift + scene buttons then releasing just the shift button will change the lower pads to scroll bank mode with the far right being scroll right and far left being scroll left.
 
 | Color                                                     | Action      |
 |:---------------------------------------------------------:| ----------- |
