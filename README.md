@@ -4,12 +4,12 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 
 # Basic mode
 
-Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch pads to be used as Master Volume and Navigation
+Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls to be used as separate functions
 
-| Channel | Device Control | Command                |
+| Channel | Touch Control  | Command                |
 | ------- |:-------------- | ---------------------- |
 | **15**  | Modulation     | Master Fader           |
-| **16**  | Modulation     | Navigation Up and Down |
+| **16**  | Modulation     | Navigation Up and Down (swipe down will navigate up and vise-versa) |
 
 
 # Extended Mode
@@ -52,7 +52,7 @@ Use Novation's component software to assign your own custom midi controls to thi
 Session mode consists of 5 different scenes. Each scene consists of different controls thats relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected. To change scenes, simply press the scene button.
 
 
-###### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
+##### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip.
 
 1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color.
@@ -72,9 +72,12 @@ This scene will display a mode relevant to the capabilities of the selected trac
 | ------- | ------------------------------------------------------------------------------------- |
 | SSM     | Toggle Show Instrument For Selected track                                             |
 
+
+>  _Tip_: If using basic device then change the channel to 16 (shift + transpose) which will allow you to change the selected sequence by using the touch modulation.
+
 ---
 
-###### ![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+) Setup Scene
+##### ![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+) Setup Scene
 
 Setup scene give generic setup commands. User assignable commands can be assigned to the top row pads.
 
@@ -87,15 +90,24 @@ Setup scene give generic setup commands. User assignable commands can be assigne
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) |                                                           | Delete                |
 | SSM   | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | ![+](https://via.placeholder.com/24/000000/000000?text=+) | Loop Toggle           |
 
+###### Pot / Knob Controls
+
+> Device pot control needs to be either Device, Volume, Pan or Send as Custom uses Basic port.
+
+| Knob  | Value Type | Action       |
+|:-----:| ---------- | ------------ |
+| 1     | Absolute   | Change Tempo |
+
+
 ---
 
-###### ![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+) Bank Scene
+##### ![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+) Bank Scene
 
 Bank scene allows selection of a specific bank for selected devices
 
 ---
 
-###### ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+) HUI Scene
+##### ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+) HUI Scene
 
 HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo and Mute. A lighter color means off while a darker color is on. The pads and knobs as organised in columns and each column is assigned to a track bank.
 
@@ -108,7 +120,7 @@ HUI scene is like a mixer console. Triggering SSM will change the lower toggle r
 
 The upper row allows for track selection which also is colored based on the track color. If the track for that pad is selected then the pad will pulse.
 
-###### Knobs
+###### Pot / Knob Controls
 
 Changing the device pot mode to either volume or pan will set the knobs to that mode for the track column bank.
 
