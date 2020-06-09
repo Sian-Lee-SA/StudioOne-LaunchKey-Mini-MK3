@@ -2,6 +2,12 @@
 
 This repo is a modified device control for LaunchKey Mini Mk3 to be used with PreSonus Studio One. This is heavily borrowed from the PreSonus ATOM controller and resembles many of the actions and controls that ATOM offers.
 
+#### Legend
+
+| Symbol                                        | Meaning                              |
+| --------------------------------------------- | ------------------------------------ |
+| ![shift-button](./resources/shift-button.png) | Anything below this will execute such commands while the shift button is being held down  |
+
 # Basic mode
 
 Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions
@@ -24,7 +30,7 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | Record    | Toggle Recording                  |
 
 
-![shift-button](./resources/shift-button.png) *Shift Modifier (Holding down the shift button)*
+![shift-button](./resources/shift-button.png)
 
 | Button    | Action                            |
 | --------- | --------------------------------- |
@@ -38,7 +44,7 @@ Selecting device modes is the same as the standard for the device. Holding down 
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
 
 
-![shift-button](./resources/shift-button.png) *Shift Modifier (Holding down the shift button)*
+![shift-button](./resources/shift-button.png)
 
 | Button    | Action                                                                                |
 | --------- | ------------------------------------------------------------------------------------- |
@@ -68,7 +74,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Delete                |
 
 
-![shift-button](./resources/shift-button.png) *Shift Modifier (Holding down the shift button)*
+![shift-button](./resources/shift-button.png)
 
 | Button  | Action                                                                                |
 | ------- | ------------------------------------------------------------------------------------- |
