@@ -73,6 +73,20 @@ let bankColors =
     "#FF7210"
 ];
 
+let padSnapColors =
+[
+    "red",
+    "orangered",
+    "yellow",
+    "greenyellow",
+    "green",
+    "blue",
+    "aqua",
+    "magenta",
+    "darkviolet",
+    "gray"
+]
+
 LaunchKeyMKIIIMidiComponent.prototype = new ControlSurfaceComponent ();
 function LaunchKeyMKIIIMidiComponent ()
 {
@@ -137,6 +151,16 @@ function LaunchKeyMKIIIMidiComponent ()
         // setup pad section
         let c = this.padSessionSection.component;
         c.setPadColoringSupported(true);
+
+        let i = 0;
+        for( let key in Color.PRESONUS_SNAP )
+        {
+            if( i++ % 2 ) continue;
+            c.addPadPaletteColor('#' + Color.convert(key).hex );
+        }
+
+        for(i in padSnapColors)
+            c.addPadPaletteColor (padSnapColors[i]);
 
         let d = this.padDrumSection.component;
         d.setPadColoringSupported(true);
@@ -422,8 +446,8 @@ function LaunchKeyMKIIIMidiComponent ()
             case kEventEditMode:
                 return this.setSessionMode(kLoopEditMode);
             case kLoopEditMode:
-                return this.setSessionMode(kInstrumentEditMode);
-            case kInstrumentEditMode:
+                return this.setSessionMode(kPitchMenuMode);
+            case kPitchMenuMode:
                 return this.onEditorButtonPressed(true);
         }
 
