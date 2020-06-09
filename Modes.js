@@ -55,7 +55,7 @@ function SessionMode(name, index, color )
     this.color = color;
 };
 const SessionModes = [
-    new SessionMode('edit', [kLoopEditMode, kEventEditMode, kInstrumentEditMode, kStepEditMode], '#AAAA00'),
+    new SessionMode('edit', [kStepEditMode, kEventEditMode, kLoopEditMode, kPitchMenuMode], '#AAAA00'),
     new SessionMode('setup', kSetupMode, '#0000FF'),
     new SessionMode('bank', kBankMenuMode, '#00FF00'),
     new SessionMode('hui', kHUIMode, '#38FFCC')
