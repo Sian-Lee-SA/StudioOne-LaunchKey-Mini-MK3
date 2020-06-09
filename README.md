@@ -23,7 +23,8 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | Play      | Toggles between play and stop     |
 | Record    | Toggle Recording                  |
 
-*Shift Modifier (Holding down the shift button)*
+
+> *Shift Modifier (Holding down the shift button)*
 
 | Button    | Action                            |
 | --------- | --------------------------------- |
@@ -36,7 +37,7 @@ Selecting device modes is the same as the standard for the device. Holding down 
 #### Drum Mode
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XL.
 
-*Shift Modifier (Holding down the shift button)*
+> *Shift Modifier (Holding down the shift button)*
 
 | Button    | Action                                                                                |
 | --------- | ------------------------------------------------------------------------------------- |
@@ -64,6 +65,12 @@ This scene will display a mode relevant to the capabilities of the selected trac
 | 8     | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | Velocity Decrease     |
 | 11    | ![+](https://via.placeholder.com/24/CCCCCC/000000?text=+) | Duplicate             |
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Delete                |
+
+> *Shift Modifier (Holding down the shift button)*
+
+| Button  | Action                                                                                |
+| ------- | ------------------------------------------------------------------------------------- |
+| SSM     | Toggle Show Instrument For Selected track                                             |
 
 ---
 
