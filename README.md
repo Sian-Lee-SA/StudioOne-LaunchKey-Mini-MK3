@@ -24,7 +24,7 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | Record    | Toggle Recording                  |
 
 
-> *Shift Modifier (Holding down the shift button)*
+![shift-button](resources/shift-button.png) *Shift Modifier (Holding down the shift button)*
 
 | Button    | Action                            |
 | --------- | --------------------------------- |
