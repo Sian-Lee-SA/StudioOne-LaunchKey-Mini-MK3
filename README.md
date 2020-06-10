@@ -36,7 +36,6 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | Button                                                  | Action                            |
 |:-------------------------------------------------------:| --------------------------------- |
 | ![play-button](./resources/play-button.png)             | If loop is enabled then return time cursor to loop start otherwise set cursor to zero |
-| ![record-button](./resources/record-button.png)         | Toggle Recording                  |
 | ![arp-button](./resources/arp-button.png)               | Select previous track Event       |
 | ![fixedchord-button](./resources/fixedchord-button.png) | Select next track Event           |
 
@@ -86,10 +85,24 @@ This scene will display a mode relevant to the capabilities of the selected trac
 
 | Button                                                  | Action                                      |
 |:-------------------------------------------------------:| ------------------------------------------- |
+| ![scene-button](./resources/scene-button_sm.png)        | Toggle Loop Edit Mode                       |
 | ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Show Instrument For Selected track   |
-
+| ![record-button](./resources/record-button.png)         | Toggle Edit View                            |
 
 >  _Tip_: If using basic device then change the channel to 16 (shift + transpose) which will allow you to change the selected sequence by using the touch modulation.
+
+##### Loop Editor (Scene Button Pulsing)
+
+| Pad   | Color                                                     | Command                       |
+| ----- |:---------------------------------------------------------:| ----------------------------- |
+| 1     | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | Zoom To Loop Selection        |
+| 7     | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | Shift Loop Selection Left     |
+| 8     | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | Shift Loop Selection Right    |
+| 9     | ![+](https://via.placeholder.com/24/00AA00/000000?text=+) | Set Loop Start                |
+| 10    | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) | Transport Cursor Back         |
+| 15    | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) | Transport Cursor Forward      |
+| 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Set Loop End                  |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) |         | Toggle Loop                   |
 
 ---
 
@@ -134,6 +147,12 @@ HUI scene is like a mixer console. Triggering SSM will change the lower toggle r
 | ![+](https://via.placeholder.com/24/FF4C87/000000?text=+) | Record Arm  |
 | ![+](https://via.placeholder.com/24/FFE126/000000?text=+) | Solo        |
 | ![+](https://via.placeholder.com/24/874CFF/000000?text=+) | Mute        |
+
+![shift-button](./resources/shift-button.png)
+
+| Button                                                  | Action                                      |
+|:-------------------------------------------------------:| ------------------------------------------- |
+| ![record-button](./resources/record-button.png)         | Toggle Console View                            |
 
 The upper row allows for track selection which also is colored based on the track color. If the track for that pad is selected then the pad will pulse.
 

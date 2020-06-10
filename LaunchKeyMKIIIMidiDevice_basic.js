@@ -63,7 +63,6 @@ function TouchPitchHandler(name, channel)
 
         let combined_value = (value << 7)|address;
 
-        kDebug.log(combined_value + ' ' + address);
         // We assume the pitch whell has been released as the resolution
         // stays the same when returning
         if( address == this.lastValue[0] )
@@ -73,7 +72,7 @@ function TouchPitchHandler(name, channel)
         }
 
         let dir = ( combined_value > this.lastValue[1] ) ? 1 : -1;
-        
+
         if( this.lastValue[2] != dir )
             this.counter = 0;
         else

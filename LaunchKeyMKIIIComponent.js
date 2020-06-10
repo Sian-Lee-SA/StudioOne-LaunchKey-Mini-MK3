@@ -168,6 +168,8 @@ function LaunchKeyMKIIIMidiComponent ()
         for( let key in Color.Values )
             paramList.addInteger(Color.Values[key], Color.Values[key], key);
 
+        kDebug.log(HostUtils);
+
         paramList.addInteger(0x00, 0x00, 'MONO_OFF');
         paramList.addInteger(0x3F, 0x3F, 'MONO_HALF');
         paramList.addInteger(0x7F, 0x7F, 'MONO_FULL');
@@ -317,6 +319,9 @@ function LaunchKeyMKIIIMidiComponent ()
         switch( param )
         {
             case this.devicePadMode:
+                let padMode = DevicePadModes[this.devicePadMode.value];
+                if(padMode.name != 'session')
+                    this.editorModeActive.value = false;
                 break;
 
             case this.subModifier:
@@ -529,6 +534,9 @@ function LaunchKeyMKIIIMidiComponent ()
                         padIndex = Music.symbolicPitchToPadIndex (pitch) % kPadCount;
                     this.pitchMenu.value = padIndex;
                 }
+                break;
+            case kHUIMode:
+                Host.GUI.Commands.deferCommand("View", "Console", false, Host.Attributes(["State", true]));
                 break;
         }
 

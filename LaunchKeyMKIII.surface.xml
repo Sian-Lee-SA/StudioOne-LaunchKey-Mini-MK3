@@ -241,11 +241,8 @@
             <Handler class="MonoLEDHandler" address="117" />
         </Control>
 
-        <Control name="program_up" title="Program Up" options="receive" type="trigger">
-            <MidiMessage status="#C0" />
-        </Control>
-        <Control name="program_down" title="Program Down" options="receive" type="trigger">
-            <MidiMessage status="#C0" />
+        <Control name="program" title="Program Up / Down" options="transmit receive">
+            <MidiMessage status="#C0" options="" />
         </Control>
 
 		<Control name="timeCode" options="transmit fastupdate" />
@@ -483,6 +480,7 @@
                                 <Group>
                                     <Invoke control="scene" onReceive="onToggleEditMode" />
                                     <Invoke control="ssm" onReceive="openEditorAndFocus" />
+                                    <Command control="record" command.category="View" command.name="Editor" />
                                 </Group>
                             </ParamVariant>
 
@@ -511,6 +509,13 @@
 
                             <PlainValue control="ssmLED" param="huiColor" />
 
+                            <ParamVariant param="shiftModifier" options="nonlatching">
+                                <Group />
+                                <Group>
+                                    <Command control="record" command.category="View" command.name="Console" />
+                                </Group>
+                            </ParamVariant>
+                            
                             <ParamVariant param="subModifier" options="nonlatching">
                                 <Group />
                                 <Group>
