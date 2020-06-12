@@ -1,7 +1,8 @@
-function Debug()
-{
 
-    this.device = null;
+function Debug(device)
+{
+    Debug.Instance = this;
+    this.device = device;
 
     this.determineType = function( obj )
     {
@@ -94,5 +95,9 @@ function Debug()
 
         this.device.log("}");
     }
+}
 
+function log( obj, skipValues )
+{
+    Debug.Instance.log(obj, skipValues);
 }

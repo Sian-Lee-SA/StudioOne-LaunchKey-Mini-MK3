@@ -44,6 +44,7 @@ function TouchModHandler(name, channel)
         this.counter = 0;
         return true;
     }
+
 };
 
 TouchPitchHandler.prototype = new ControlHandler();

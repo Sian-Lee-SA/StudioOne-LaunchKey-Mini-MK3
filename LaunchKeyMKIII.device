@@ -9,11 +9,12 @@
 
     nativeCode="JSKeyboardDevice"
     classFile="LaunchKeyMKIIIMidiDevice.js"
-    classFile.functionName="createLaunchKeyDeviceInstance"
+    classFile.functionName="createLaunchKeyMK3ExtendedDeviceInstance"
+
+    scriptFile="LaunchKeyMKIIIComponent.js"
+    scriptFile.functionName="createLaunchKeyMK3ExtendedComponentInstance"
 
     surfaceFile="LaunchKeyMKIII.surface.xml"
-    scriptFile="LaunchKeyMKIIIComponent.js"
-    scriptFile.functionName="createInstance"
 
     skinFile="skin/"
     formName="Novation LaunchKeyMKIII"

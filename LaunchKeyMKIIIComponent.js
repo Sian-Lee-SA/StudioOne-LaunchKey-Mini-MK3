@@ -14,8 +14,6 @@ include_file("Debug.js");
 include_file("Color.js");
 include_file("Modes.js");
 
-const kDebug = new Debug;
-
 const kPadCount = 16;
 const kBankCount = 8;
 
@@ -85,13 +83,13 @@ let padSnapColors =
     "magenta",
     "darkviolet",
     "gray"
-]
+];
 
-LaunchKeyMKIIIMidiComponent.prototype = new ControlSurfaceComponent ();
-function LaunchKeyMKIIIMidiComponent ()
+LaunchKeyMK3ExtendedComponent.prototype = new ControlSurfaceComponent ();
+function LaunchKeyMK3ExtendedComponent()
 {
-    this.getPadMode = function () { return this.padMode.value; }
-    this.setPadMode = function (mode) { this.padMode.setValue(mode, true); }
+    this.getDevicePadMode = function () { return this.devicePadMode.value; }
+    this.setDevicePadMode = function (mode) { this.devicePadMode.setValue(mode, true); }
 
     this.getSessionMode = function () { return this.sessionMode.value; }
     this.setSessionMode = function (mode) {
@@ -105,7 +103,7 @@ function LaunchKeyMKIIIMidiComponent ()
         ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
 
         this.debugLog =             true;
-        kDebug.device =             this;
+        new Debug(this);
 
         this.model = 	            hostComponent.model;
         let root = 		            this.model.root;
@@ -115,14 +113,13 @@ function LaunchKeyMKIIIMidiComponent ()
         this.padDrumSection =       root.find("PadDrumSectionElement");
 
         this.focusChannelElement =  root.find("MixerElement").find("FocusBankElement").getElement (0);
-
         this.noteRepeatElement =    root.find("NoteRepeatElement");
 
         // Params
         let paramList = 		    hostComponent.paramList;
 
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
-        this.subModifier =          paramList.addParam("subModifier");
+        this.sceneHold = 	        paramList.addParam("sceneHold");
 
         this.devicePadMode = 	    paramList.addInteger(0, 126, "devicePadMode");
         this.devicePotMode = 	    paramList.addInteger(0, DevicePotModes.length - 1, "devicePotMode");
@@ -167,8 +164,6 @@ function LaunchKeyMKIIIMidiComponent ()
 
         for( let key in Color.Values )
             paramList.addInteger(Color.Values[key], Color.Values[key], key);
-
-        kDebug.log(HostUtils);
 
         paramList.addInteger(0x00, 0x00, 'MONO_OFF');
         paramList.addInteger(0x3F, 0x3F, 'MONO_HALF');
@@ -315,6 +310,7 @@ function LaunchKeyMKIIIMidiComponent ()
 
     this.paramChanged = function(param)
     {
+        Host.Signals.signal("LaunchKeyMK3", 'paramChanged', param);
 
         switch( param )
         {
@@ -324,7 +320,7 @@ function LaunchKeyMKIIIMidiComponent ()
                     this.editorModeActive.value = false;
                 break;
 
-            case this.subModifier:
+            case this.sceneHold:
                 this.padDrumSection.component.setModifierActive(param.value);
                 this.padSessionSection.component.setModifierActive(param.value);
                 return;
@@ -335,12 +331,7 @@ function LaunchKeyMKIIIMidiComponent ()
                             .setFocusPadWhenPressed(param.value);
 
             case this.sessionMode:
-                // Reset modifier incase it was toggles in another scene
-                // NOTE stepedit has a latching subModifier
-                this.subModifier.setValue(0, true);
                 return this.updateSessionMode();
-
-
 
             case this.huiMode:
                 return this.updateHuiMode();
@@ -353,6 +344,7 @@ function LaunchKeyMKIIIMidiComponent ()
                 this.padSessionSection.component.setCurrentBank(param.value);
                 return;
         }
+
     }
 
     this.togglePadDisplayMode = function(state, _value)
@@ -389,9 +381,9 @@ function LaunchKeyMKIIIMidiComponent ()
         Host.GUI.Commands.deferCommand("View", "Editor", false, Host.Attributes(["State", true]));
     }
 
-    this.onScenePressed = function(value)
+    this.onScenePressed = function(state)
     {
-        if( !value )
+        if( ! state )
             return;
 
         let padMode = DevicePadModes[this.devicePadMode.value];
@@ -403,6 +395,10 @@ function LaunchKeyMKIIIMidiComponent ()
                     return this.setSessionMode(kSetupMode);
 
                 let nextMode = loopIncrementedFromArray( SessionModes, SessionModes.indexOf(currentSessionMode), true );
+                while( nextMode.skipOnToggle )
+                {
+                    nextMode = loopIncrementedFromArray( SessionModes, SessionModes.indexOf(nextMode), true );
+                }
 
                 if( nextMode.name == 'edit' )
                     return this.onEditorButtonPressed(true);
@@ -440,22 +436,13 @@ function LaunchKeyMKIIIMidiComponent ()
         HostUtils.openEditorAndFocus (this, this.focusChannelElement, HostUtils.kInstrumentEditor, true);
     }
 
-    this.onToggleEditMode = function(state)
+    this.onToggleLoopEditMode = function(state)
     {
         if( ! state )
             return;
 
-        switch( this.sessionMode.value )
-        {
-            case kStepEditMode:
-            case kEventEditMode:
-                return this.setSessionMode(kLoopEditMode);
-            case kLoopEditMode:
-                return this.setSessionMode(kPitchMenuMode);
-            case kPitchMenuMode:
-                return this.onEditorButtonPressed(true);
-        }
-
+        this.setDevicePadMode(2); // 2 Session Mode
+        this.setSessionMode(kLoopEditMode);
     }
 
     this.onConnectNoteRepeat = function ()
@@ -577,6 +564,7 @@ function LaunchKeyMKIIIMidiComponent ()
 
     this.notify = function (subject, msg)
     {
+        log(subject + ': ' + msg.id);
         if(msg.id == HostUtils.kTrackEditorChanged)
             this.onTrackEditorChanged( msg.getArg (0) );
 
@@ -607,7 +595,7 @@ function LaunchKeyMKIIIMidiComponent ()
 }
 
 // factory entry called by host
-function createInstance ()
+function createLaunchKeyMK3ExtendedComponentInstance ()
 {
-    return new LaunchKeyMKIIIMidiComponent;
+    return new LaunchKeyMK3ExtendedComponent;
 }

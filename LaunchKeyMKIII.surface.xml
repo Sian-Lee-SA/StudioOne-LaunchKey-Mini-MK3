@@ -202,13 +202,17 @@
             <MidiMessage status="Controller" address="108" />
         </Control>
 
-        <Control name="scene" title="Scene" options="receive" type="toggle">
-            <MidiMessage status="Controller" address="104" />
+        <Control name="sceneHold" title="Scene" options="receive" type="button">
+            <Handler class="ButtonHoldHandler" status="#B0" address="#68" />
+        </Control>
+        <Control name="scene" title="Scene" options="receive" type="trigger">
+            <Handler class="ButtonHandler" bind="sceneHold" status="#B0" address="#68" />
         </Control>
         <Control name="sceneLED" options="transmit"> <Handler class="ColorLEDHandler" status="176" address="104" /> </Control>
         <Control name="sceneEffect" options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="ssm" title="Stop Solo Mute" options="receive" type="toggle">
+
+        <Control name="ssm" title="Stop Solo Mute" options="receive" type="trigger">
             <MidiMessage status="Controller" address="105" />
         </Control>
         <Control name="ssmLED" options="transmit"> <Handler class="ColorLEDHandler" status="176" address="105" /> </Control>
@@ -332,12 +336,19 @@
         <DeviceMapping device="MixerConsole" name="MixerElement" onConnect="onHuiMixerConnect">
 
             <ScrollBank target="FollowBank" name="FocusBankElement">
-                <Strip/> <!-- element representing the focus channel for use in script -->
+                <Strip>
+                    <ParamVariant param="recordArmed">
+                        <Group />
+                        <using device="@global">
+                            <PlainValue control="recordLED" param="MONO_HALF"/>
+                        </using>
+                    </ParamVariant>
+                </Strip> <!-- element representing the focus channel for use in script -->
             </ScrollBank>
 
             <ScrollBank target="RemoteBank" pagesize="8" name="RemoteBankElement">
                 <!-- The Channel Strips -->
-                <ParamVariant using="@global" param="subModifier" options="nonlatching">
+                <ParamVariant using="@global" param="sceneHold" options="nonlatching">
                     <Group />
                     <Group>
                         <ScrollButton control="sessionLowerPad[0]" direction="pageleft" />
@@ -374,43 +385,47 @@
                                     <using device="@global"> <PlainValue control="sessionHigherPadEffect[$channel]" param="EFFECT_PULSE" /> </using>
                                 </ParamVariant>
 
-                                <ParamVariant using="@global" param="subModifier" options="nonlatching">
-                                    <!-- HUI MODE -->
-                                    <ParamVariant using="@global" param="huiMode">
-                                        <Group value="$HUI_MONITOR_MODE">
-                                            <Toggle control="sessionLowerPad[$channel]" param="monitor" />
-                                            <ParamVariant param="monitor">
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" /></using>
-                                            </ParamVariant>
-                                        </Group>
-                                        <Group value="$HUI_ARM_MODE">
-                                            <Toggle control="sessionLowerPad[$channel]" param="recordArmed" />
-                                            <ParamVariant param="recordArmed">
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
-                                                <using device="@global">
-                                                    <PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" />
-                                                    <PlainValue control="sessionLowerPadEffect[$channel]" param="EFFECT_PULSE" />
-                                                </using>
-                                            </ParamVariant>
-                                        </Group>
-                                        <Group value="$HUI_SOLO_MODE">
-                                            <Toggle control="sessionLowerPad[$channel]" param="solo" />
-                                            <ParamVariant param="solo">
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" /></using>
-                                            </ParamVariant>
-                                        </Group>
-                                        <Group value="$HUI_MUTE_MODE">
-                                            <Toggle control="sessionLowerPad[$channel]" param="mute" />
-                                            <ParamVariant param="mute">
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
-                                                <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" /></using>
-                                            </ParamVariant>
-                                        </Group>
-                                    </ParamVariant>
+                                <!-- We make sure the lower pads are inactive when the scene modifier is on -->
+                                <ParamVariant using="@global" param="sceneHold" options="nonlatching">
+                                    <Group>
+                                        <!-- HUI MODE -->
+                                        <ParamVariant using="@global" param="huiMode">
+                                            <Group value="$HUI_MONITOR_MODE">
+                                                <Toggle control="sessionLowerPad[$channel]" param="monitor" />
+                                                <ParamVariant param="monitor">
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" /></using>
+                                                </ParamVariant>
+                                            </Group>
+                                            <Group value="$HUI_ARM_MODE">
+                                                <Toggle control="sessionLowerPad[$channel]" param="recordArmed" />
+                                                <ParamVariant param="recordArmed">
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
+                                                    <using device="@global">
+                                                        <PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" />
+                                                        <PlainValue control="sessionLowerPadEffect[$channel]" param="EFFECT_PULSE" />
+                                                    </using>
+                                                </ParamVariant>
+                                            </Group>
+                                            <Group value="$HUI_SOLO_MODE">
+                                                <Toggle control="sessionLowerPad[$channel]" param="solo" />
+                                                <ParamVariant param="solo">
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" /></using>
+                                                </ParamVariant>
+                                            </Group>
+                                            <Group value="$HUI_MUTE_MODE">
+                                                <Toggle control="sessionLowerPad[$channel]" param="mute" />
+                                                <ParamVariant param="mute">
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOff" /></using>
+                                                    <using device="@global"><PlainValue control="sessionLowerPadLED[$channel]" param="huiLowerColorOn" /></using>
+                                                </ParamVariant>
+                                            </Group>
+                                        </ParamVariant>
+                                    </Group>
                                     <Group />
                                 </ParamVariant>
+
                             </Group>
                         </ParamVariant>
                     </Strip>
@@ -448,17 +463,24 @@
         <Global>
 
             <Toggle control="shift" param="shiftModifier" options="nonlatching" />
+            <Toggle control="sceneHold" param="sceneHold" options="nonlatching" />
 
             <Value control="devicePadMode" param="devicePadMode" />
             <Value control="devicePotMode" param="devicePotMode" />
+
+            <ParamVariant param="sceneHold">
+                <Group />
+                <Group>
+                    <PlainValue control="sceneLED" param="GREEN" />
+                    <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
+                </Group>
+            </ParamVariant>
 
             <ParamVariant param="shiftModifier">
                 <Invoke control="scene" onReceive="onScenePressed" />
                 <Group />
             </ParamVariant>
 
-            <Command control="arp" command.category="Navigation" command.name="Left" options="autorepeat"/>
-            <Command control="f_chord" command.category="Navigation" command.name="Right" options="autorepeat"/>
 
             <!-- ******************************************************************************************** -->
             <!-- SCENE MODES -->
@@ -471,54 +493,33 @@
 
                     <ParamVariant param="sessionMode" strict="true">
 
-                        <Group value="$STEP_EDIT_MODE,$LOOP_EDIT_MODE,$EVENT_EDIT_MODE,$INSTRUMENT_EDIT_MODE" default="true">
-
+                        <Group value="$STEP_EDIT_MODE,$EVENT_EDIT_MODE,$INSTRUMENT_EDIT_MODE" default="true">
                             <ParamVariant param="shiftModifier">
                                 <Group>
-                                    <Toggle control="ssm" param="subModifier" options="nonlatching" />
-                                </Group>
-                                <Group>
-                                    <Invoke control="scene" onReceive="onToggleEditMode" />
-                                    <Invoke control="ssm" onReceive="openEditorAndFocus" />
-                                    <Command control="record" command.category="View" command.name="Editor" />
-                                </Group>
-                            </ParamVariant>
-
-                            <ParamVariant param="sessionMode" strict="true">
-                                <Group value="$LOOP_EDIT_MODE">
-                                    <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
-
-                                    <Command control="ssm" command.category="Transport" command.name="Toggle Loop" />
-
-                                    <using device="device:///TransportPanel">
-                                        <Value control="knob[0]" param="freeCursorTime"/>
-                                    </using>
-
-                                    <ParamVariant using="device:///TransportPanel" param="loop">
-                                        <PlainValue control="ssmLED" param="MONO_OFF" />
-                                        <PlainValue control="ssmLED" param="loopColor" />
+                                    <ParamVariant param="sceneHold">
+                                        <Group />
+                                        <Command control="ssm" command.category="View" command.name="Editor" />
                                     </ParamVariant>
                                 </Group>
+                                <Group>
+                                    <Invoke control="ssm" onReceive="openEditorAndFocus" />
+                                </Group>
                             </ParamVariant>
+                        </Group>
 
+                        <Group value="$LOOP_EDIT_MODE">
+                            <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
                         </Group>
 
                         <Group value="$HUI_MODE">
-                            <Invoke control="ssm" onReceive="onHuiModePressed" />
-                            <Toggle control="scene" param="subModifier" options="nonlatching" />
-
                             <PlainValue control="ssmLED" param="huiColor" />
 
-                            <ParamVariant param="shiftModifier" options="nonlatching">
-                                <Group />
+                            <ParamVariant param="sceneHold" options="nonlatching">
                                 <Group>
-                                    <Command control="record" command.category="View" command.name="Console" />
+                                    <Invoke control="ssm" onReceive="onHuiModePressed" />
                                 </Group>
-                            </ParamVariant>
-                            
-                            <ParamVariant param="subModifier" options="nonlatching">
-                                <Group />
                                 <Group>
+                                    <Command control="ssm" command.category="View" command.name="Console" />
                                     <PlainValue control="sessionLowerPadLED[0]" param="GREEN" />
                                     <PlainValue control="sessionLowerPadLED[1]" param="GREEN_HALF" />
                                     <PlainValue control="sessionLowerPadLED[6]" param="GREEN_HALF" />
@@ -531,16 +532,9 @@
                             <PlainValue control="sessionLowerPadEffect[0]" param="EFFECT_PULSE" />
                             <PlainValue control="sessionLowerPadEffect[7]" param="EFFECT_BLINK" />
 
-                            <Command control="ssm" command.category="Transport" command.name="Toggle Loop" />
-
                             <using device="device:///TransportPanel">
                                 <Value control="knob[0]" param="tempo" />
                             </using>
-
-                            <ParamVariant using="device:///TransportPanel" param="loop">
-                                <PlainValue control="ssmLED" param="MONO_OFF" />
-                                <PlainValue control="ssmLED" param="loopColor" />
-                            </ParamVariant>
                         </Group>
 
                         <Group value="$BANK_MENU_MODE">
@@ -551,24 +545,19 @@
 
                 <Group value="$DEVICE_PAD_MODE_DRUM">
 
-                    <using device="device:///NoteRepeater">
-                        <Value control="ssmLED" param="active"/>
-                    </using>
-
                     <ParamVariant param="shiftModifier">
-                        <Group />
                         <Group>
                             <Toggle control="scene" param="fullVelocityMode" />
                             <Invoke control="ssm" onReceive="onNoteRepeatButtonPressed" />
                         </Group>
+                        <Group />
                     </ParamVariant>
 
-                    <!-- ARP is only sent when shift is enabled -->
-                    <Invoke control="arp" onReceive="togglePadDisplayMode" />
+                    <Invoke control="f_chord" onReceive="togglePadDisplayMode" />
                     <ParamVariant param="padDisplayMode">
-                        <PlainValue control="arpLED" param="MONO_OFF" />
-                        <PlainValue control="arpLED" param="MONO_HALF" />
-                        <PlainValue control="arpLED" param="MONO_FULL" />
+                        <PlainValue control="f_chordLED" param="MONO_OFF" />
+                        <PlainValue control="f_chordLED" param="MONO_HALF" />
+                        <PlainValue control="f_chordLED" param="MONO_FULL" />
                     </ParamVariant>
 
                     <ParamVariant param="fullVelocityMode">
@@ -576,6 +565,13 @@
                         <Group>
                             <PlainValue control="sceneLED" param="PURPLE" />
                             <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
+                        </Group>
+                    </ParamVariant>
+
+                    <ParamVariant using="device:///NoteRepeater" param="active">
+                        <Group />
+                        <Group>
+                            <PlainValue control="ssmLED" param="BLUE" />
                         </Group>
                     </ParamVariant>
 
@@ -587,21 +583,6 @@
 
             </ParamVariant>
 
-
-
-            <!-- ******************************************************************************************** -->
-            <!-- GROUPED PAD MODE MAPPING -->
-            <!-- ******************************************************************************************** -->
-            <!-- <ParamVariant param="sessionMode" strict="true">
-
-                <Group value="$PLAY_MODE,$RATE_TRIGGER_MODE">
-                </Group>
-
-                <Group value="$LOOP_EDIT_MODE,$EVENT_EDIT_MODE,$INSTRUMENT_EDIT_MODE,$STEP_EDIT_MODE">
-                </Group>
-
-            </ParamVariant> -->
-
         </Global>
 
         <!-- ******************************************************************************************** -->
@@ -610,23 +591,38 @@
         <DeviceMapping device="TransportPanel">
             <Segmented control="timeCode" param="primaryTime"/>
 
+            <ParamVariant param="start">
+                <ParamVariant param="loop">
+                    <Group />
+                    <using device="@global"><PlainValue control="playLED" param="MONO_HALF" /></using>
+                </ParamVariant>
+                <using device="@global"><PlainValue control="playLED" param="MONO_FULL" /></using>
+            </ParamVariant>
+
+            <ParamVariant param="record">
+                <Group />
+                <using device="@global"><PlainValue control="recordLED" param="MONO_FULL" /></using>
+            </ParamVariant>
+
+            <ParamVariant param="loop">
+                <Command control="arp" command.category="Transport" command.name="Return to Zero" />
+                <Command control="arp" command.category="Transport" command.name="Goto Loop Start" />
+            </ParamVariant>
+
             <ParamVariant using="@global" param="shiftModifier">
+                <ParamVariant using="@global" param="sceneHold">
+                    <Group><!-- SCENE MODIFER OFF -->
+                        <Command control="play" command.category="Transport" command.name="Toggle Start" />
+                        <Command control="record" command.category="Transport" command.name="Record" />
+                    </Group>
+                    <Group><!-- SCENE MODIFER ON -->
+                        <Invoke control="play" onReceive="onToggleLoopEditMode" />
+                        <Command control="record" command.category="Edit" command.name="Undo" />
+                    </Group>
+                </ParamVariant>
                 <Group>
-                    <Command control="play" command.category="Transport" command.name="Toggle Start" />
-                    <Value control="playLED" param="start" />
-                    <Command control="record" command.category="Transport" command.name="Record" />
-                    <Value control="recordLED" param="record" />
-                </Group>
-                <Group>
-                    <Value control="playLED" param="start" />
-                    <ParamVariant param="loop">
-                        <Group>
-                            <Command control="play" command.category="Transport" command.name="Return to Zero"/>
-                        </Group>
-                        <Group>
-                            <Command control="play" command.category="Transport" command.name="Goto Loop Start"/>
-                        </Group>
-                    </ParamVariant>
+                    <Toggle control="play" param="loop" />
+                    <Command control="record" command.category="Track" command.name="Arm" />
                 </Group>
             </ParamVariant>
         </DeviceMapping>

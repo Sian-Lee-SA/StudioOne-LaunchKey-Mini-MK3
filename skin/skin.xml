@@ -100,8 +100,7 @@
 						<foreach variable="$i" start="0" count="8">
 							<View width="100" height="90">
 								<using controller="knob[$i]">
-									<UpDownButton name="controlValue" options="decrement transparent" size="23,10,28,55" icon="NovationKnobArrowDec"/>
-									<UpDownButton name="controlValue" options="increment transparent" size="51,10,28,55" icon="NovationKnobArrowInc"/>
+									<Knob name="controlValue" options="decrement transparent" size="25,13,54,54" />
 									<TextBox name="userAssignment" size="1,73,100,18" options="fittext transparent nocontextmenu" style="NovationText"/>
 								</using>
 							</View>

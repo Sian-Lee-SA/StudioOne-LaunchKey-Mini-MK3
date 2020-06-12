@@ -11,4 +11,8 @@
     surfaceFile="LaunchKeyMKIII_basic.surface.xml"
 
     classFile="LaunchKeyMKIIIMidiDevice_basic.js"
-    classFile.functionName="createLaunchKeyMK3BasicDeviceInstance" />
+    classFile.functionName="createLaunchKeyMK3BasicDeviceInstance"
+
+    scriptFile="LaunchKeyMKIIIComponent_basic.js"
+    scriptFile.functionName="createLaunchKeyMK3BasicComponentInstance"
+/>

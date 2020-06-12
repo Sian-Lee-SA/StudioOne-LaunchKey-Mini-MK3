@@ -14,8 +14,6 @@ include_file("resource://com.presonus.musicdevices/sdk/controlsurfacedevice.js")
 include_file("Debug.js");
 include_file("Color.js");
 
-const kDebug = new Debug;
-
 ColorLEDHandler.prototype = new ControlHandler ();
 function ColorLEDHandler (name, status, address)
 {
@@ -44,8 +42,6 @@ function ColorLEDHandler (name, status, address)
     this.sendValue = function( _value, _flags )
     {
         this.color = new Color( _value );
-        if( this.name == 'ssmLED' )
-            kDebug.log( this.name +': '+this.color.toString());
 
         this.value = this.color.midi;
         this.update();
@@ -96,10 +92,91 @@ function MonoLEDHandler (name, address)
     }
 }
 
-LaunchKeyMKIIIMidiDevice.prototype = new ControlSurfaceDevice ();
-function LaunchKeyMKIIIMidiDevice ()
+ButtonHandler.prototype = new ControlHandler ();
+function ButtonHandler(name, status, address)
+{
+    this.name = name;
+    this.status = status;
+    this.address = address;
+}
+
+ButtonHoldHandler.prototype = new ControlHandler ();
+function ButtonHoldHandler(name, status, address)
+{
+    this.name = name;
+    this.status = status;
+    this.address = address;
+    this.altControl = null;
+
+    this.timeout = 500;
+    this.activeTime = 0;
+    this.isPressed = false;
+    this.isHeld = false;
+
+    this.onIdle = function(time)
+    {
+        if( ! this.isPressed || this.isHeld )
+            return;
+
+        if( ! this.activeTime )
+            this.activeTime = time;
+
+        if( time > this.activeTime + this.timeout )
+        {
+            this.updateValue(1);
+            this.isHeld = true;
+        }
+    }
+
+    this.bindControlHandler = function( control )
+    {
+        this.altControl = control;
+    }
+
+    this.reset = function()
+    {
+        this.isPressed = false;
+        this.isHeld = false;
+        this.activeTime = 0;
+    }
+
+    this.receiveMidi = function( status, address, value )
+    {
+        if( status != this.status || address != this.address )
+            return false;
+
+        // If the button press is release before reaching the timeout
+        // then return false to allow another handler to handle the midi event
+        if( ! value && ! this.isHeld )
+        {
+            this.altControl.updateValue(1);
+            this.altControl.updateValue(0);
+            this.reset();
+            return true;
+        }
+
+        // Button value of 0 will be a release
+        if( ! value )
+        {
+            if( this.isHeld )
+                this.updateValue(0);
+            else
+                this.altControl.updateValue(0);
+            this.reset();
+        } else {
+            this.isPressed = true;
+        }
+
+        return true;
+    }
+}
+
+LaunchKeyMK3ExtendedMidiDevice.prototype = new ControlSurfaceDevice ();
+function LaunchKeyMK3ExtendedMidiDevice()
 {
     this.handlers = {};
+
+    this.idleListeners = [];
 
     this.enableInControlMode = function( bool )
     {
@@ -115,24 +192,27 @@ function LaunchKeyMKIIIMidiDevice ()
     this.onInit = function (hostDevice)
     {
         ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
-
-        kDebug.device = this;
-        this.debugLog = true;
+        new Debug(this);
     }
 
     this.createHandler = function (name, attributes)
     {
-        // additional handlers created on the fly via <Handler> in XML
-        let className = attributes.getAttribute("class");
-        let address = parseInt( attributes.getAttribute("address") );
+        function getAttr( name )
+        {
+            let attr = attributes.getAttribute(name);
+            if( ! attr )
+                return null;
 
+            if( typeof attr == 'string' )
+                return parseInt( attr.replace('#', '0x') );
+            return attr;
+        };
 
         let handler = null;
-        switch( className )
+        switch( attributes.getAttribute("class") )
         {
             case "ColorLEDHandler":
-                let status = parseInt( attributes.getAttribute("status") );
-                handler = new ColorLEDHandler( name, status, address );
+                handler = new ColorLEDHandler( name, getAttr('status'), getAttr('address') );
                 break;
             case "ColorEffectHandler":
                 handler = new ColorEffectHandler( name, this.handlers[name.replace('Effect','LED')] );
@@ -141,7 +221,17 @@ function LaunchKeyMKIIIMidiDevice ()
                 handler = new ColorStateHandler( name, this.handlers[name.replace('State','LED')] );
                 break;
             case "MonoLEDHandler":
-                handler = new MonoLEDHandler( name, address );
+                handler = new MonoLEDHandler( name, getAttr('address') );
+                break;
+            case "ButtonHoldHandler":
+                handler = new ButtonHoldHandler(name, getAttr('status'), getAttr('address'));
+                this.idleListeners.push(handler);
+                this.addReceiveHandler(handler);
+                break;
+            case "ButtonHandler":
+                handler = new ButtonHandler(name, getAttr('status'), getAttr('address'));
+                let bind = attributes.getAttribute('bind');
+                this.handlers[bind].bindControlHandler(handler);
                 break;
         }
 
@@ -157,7 +247,8 @@ function LaunchKeyMKIIIMidiDevice ()
 
     this.onIdle = function (time)
     {
-        // this.heartbeatHUIMode();
+        for( let i = 0; i < this.idleListeners.length; i++ )
+            this.idleListeners[i].onIdle(time);
     }
 
     this.onMidiOutConnected = function (state)
@@ -166,7 +257,7 @@ function LaunchKeyMKIIIMidiDevice ()
 
         if(state)
         {
-            this.log("Starting LaunchKey MKIII")
+            this.log("Starting LaunchKey MK3 Extended");
             this.enableInControlMode( true );
             this.hostDevice.invalidateAll ();
         }
@@ -181,7 +272,7 @@ function LaunchKeyMKIIIMidiDevice ()
 }
 
 // factory entry called by host
-function createLaunchKeyDeviceInstance ()
+function createLaunchKeyMK3ExtendedDeviceInstance ()
 {
-    return new LaunchKeyMKIIIMidiDevice;
+    return new LaunchKeyMK3ExtendedMidiDevice;
 }

@@ -48,17 +48,19 @@ const DevicePotModes = [
     new DevicePotMode('send')
 ];
 
-function SessionMode(name, index, color )
+function SessionMode(name, index, color, skipOnToggle)
 {
     this.name = name;
     this.index = index;
     this.color = color;
+    this.skipOnToggle = skipOnToggle;
 };
 const SessionModes = [
-    new SessionMode('edit', [kStepEditMode, kEventEditMode, kLoopEditMode, kPitchMenuMode], '#AAAA00'),
+    new SessionMode('edit', [kStepEditMode, kEventEditMode, kPitchMenuMode], '#AAAA00'),
     new SessionMode('setup', kSetupMode, '#0000FF'),
     new SessionMode('bank', kBankMenuMode, '#00FF00'),
-    new SessionMode('hui', kHUIMode, '#38FFCC')
+    new SessionMode('hui', kHUIMode, '#38FFCC'),
+    new SessionMode('loopedit', kLoopEditMode, 'aqua', true)
 ];
 
 function loopIncrementedFromArray( array, index, returnValue )

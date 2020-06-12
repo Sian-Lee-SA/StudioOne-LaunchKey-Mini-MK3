@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ControlSurface>
     <Controls>
-		<Control name="freescroll" title="Freescroll" options="receive">
+		<Control name="freescroll" title="Freescroll" type="relative" options="receive">
 			<Handler class="TouchPitchHandler" channel="16" />
 		</Control>
 		<Control name="navigationUpDown" title="Modulator" type="relative" options="receive">
@@ -25,12 +25,39 @@
         </DeviceMapping>
 
 		<DeviceMapping device="TransportPanel">
-            <Relative control="freescroll" param="freeCursorTime" />
-			<Command control="navigationUpDown" command.category="Navigation" command.name="Down"
-						command2.category="Navigation" command2.name="Up" />
 		</DeviceMapping>
 
         <Global>
+			<ParamVariant param="shiftModifier">
+				<Group>
+					<ParamVariant param="sceneHold">
+						<Group>
+                            <using device="device:///TransportPanel">
+                                <Relative control="freescroll" param="freeCursorTime" />
+                            </using>
+							<Command control="navigationUpDown"
+								command.category="Navigation" command.name="Down"
+								command2.category="Navigation" command2.name="Up" />
+						</Group>
+						<Group>
+                            <Command control="freescroll"
+                                command.category="Zoom" command.name="Zoom Out"
+                                command2.category="Zoom" command2.name="Zoom In" />
+							<Command control="navigationUpDown"
+								command.category="Zoom" command.name="Zoom Out Vertical"
+								command2.category="Zoom" command2.name="Zoom In Vertical" />
+						</Group>
+                    </ParamVariant>
+				</Group>
+				<Group>
+					<Command control="freescroll"
+						command.category="Navigation" command.name="Right Extend"
+						command2.category="Navigation" command2.name="Left Extend" />
+					<Command control="navigationUpDown"
+						command.category="Navigation" command.name="Down Extend"
+						command2.category="Navigation" command2.name="Up Extend" />
+				</Group>
+			</ParamVariant>
         </Global>
 
 	</Mappings>
