@@ -89,7 +89,8 @@ Session mode consists of 5 different scenes. Each scene consists of different co
 
 ---
 
-#### ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+) Edit Scene
+![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+)
+#### Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip.
 
 1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that pad.
@@ -124,7 +125,8 @@ In step edit mode, holding down the scene button will add accents to the pad ste
 
 ---
 
-#### ![Loop Editor Scene](https://via.placeholder.com/24/00FFFF/000000?text=+) Loop Editor
+![Loop Editor Scene](https://via.placeholder.com/24/00FFFF/000000?text=+)
+#### Loop Editor
 
 Loop editor is activated by holding scene + play
 
@@ -140,7 +142,8 @@ Loop editor is activated by holding scene + play
 
 ---
 
-#### ![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+) Setup Scene
+![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+)
+#### Setup Scene
 
 Setup scene gives generic setup commands. User assignable commands can be assigned to the top row pads. Open the device assignment view and right click the pads to assign a command. You can then click the pad and assign a color to that pad.
 
@@ -162,13 +165,15 @@ Setup scene gives generic setup commands. User assignable commands can be assign
 
 ---
 
-#### ![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+) Bank Scene
+![Bank Scene](https://via.placeholder.com/24/00FF00/000000?text=+)
+#### Bank Scene
 
 Bank scene allows selection of a specific bank for selected devices. Banks are color coded from pad 1-8
 
 ---
 
-#### ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+) HUI Scene
+![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+)
+#### HUI Scene
 
 HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo or Mute. A lighter color on the lower pad means the toggle is off for that track while a darker color is toggled on. The pads and knobs are organised in columns and each column is assigned to a track bank.
 
