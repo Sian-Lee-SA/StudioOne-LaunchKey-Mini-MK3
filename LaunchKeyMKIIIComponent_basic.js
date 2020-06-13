@@ -40,6 +40,12 @@ function LaunchKeyMK3BasicComponent ()
     {
     }
 
+    this.onSelectPressed = function(state)
+    {
+        let commandName = this.shiftModifier.value ? "Cancel" : "Enter";
+        Host.GUI.Commands.deferCommand ("Navigation", commandName);
+    }
+
     this.notify = function(subject, msg)
     {
         if( msg.id == 'paramChanged')

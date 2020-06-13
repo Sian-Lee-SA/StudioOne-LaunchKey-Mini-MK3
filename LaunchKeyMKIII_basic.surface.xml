@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ControlSurface>
     <Controls>
+        <Control name="select" title="Select" type="trigger" options="receive">
+            <Handler class="TouchDoubleTapHandler" channel="16" />
+        </Control>
 		<Control name="freescroll" title="Freescroll" type="relative" options="receive">
+			<Handler class="TouchPitchHandler" channel="15" />
+		</Control>
+        <Control name="navigateLeftRight" title="Pitch" type="relative" options="receive">
 			<Handler class="TouchPitchHandler" channel="16" />
 		</Control>
 		<Control name="navigationUpDown" title="Modulator" type="relative" options="receive">
@@ -25,22 +31,25 @@
         </DeviceMapping>
 
 		<DeviceMapping device="TransportPanel">
+            <Relative control="freescroll" param="freeCursorTime" />
 		</DeviceMapping>
 
         <Global>
+            <!-- <Invoke control="select" onReceive="onSelectPressed" /> -->
+            <Command control="select" command.category="Edit" command.name="Deselect All" />
 			<ParamVariant param="shiftModifier">
 				<Group>
 					<ParamVariant param="sceneHold">
 						<Group>
-                            <using device="device:///TransportPanel">
-                                <Relative control="freescroll" param="freeCursorTime" />
-                            </using>
+                            <Command control="navigateLeftRight"
+                                command.category="Navigation" command.name="Right"
+                                command2.category="Navigation" command2.name="Left"/>
 							<Command control="navigationUpDown"
 								command.category="Navigation" command.name="Down"
 								command2.category="Navigation" command2.name="Up" />
 						</Group>
 						<Group>
-                            <Command control="freescroll"
+                            <Command control="navigateLeftRight"
                                 command.category="Zoom" command.name="Zoom Out"
                                 command2.category="Zoom" command2.name="Zoom In" />
 							<Command control="navigationUpDown"
@@ -50,7 +59,7 @@
                     </ParamVariant>
 				</Group>
 				<Group>
-					<Command control="freescroll"
+					<Command control="navigateLeftRight"
 						command.category="Navigation" command.name="Right Extend"
 						command2.category="Navigation" command2.name="Left Extend" />
 					<Command control="navigationUpDown"

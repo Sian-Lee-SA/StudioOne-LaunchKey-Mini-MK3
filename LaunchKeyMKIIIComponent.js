@@ -353,6 +353,8 @@ function LaunchKeyMK3ExtendedComponent()
         Host.Signals.unadvise(this.padSessionSection.component, this);
         Host.Signals.unadvise(this.padDrumSection.component, this);
 
+        this.modes.setDevicePadMode('drum');
+
         HostUtils.enableEngineEditNotifications (this, false);
 
         ControlSurfaceComponent.prototype.onExit.call (this);

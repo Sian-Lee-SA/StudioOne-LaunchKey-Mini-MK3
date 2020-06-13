@@ -123,15 +123,15 @@ function Modes( paramList, bankCount )
         let padComponent = _padElement.component;
         padComponent.setPadColoringSupported(true);
 
-        let i = 0;
-        for( let key in Color.PRESONUS_SNAP )
-        {
-            if( i++ % 2 ) continue;
-            padComponent.addPadPaletteColor('#' + Color.convert(key).hex );
-        }
-
-        for( let i in Color.SnapColors )
-            padComponent.addPadPaletteColor(Color.SnapColors[i]);
+        // let i = 0;
+        // for( let key in Color.PRESONUS_SNAP )
+        // {
+        //     if( i++ % 2 ) continue;
+        //     padComponent.addPadPaletteColor('#' + Color.convert(key).hex );
+        // }
+        //
+        // for( let i in Color.SnapColors )
+        //     padComponent.addPadPaletteColor(Color.SnapColors[i]);
 
         for(let i = 0; i < Modes.SessionModes.length; i++)
         {
@@ -187,6 +187,8 @@ function Modes( paramList, bankCount )
                     {
                         let commands = [];
                         PadSection.addCommand(commands, 0, "Zoom", "Zoom to Loop", 0, null, '#00FFFF');
+
+						PadSection.addCommand(commands, 1, "Transport", "Loop Follows Selection", 0, null, '#005500');
 
                         PadSection.addCommand(commands, 6, "Transport", "Shift Loop Backwards");
                         PadSection.addCommand(commands, 7, "Transport", "Shift Loop");

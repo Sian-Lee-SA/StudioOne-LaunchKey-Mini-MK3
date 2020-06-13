@@ -93,17 +93,70 @@ function TouchPitchHandler(name, channel)
     }
 };
 
+TouchDoubleTapHandler.prototype = new ControlHandler();
+function TouchDoubleTapHandler(name, channel)
+{
+    this.name = name;
+    this.status = 0xE0;
+    this.channel = channel - 1;
+
+    this.lastAddressValue = 0x00;
+    this.touchStartTime = 0;
+    this.touchEndTime = 0;
+
+    this.tapCount = 0;
+    this.time = 0;
+
+    this.onIdle = function(time)
+    {
+        this.time = time;
+    }
+
+    this.receiveMidi = function(status, address, value)
+    {
+        if( status != (this.status|this.channel) )
+            return false;
+
+        if( this.lastAddressValue == 0x00 )
+        {
+            if( this.time - this.touchEndTime > 250 )
+                this.tapCount = 0;
+            this.touchStartTime = this.time;
+        }
+
+        if( address == 0x00 )
+        {
+            this.touchEndTime = this.time;
+            if( this.touchEndTime - this.touchStartTime < 250 )
+                this.tapCount++;
+            else
+                this.tapCount = 0;
+        }
+
+        this.lastAddressValue = address;
+        if( this.tapCount >= 2 )
+        {
+            this.updateValue(1);
+            this.tapCount = 0;
+            return true;
+        }
+        return false;
+    }
+}
+
 LaunchKeyMK3BasicDevice.prototype = new ControlSurfaceDevice ();
 function LaunchKeyMK3BasicDevice()
 {
     this.handlers = {};
 
+    this.idleListeners = [];
+
     this.onInit = function(hostDevice)
     {
         ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
 
-        kDebug.device = this;
         this.debugLog = true;
+        new Debug(this);
     }
 
     this.createHandler = function (name, attributes)
@@ -124,6 +177,10 @@ function LaunchKeyMK3BasicDevice()
             case "TouchPitchHandler":
                 handler = new TouchPitchHandler(name, ch);
                 break;
+            case "TouchDoubleTapHandler":
+                handler = new TouchDoubleTapHandler(name, ch);
+                this.idleListeners.push(handler);
+                break;
         }
 
         if(!handler)
@@ -138,6 +195,8 @@ function LaunchKeyMK3BasicDevice()
 
     this.onIdle = function(time)
     {
+        for( let i = 0; i < this.idleListeners.length; i++ )
+            this.idleListeners[i].onIdle(time);
     }
 
     this.onMidiOutConnected = function(state)

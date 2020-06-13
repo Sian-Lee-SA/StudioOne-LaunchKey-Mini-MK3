@@ -13,11 +13,13 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 
 Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions depending on channel selected. You will have to use different channels to those defined below if you wish to use the pitch or modulation with your instruments.
 
-| Channel | Touch Control  | Command                                                            |
-| ------- |:-------------- | ------------------------------------------------------------------ |
-| **15**  | Modulation     | Master Fader                                                       |
-| **16**  | Pitch          | Move transport Cursor left or right                                |
-| **16**  | Modulation     | Navigate up or down (swipe down will navigate up and vise-versa)   |
+| Channel | Touch Control    | Command                                                          |
+| ------- |:---------------- | ---------------------------------------------------------------- |
+| **15**  | Modulation       | Master Fader                                                     |
+| **15**  | Pitch		     | Move transport Cursor left or right								|
+| **16**  | Pitch            | Navigate next or previous event                                	|
+| **16**  | Modulation       | Navigate up or down (swipe down will navigate up and vise-versa) |
+| **16**  | Pitch Double Tap | Deselect All  													|
 
 ![shift-button](./resources/shift-button.png)
 
@@ -133,12 +135,16 @@ Loop editor is activated by holding scene + play
 | Pad   | Color                                                     | Command                       |
 | ----- |:---------------------------------------------------------:| ----------------------------- |
 | 1     | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | Zoom To Loop Selection        |
+| 2     | ![+](https://via.placeholder.com/24/005500/000000?text=+) | Toggle Loop Follows Selection |
 | 7     | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | Shift Loop Selection Left     |
 | 8     | ![+](https://via.placeholder.com/24/00FFFF/000000?text=+) | Shift Loop Selection Right    |
 | 9     | ![+](https://via.placeholder.com/24/00AA00/000000?text=+) | Set Loop Start                |
 | 10    | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) | Transport Cursor Back         |
 | 15    | ![+](https://via.placeholder.com/24/0000FF/000000?text=+) | Transport Cursor Forward      |
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Set Loop End                  |
+
+> Due to the lack of documentations for any api for studio one, I'm unable to find a good way to get host variables like the Toggle Follows Selection etc. If I can find a solution then I'll be able to change the pad lighting depending on the value
+
 
 ---
 

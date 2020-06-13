@@ -180,13 +180,7 @@ function LaunchKeyMK3ExtendedMidiDevice()
 
     this.enableInControlMode = function( bool )
     {
-        this.sendMidi (0x9F, 0x0C, (bool) ? 0x7F : 0x00);
-    }
-
-    this.heartbeatHUIMode = function()
-    {
-        // this.enableInControlMode(false);
-        this.sendMidi(0x90, 0x00, 0x00);
+        this.sendMidi(0x9F, 0x0C, (bool) ? 0x7F : 0x00);
     }
 
     this.onInit = function (hostDevice)
@@ -258,7 +252,10 @@ function LaunchKeyMK3ExtendedMidiDevice()
         if(state)
         {
             this.log("Starting LaunchKey MK3 Extended");
+            // Reset Pads
+            this.enableInControlMode( false );
             this.enableInControlMode( true );
+            this.sendMidi(0xBF, 0x03, 0x01);
             this.hostDevice.invalidateAll ();
         }
     }
@@ -266,7 +263,9 @@ function LaunchKeyMK3ExtendedMidiDevice()
     this.onExit = function ()
     {
         // Transmit native mode off message
+        this.sendMidi(0xBF, 0x03, 0x01);
         this.enableInControlMode( false );
+
         ControlSurfaceDevice.prototype.onExit.call (this);
     }
 }
