@@ -108,7 +108,7 @@
 					</Horizontal>
 
 					<!-- Pad Commands in Setup Mode -->
-					<using controller="../PadSection0/Handler1">
+					<using controller="../PadSection0/Handler2">
 					<Table margin="0" spacing="-2" columns="8">
 						<foreach variable="$i" in="0 1 2 3 4 5 6 7">
 							<View width="106" height="102">

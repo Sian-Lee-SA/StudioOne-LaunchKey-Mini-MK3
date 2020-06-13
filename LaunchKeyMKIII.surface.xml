@@ -84,7 +84,6 @@
         <Control name="sessionLowerPadEffect[7]"    options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
 
-        <!-- NOTE DRUM PADS Row 1 -->
         <Control name="drumPad[0]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="36" options="through" /> </Control>
         <Control name="drumPadLED[0]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="36" /> </Control>
         <Control name="drumPadState[0]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
@@ -255,18 +254,17 @@
 
     <Mappings>
         <!-- definitions to use symbolic names (must be kept in sync with script!) -->
-        <define name="$PLAY_MODE" value="0" />
-        <define name="$SETUP_MODE" value="1" />
-        <define name="$LOOP_EDIT_MODE" value="2" />
-        <define name="$EVENT_EDIT_MODE" value="3" />
-        <define name="$INSTRUMENT_EDIT_MODE" value="4" />
-        <define name="$BANK_MENU_MODE" value="5" />
-        <define name="$REPEAT_MENU_MODE" value="6" />
-        <define name="$PITCH_MENU_MODE" value="7" />
-        <define name="$RATE_TRIGGER_MODE" value="8" />
-        <define name="$STEP_EDIT_MODE" value="9" />
-        <define name="$HUI_MODE" value="10" />
-        <define name="$RESTORE_PLAY_MODE" value="11" />
+        <define name="$DRUM[PLAY_MODE]" value="0" />
+        <define name="$DRUM[RATE_TRIGGER_MODE]" value="1" />
+        <define name="$DRUM[REPEAT_MENU_MODE]" value="2" />
+
+        <define name="$SESSION[STEP_EDIT_MODE]" value="0" />
+        <define name="$SESSION[EVENT_EDIT_MODE]" value="1" />
+        <define name="$SESSION[SETUP_MODE]" value="2" />
+        <define name="$SESSION[BANK_MENU_MODE]" value="3" />
+        <define name="$SESSION[HUI_MODE]" value="4" />
+        <define name="$SESSION[LOOP_EDIT_MODE]" value="5" />
+        <define name="$SESSION[INSTRUMENT_EDIT_MODE]" value="6" />
 
         <define name="$DEVICE_PAD_MODE_SESSION" value="2" />
         <define name="$DEVICE_PAD_MODE_DRUM" value="1" />
@@ -360,8 +358,8 @@
 
                 <foreach variable="$channel" count="8">
                     <Strip>
-                        <ParamVariant using="@global" param="sessionMode">
-                            <Group value="$HUI_MODE">
+                        <ParamVariant using="@global" param="sessionMode" strict="true">
+                            <Group value="$SESSION[HUI_MODE]">
 
                                 <ParamVariant using="@global" param="devicePadMode">
                                     <Group value="$DEVICE_PAD_MODE_SESSION">
@@ -447,8 +445,8 @@
                     <ParamVariant using="@global" param="devicePadMode">
                         <Group value="$DEVICE_PAD_MODE_DRUM">
                             <Value control="knob[0]" param="rate" />
-                            <Value control="knob[1]" param="gate" />
-                            <Value control="knob[2]" param="quantize" />
+                            <Value control="knob[1]" param="quantize" />
+                            <Value control="knob[2]" param="gate" />
                             <Value control="knob[3]" param="pressureHandling" />
                         </Group>
                     </ParamVariant>
@@ -493,7 +491,7 @@
 
                     <ParamVariant param="sessionMode" strict="true">
 
-                        <Group value="$STEP_EDIT_MODE,$EVENT_EDIT_MODE,$INSTRUMENT_EDIT_MODE" default="true">
+                        <Group value="$SESSION[STEP_EDIT_MODE],$SESSION[EVENT_EDIT_MODE],$SESSION[INSTRUMENT_EDIT_MODE]" default="true">
                             <ParamVariant param="shiftModifier">
                                 <Group>
                                     <ParamVariant param="sceneHold">
@@ -507,11 +505,11 @@
                             </ParamVariant>
                         </Group>
 
-                        <Group value="$LOOP_EDIT_MODE">
+                        <Group value="$SESSION[LOOP_EDIT_MODE]">
                             <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
                         </Group>
 
-                        <Group value="$HUI_MODE">
+                        <Group value="$SESSION[HUI_MODE]">
                             <PlainValue control="ssmLED" param="huiColor" />
 
                             <ParamVariant param="sceneHold" options="nonlatching">
@@ -528,7 +526,7 @@
                             </ParamVariant>
                         </Group>
 
-                        <Group value="$SETUP_MODE">
+                        <Group value="$SESSION[SETUP_MODE]">
                             <PlainValue control="sessionLowerPadEffect[0]" param="EFFECT_PULSE" />
                             <PlainValue control="sessionLowerPadEffect[7]" param="EFFECT_BLINK" />
 
@@ -537,7 +535,7 @@
                             </using>
                         </Group>
 
-                        <Group value="$BANK_MENU_MODE">
+                        <Group value="$SESSION[BANK_MENU_MODE]">
                         </Group>
 
                     </ParamVariant>
@@ -545,10 +543,10 @@
 
                 <Group value="$DEVICE_PAD_MODE_DRUM">
 
+                    <Invoke control="scene" onReceive="onNoteRepeatButtonPressed" />
                     <ParamVariant param="shiftModifier">
                         <Group>
-                            <Toggle control="scene" param="fullVelocityMode" />
-                            <Invoke control="ssm" onReceive="onNoteRepeatButtonPressed" />
+                            <Toggle control="ssm" param="fullVelocityMode" />
                         </Group>
                         <Group />
                     </ParamVariant>
@@ -561,17 +559,17 @@
                     </ParamVariant>
 
                     <ParamVariant param="fullVelocityMode">
-                        <PlainValue control="sceneLED" param="MONO_OFF" />
+                        <PlainValue control="ssmLED" param="MONO_OFF" />
                         <Group>
-                            <PlainValue control="sceneLED" param="PURPLE" />
-                            <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
+                            <PlainValue control="ssmLED" param="PURPLE" />
+                            <PlainValue control="ssmEffect" param="EFFECT_PULSE" />
                         </Group>
                     </ParamVariant>
 
                     <ParamVariant using="device:///NoteRepeater" param="active">
                         <Group />
                         <Group>
-                            <PlainValue control="ssmLED" param="BLUE" />
+                            <PlainValue control="sceneLED" param="BLUE" />
                         </Group>
                     </ParamVariant>
 
@@ -632,7 +630,7 @@
         <!-- ******************************************************************************************** -->
         <DeviceMapping name="MetronomeElement" device="Metronome">
             <ParamVariant using="@global" param="sessionMode" strict="true">
-                <Group value="$SETUP_MODE">
+                <Group value="$SESSION[SETUP_MODE]">
                     <ParamVariant param="clickOn">
                         <using device="@global"> <PlainValue control="sessionLowerPadLED[4]" param="YELLOW_HALF" /> </using>
                         <using device="@global"> <PlainValue control="sessionLowerPadLED[4]" param="GREEN_HALF" /> </using>

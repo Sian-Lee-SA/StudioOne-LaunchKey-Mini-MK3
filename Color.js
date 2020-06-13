@@ -8,6 +8,39 @@
  * @License: GPL-3
  */
 
+Color.Bank =
+[
+    "#0020FF",
+    "lime",
+    "yellow",
+    "purple",
+    "orangered",
+    "cyan",
+    "crimson",
+    "#FF7210"
+];
+
+Color.SnapColors =
+[
+    "red",
+    "orangered",
+    "yellow",
+    "greenyellow",
+    "green",
+    "blue",
+    "aqua",
+    "magenta",
+    "darkviolet",
+    "gray"
+];
+
+Color.References = {
+    'command': '#00FFFF',
+    'default_bank': '#00FFFF',
+    'rate_trigger': 'orange',
+    'repeat_menu': 'blue'
+}
+
 Color.Mono = {
      OFF: 0x00,
      HALF: 0x3F,

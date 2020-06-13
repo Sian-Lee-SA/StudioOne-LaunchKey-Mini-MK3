@@ -7,97 +7,19 @@
  * @Last modified time: 2020-05-28T10:02:56+09:30
  * @License: GPL-3
  */
-// include SDK files from host
+
+const kPadCount = 16;
+const kBankCount = 8;
+
 include_file("resource://com.presonus.musicdevices/sdk/controlsurfacecomponent.js");
 include_file("resource://com.presonus.musicdevices/sdk/musicprotocol.js");
 include_file("Debug.js");
 include_file("Color.js");
 include_file("Modes.js");
 
-const kPadCount = 16;
-const kBankCount = 8;
-
-// labeled pad positions
-const PadIndex =
-{
-    SetupMode: {
-        Browser: 0,
-        Tempo: 8,
-        MetronomeClick: 12,
-        MetronomePreCount: 13
-    },
-    LoopEditMode: {
-        LoopBackwards: 6,
-        LoopForward: 7
-    },
-    EventEditMode: {
-        VelocityDec: 6,
-        VelocityInc: 7
-    },
-    Global: {
-        Duplicate: 10,
-        Delete: 15
-    }
-}
-
-// repeat rates (pad 0 - 7)
-let padRepeatRates =
-[
-    NoteRepeat.k4thPpq,
-    NoteRepeat.k8thPpq,
-    NoteRepeat.k16thPpq,
-    NoteRepeat.k32thPpq,
-    NoteRepeat.k4thTPpq,
-    NoteRepeat.k8thTPpq,
-    NoteRepeat.k16thTPpq,
-    NoteRepeat.k32thTPpq
-];
-
-// colors
-const kDefaultBankColor = "#00FFFF";
-const kPadCommandColor = "#00FFFF";
-const kRateTriggerColor = "orange";
-const kRepeatMenuColor = "blue";
-
-let bankColors =
-[
-    "#0020FF",
-    "lime",
-    "yellow",
-    "purple",
-    "orangered",
-    "cyan",
-    "crimson",
-    "#FF7210"
-];
-
-let padSnapColors =
-[
-    "red",
-    "orangered",
-    "yellow",
-    "greenyellow",
-    "green",
-    "blue",
-    "aqua",
-    "magenta",
-    "darkviolet",
-    "gray"
-];
-
 LaunchKeyMK3ExtendedComponent.prototype = new ControlSurfaceComponent ();
 function LaunchKeyMK3ExtendedComponent()
 {
-    this.getDevicePadMode = function () { return this.devicePadMode.value; }
-    this.setDevicePadMode = function (mode) { this.devicePadMode.setValue(mode, true); }
-
-    this.getSessionMode = function () { return this.sessionMode.value; }
-    this.setSessionMode = function (mode) {
-        this.sessionMode.setValue(mode, true);
-    }
-
-    this.setDrumMode = function (mode) { this.drumMode.setValue(mode, true); }
-
     this.onInit = function (hostComponent)
     {
         ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
@@ -117,50 +39,35 @@ function LaunchKeyMK3ExtendedComponent()
 
         // Params
         let paramList = 		    hostComponent.paramList;
+        this.modes = new Modes( paramList, kBankCount );
 
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.sceneHold = 	        paramList.addParam("sceneHold");
 
-        this.devicePadMode = 	    paramList.addInteger(0, 126, "devicePadMode");
-        this.devicePotMode = 	    paramList.addInteger(0, DevicePotModes.length - 1, "devicePotMode");
-
-        this.sessionMode = 			paramList.addInteger(0, kLastPadMode, "sessionMode");
         this.sessionModeColor =     paramList.addColor('sessionModeColor');
-        this.drumMode = 			paramList.addInteger(0, kLastPadMode, "drumMode");
-        this.huiMode =              paramList.addInteger(0, HuiModes.length - 1, "huiMode");
         this.huiColor =             paramList.addColor("huiColor");
         this.huiLowerColorOn =      paramList.addColor("huiLowerColorOn");
         this.huiLowerColorOff =     paramList.addColor("huiLowerColorOff");
 
-
-        this.padFocusMode = 	    paramList.addParam("padFocusMode");
-        this.padDisplayMode =       paramList.addInteger(0, 2, "padDisplayMode");
-
         this.fullVelocityMode =     paramList.addParam("fullVelocityMode");
         this.bankMenu =             paramList.addInteger(0, kBankCount-1, "bankMenu");
-        this.pitchMenu =            paramList.addInteger(0, kPadCount-1, "pitchMenu");
         this.repeatRateAlias =      paramList.addAlias("repeatRate");
         this.editorModeActive =     paramList.addParam("editorModeActive");
 
         this.bankMenuColor =        paramList.addColor("bankButtonColor");
         this.updateBankMenuColor();
 
-        // setup pad section
-        let c = this.padSessionSection.component;
-        c.setPadColoringSupported(true);
-
-        let i = 0;
-        for( let key in Color.PRESONUS_SNAP )
-        {
-            if( i++ % 2 ) continue;
-            c.addPadPaletteColor('#' + Color.convert(key).hex );
-        }
-
-        for(i in padSnapColors)
-            c.addPadPaletteColor (padSnapColors[i]);
-
-        let d = this.padDrumSection.component;
-        d.setPadColoringSupported(true);
+        this.modes.setupDrumModes( this.padDrumSection, [
+            NoteRepeat.k4thPpq,
+            NoteRepeat.k8thPpq,
+            NoteRepeat.k16thPpq,
+            NoteRepeat.k32thPpq,
+            NoteRepeat.k4thTPpq,
+            NoteRepeat.k8thTPpq,
+            NoteRepeat.k16thTPpq,
+            NoteRepeat.k32thTPpq
+        ] );
+        this.modes.setupSessionModes( this.padSessionSection, this.bankMenu );
 
         for( let key in Color.Values )
             paramList.addInteger(Color.Values[key], Color.Values[key], key);
@@ -177,135 +84,25 @@ function LaunchKeyMK3ExtendedComponent()
         paramList.addColor("padFocusOnColor").fromString("orange");
         paramList.addColor("padFocusOffColor").fromString("blue");
 
-        for(let mode = 0; mode <= kLastPadMode; mode++)
-        {
-            switch(mode)
-            {
-                case kPlayMode:
-                    {
-                        c.addHandlerForRole(PadSectionRole.kStepEdit);
-                        d.addHandlerForRole(PadSectionRole.kMusicInput);
-                        this.togglePadDisplayMode(true, 1);
-                        d.getHandler(mode).setPadColor(kDefaultBankColor);
-                        for(let i = 0; i < kBankCount; i++)
-                            d.getHandler(mode).setBankColor(i, bankColors[i]);
-                    }
-                    break;
-
-                case kSetupMode:
-                    {
-                        let commands = [];
-                        // make first 8 pads user-assignable
-                        for(let i = 0; i < 8; i++)
-                            PadSection.addCommand (commands, i, "", "", PadSection.kCommandItemUserAssignable);
-
-                        // fixed setup pads as labeled on device
-                        // PadSection.addCommand(commands, PadIndex.SetupMode.Browser, "Browser", "Show Instruments", 0, HostUtils.kBrowserZone, Colors.yellowSteps[1]);
-                        PadSection.addCommand(commands, PadIndex.SetupMode.Tempo, "Transport", "Tap Tempo", PadSection.kCommandItemDirect, null, '#0000FF');
-
-                        PadSection.addCommand(commands, PadIndex.Global.Duplicate, "Edit", "Duplicate", 0, null, '#E2D762');
-
-                        PadSection.addCommand(commands, PadIndex.SetupMode.MetronomeClick, "Transport", "Click");
-                        PadSection.addCommand(commands, PadIndex.SetupMode.MetronomePreCount, "Transport", "Precount");
-
-                        PadSection.addCommand(commands, PadIndex.Global.Delete, "Edit", "Delete", 0, null, '#FF0000');
-
-                        c.addCommandInputHandler(commands);
-                        c.getHandler(mode).setPadColor(kPadCommandColor);
-                    }
-                    break;
-
-                case kLoopEditMode:
-                    {
-                        let commands = [];
-                        PadSection.addCommand(commands, 0, "Zoom", "Zoom to Loop", 0, null, '#00FFFF');
-
-                        PadSection.addCommand(commands, 6, "Transport", "Shift Loop Backwards");
-                        PadSection.addCommand(commands, 7, "Transport", "Shift Loop");
-
-                        PadSection.addCommand(commands, 8, "Transport", "Set Loop Start", 0, null, '#00AA00');
-                        PadSection.addCommand(commands, 9, "Transport", "Rewind Bar", 'autorepeat', null, '#0000FF');
-                        PadSection.addCommand(commands, 14, "Transport", "Forward Bar", 'autorepeat', null, '#0000FF');
-                        PadSection.addCommand(commands, 15, "Transport", "Set Loop End", 0, null, '#FF0000');
-
-                        c.addCommandInputHandler(commands);
-                        c.getHandler(mode).setPadColor(kPadCommandColor);
-                    }
-                    break;
-
-                case kEventEditMode:
-                    {
-                        let commands = [];
-                        PadSection.addCommand (commands, PadIndex.Global.Duplicate, "Edit", "Duplicate", 0, null, '#E2D762');
-                        PadSection.addCommand (commands, PadIndex.Global.Delete, "Edit", "Delete", 0, null, '#FF0000');
-                        // NOTE: macro command names contain the base64-encoded macro filename (e.g. "Vel +10")
-                        PadSection.addCommand (commands, PadIndex.EventEditMode.VelocityDec, "Macros", "Macro VmVsIC0xMA==", 0, null, '#448800');
-                        PadSection.addCommand (commands, PadIndex.EventEditMode.VelocityInc, "Macros", "Macro VmVsICsxMA==", 0, null, '#00AA00');
-
-                        c.addCommandInputHandler (commands);
-                        c.getHandler(mode).setPadColor(kPadCommandColor);
-                    }
-                    break;
-
-                case kBankMenuMode:
-                    {
-                        let items = [];
-                        for(let i = 0; i < kBankCount; i++)
-                            items.push ({"padIndex": i, "value": i, "color": bankColors[i]});
-
-                        c.addMenuHandler (items, this.bankMenu);
-                        c.getHandler(mode).setPadColor(kDefaultBankColor);
-                    }
-                    break;
-
-                case kRepeatMenuMode:
-                        c.addMenuHandler (padRepeatRates, this.repeatRateAlias, PadSection.kMenuUseListAccess);
-                        c.getHandler (mode).setPadColor (kRepeatMenuColor);
-                    break;
-
-                case kPitchMenuMode:
-                    {
-                        let items = [];
-                        for(let i = 0; i < kPadCount; i++)
-                            items.push (i);
-                        c.addMenuHandler (items, this.pitchMenu, PadSection.kMenuUseMusicInput);
-                        c.getHandler (mode).setPadColor (kDefaultBankColor);
-                    }
-                    break;
-
-                case kRateTriggerMode:
-                    c.addHandlerForRole(PadSectionRole.kRateTrigger);
-                    c.getHandler (mode).setPadColor (kRateTriggerColor);
-                    for(i in padRepeatRates)
-                        c.setPadRate (i, padRepeatRates[i]);
-                    break;
-
-                case kStepEditMode:
-                    c.addHandlerForRole(PadSectionRole.kStepEdit);
-                    c.getHandler(mode).setPadColor(kPadCommandColor);
-                    break;
-
-                default :
-                    c.addNullHandler ();
-                    break;
-            }
-        }
-
-        this.devicePadMode.setValue(2, true); // Drum Mode
-        this.padFocusMode.setValue(1, true);
-
-        this.setSessionMode(kHUIMode);
-        this.updateSessionMode();
-
-        d.setActiveHandler(kPlayMode);
-
-
-        this.lastTrackEditorType = HostUtils.kEditorTypeNone;
-
         HostUtils.enableEngineEditNotifications(this, true);
 
-        Host.Signals.advise(c, this);
-        Host.Signals.advise(d, this);
+        Host.Signals.advise(this.padDrumSection.component, this);
+        Host.Signals.advise(this.padSessionSection.component, this);
+    }
+
+
+    this.onHuiMixerConnect = function()
+    {
+        this.modes.setDevicePadMode('drum');
+        this.modes.setDrumMode('play');
+        this.modes.setPadFocusWhenPressed(true);
+
+        this.modes.setSessionMode('hui');
+
+        this.modes.setHuiMode('monitor');
+
+        this.renderDrumMode();
+        this.renderSessionMode();
     }
 
     this.paramChanged = function(param)
@@ -314,118 +111,75 @@ function LaunchKeyMK3ExtendedComponent()
 
         switch( param )
         {
-            case this.devicePadMode:
-                let padMode = DevicePadModes[this.devicePadMode.value];
+            case this.modes.params.device_pad:
+                let padMode = this.modes.getCurrentDevicePadMode()[1];
                 if(padMode.name != 'session')
                     this.editorModeActive.value = false;
                 break;
 
             case this.sceneHold:
-                this.padDrumSection.component.setModifierActive(param.value);
-                this.padSessionSection.component.setModifierActive(param.value);
-                return;
+                return this.modes.setModifierActive(param.value);
 
-            case this.padFocusMode:
-                return this.padDrumSection.component
-                            .getHandler(kPlayMode)
-                            .setFocusPadWhenPressed(param.value);
+            case this.modes.params.focus:
+                return this.modes.setPadFocusWhenPressed(param.value);
 
-            case this.sessionMode:
-                return this.updateSessionMode();
+            case this.modes.params.drum:
+                return this.renderDrumMode();
 
-            case this.huiMode:
-                return this.updateHuiMode();
+            case this.modes.params.session:
+                return this.renderSessionMode();
+
+            case this.modes.params.hui:
+                return this.renderHuiMode();
 
             case this.fullVelocityMode:
-                return this.padDrumSection.component.setFullVelocityMode(param.value);
+                return this.modes.setFullVelocityMode(param.value);
 
             case this.bankMenu:
-                this.padDrumSection.component.setCurrentBank(param.value);
-                this.padSessionSection.component.setCurrentBank(param.value);
-                return;
+                return this.modes.setCurrentBank(param.value);
         }
-
     }
 
-    this.togglePadDisplayMode = function(state, _value)
-    {
-        // Checks if button is a positive value as releasing button sends 0x00
-        if( ! state )
-            return;
-
-        let modes = [
-            MusicPadDisplayMode.kNoColors,
-            MusicPadDisplayMode.kDimmedColors,
-            MusicPadDisplayMode.kBrightColors,
-        ];
-
-        let value = ( _value ) ? _value : this.padDisplayMode.value + 1;
-        if( value > 2 )
-            value = 0;
-
-        this.padDisplayMode.setValue( value, true );
-
-        this.padDrumSection.component
-                .getHandler(kPlayMode)
-                .setDisplayMode(modes[value]);
-    }
-
-    this.onEditorButtonPressed = function(state)
+    this.togglePadDisplayMode = function(state)
     {
         if( ! state )
             return;
-
-        mode = this.lastTrackEditorType == HostUtils.kEditorTypePattern ? kStepEditMode : kEventEditMode;
-        this.setSessionMode(mode);
-
-        Host.GUI.Commands.deferCommand("View", "Editor", false, Host.Attributes(["State", true]));
+        this.modes.toggleNextPadDisplayMode();
     }
+
 
     this.onScenePressed = function(state)
     {
         if( ! state )
             return;
 
-        let padMode = DevicePadModes[this.devicePadMode.value];
-        switch( padMode.name )
+        let mode = this.modes.getCurrentDevicePadMode()[1];
+        switch( mode.name )
         {
             case 'session':
-                let currentSessionMode = findSessionModeFromIndex( this.getSessionMode() );
-                if( ! currentSessionMode )
-                    return this.setSessionMode(kSetupMode);
-
-                let nextMode = loopIncrementedFromArray( SessionModes, SessionModes.indexOf(currentSessionMode), true );
-                while( nextMode.skipOnToggle )
-                {
-                    nextMode = loopIncrementedFromArray( SessionModes, SessionModes.indexOf(nextMode), true );
-                }
-
-                if( nextMode.name == 'edit' )
-                    return this.onEditorButtonPressed(true);
-
-                return this.setSessionMode(nextMode.index);
-
+                if( this.modes.getCurrentSessionMode()[1].name == 'loopedit' )
+                    return this.onToggleLoopEditMode( true );
+                return this.modes.toggleNextSessionMode();
             case 'drum':
                 return;
-
             case 'custom':
                 return;
         }
     }
 
-    this.onTrackEditorChanged = function (editor)
+    this.onTrackEditorChanged = function(editor)
     {
-        let mode = this.getSessionMode();
+        let mode = this.modes.getCurrentSessionMode()[1];
         let editorType = HostUtils.getEditorType(editor);
 
-        this.lastTrackEditorType = editorType; // remember last track editor type
+        this.modes.lastTrackEditorType = editorType; // remember last track editor type
 
-        if(mode == kStepEditMode || mode == kEventEditMode)
+        if(mode.name == 'stepedit' || mode.name == 'eventedit')
         {
             if(editorType == HostUtils.kEditorTypePattern)
-                this.setSessionMode(kStepEditMode);
+                this.modes.setSessionMode('stepedit');
             else if(editorType == HostUtils.kEditorTypeMusic)
-                this.setSessionMode(kEventEditMode);
+                this.modes.setSessionMode('eventedit');
         }
     }
 
@@ -441,8 +195,14 @@ function LaunchKeyMK3ExtendedComponent()
         if( ! state )
             return;
 
-        this.setDevicePadMode(2); // 2 Session Mode
-        this.setSessionMode(kLoopEditMode);
+        if( this.modes.getCurrentSessionMode()[1].name == 'loopedit' )
+        {
+            return this.modes.restoreState();
+        }
+
+        this.modes.storeState();
+        this.modes.setDevicePadMode('session');
+        this.modes.setSessionMode('loopedit');
     }
 
     this.onConnectNoteRepeat = function ()
@@ -459,11 +219,30 @@ function LaunchKeyMK3ExtendedComponent()
         if( ! state )
             return;
 
-        let repeatActive = this.noteRepeatElement.getParamValue(NoteRepeat.kActive);
+        let shiftPressed = this.shiftModifier.value;
+        let repeatActive = this.noteRepeatElement.getParamValue (NoteRepeat.kActive);
+        let spreadActive = this.noteRepeatElement.getParamValue (NoteRepeat.kSpread);
 
-        this.noteRepeatElement.setParamValue(NoteRepeat.kActive, !repeatActive);
-        this.noteRepeatElement.setParamValue(NoteRepeat.kSpread, !repeatActive);
-
+        if(shiftPressed)
+        {
+            if(spreadActive)
+                this.noteRepeatElement.setParamValue (NoteRepeat.kSpread, false);
+            else
+                this.noteRepeatElement.setParamValue (NoteRepeat.kActive, !repeatActive);
+        }
+        else
+        {
+            if(repeatActive)
+            {
+                this.noteRepeatElement.setParamValue (NoteRepeat.kActive, false);
+                this.noteRepeatElement.setParamValue (NoteRepeat.kSpread, false);
+            }
+            else
+            {
+                this.noteRepeatElement.setParamValue (NoteRepeat.kActive, true);
+                this.noteRepeatElement.setParamValue (NoteRepeat.kSpread, true);
+            }
+        }
     }
 
     this.onNoteRepeatSpreadPressed = function (state)
@@ -474,16 +253,20 @@ function LaunchKeyMK3ExtendedComponent()
         let spreadActive = this.noteRepeatElement.getParamValue(NoteRepeat.kSpread);
         // let repeatActive = this.noteRepeatElement.getParamValue(NoteRepeat.kActive);
 
-        this.noteRepeatElement.setParamValue (NoteRepeat.kSpread, !spreadActive);
+        this.noteRepeatElement.setParamValue(NoteRepeat.kSpread, !spreadActive);
     }
 
     this.onActivateNoteRepeat = function (value)
     {
-        if( ! value )
-            return;
+        if( value )
+        {
+            if(this.noteRepeatElement.getParamValue(NoteRepeat.kSpread))
+                return this.modes.setDrumMode('rate_trigger');
+        }
 
-        if(this.noteRepeatElement.getParamValue(NoteRepeat.kSpread))
-            this.setSessionMode(kRateTriggerMode);
+        if(this.modes.getCurrentDrumMode()[1].name == 'rate_trigger')
+            return this.modes.setDrumMode('play');
+
     }
 
     this.onSpreadModeChanged = function (value)
@@ -492,52 +275,42 @@ function LaunchKeyMK3ExtendedComponent()
             return;
 
         if( this.noteRepeatElement.getParamValue(NoteRepeat.kActive) )
-            this.setSessionMode(kRateTriggerMode);
+            this.modes.setDrumMode('rate_trigger');
     }
 
-    this.updateSessionMode = function ()
+    this.renderDrumMode = function()
     {
-        let mode = this.getSessionMode();
+        this.modes.activateDrumHandler();
+    }
 
-        let session = findSessionModeFromIndex(mode);
-        this.sessionModeColor.fromString(session.color);
+    this.renderSessionMode = function ()
+    {
+        let mode = this.modes.getCurrentSessionMode()[1];
 
-        // select pad section handler
-        let c = this.padSessionSection.component;
-        switch(mode)
+        this.sessionModeColor.fromString(mode.color);
+
+        switch(mode.name)
         {
-            case kBankMenuMode:
-                this.bankMenu.value = c.getCurrentBank (); // make sure value is up-to-date
+            case 'bank':
+                this.bankMenu.value = this.padSessionSection.component.getCurrentBank (); // make sure value is up-to-date
                 break;
-
-            case kPitchMenuMode:
-                {
-                    let pitch = this.noteRepeatElement.getParamValue (NoteRepeat.kSpreadNote);
-                    let keyboardMode = c.isKeyboardMode ();
-                    let padIndex = 0;
-                    if(keyboardMode)
-                        padIndex = pitch % 12;
-                    else
-                        padIndex = Music.symbolicPitchToPadIndex (pitch) % kPadCount;
-                    this.pitchMenu.value = padIndex;
-                }
-                break;
-            case kHUIMode:
+            case 'hui':
                 Host.GUI.Commands.deferCommand("View", "Console", false, Host.Attributes(["State", true]));
                 break;
         }
 
-        c.setActiveHandler(mode);
+        this.modes.activateSessionHandler();
 
-        if( mode == kHUIMode )
-            this.updateHuiMode();
+        // Hui Mode needs to be updated after the handler has changed as they would override
+        if( mode.name == 'hui' )
+            this.renderHuiMode();
 
-        this.editorModeActive.value = mode == kEventEditMode || mode == kStepEditMode;
+        this.editorModeActive.value = ( mode.name == 'eventedit' || mode.name == 'stepedit' );
     }
 
-    this.updateHuiMode = function()
+    this.renderHuiMode = function()
     {
-        let hui = HuiModes[this.huiMode.value];
+        let hui = this.modes.getCurrentHuiMode()[1];
 
         for( let i = 0; i < kPadCount; i++ )
             this.padSessionSection.component.setPadState(i, 1);
@@ -551,15 +324,7 @@ function LaunchKeyMK3ExtendedComponent()
     {
         if( ! value )
             return;
-
-        let mode = loopIncrementedFromArray(HuiModes, this.huiMode.value);
-        this.huiMode.setValue( mode, true );
-    }
-
-    this.onHuiMixerConnect = function()
-    {
-        this.huiMode.setValue( 0, true );
-        this.updateHuiMode();
+        this.modes.toggleNextHuiMode();
     }
 
     this.notify = function (subject, msg)
@@ -577,9 +342,9 @@ function LaunchKeyMK3ExtendedComponent()
         let c = this.padSessionSection.component;
         let d = this.padDrumSection.component;
         let bankIndex = c.getCurrentBank();
-        let bankColor = bankColors[bankIndex];
+        let bankColor = Color.Bank[bankIndex];
         let bankIndex = d.getCurrentBank();
-        let bankColor = bankColors[bankIndex];
+        let bankColor = Color.Bank[bankIndex];
         this.bankMenuColor.fromString (bankColor);
     }
 

@@ -31,17 +31,13 @@ function LaunchKeyMK3BasicComponent ()
         let paramList = 		    hostComponent.paramList;
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.sceneHold = 	        paramList.addParam("sceneHold");
-        this.devicePadMode = 	    paramList.addInteger(0, 126, "devicePadMode");
-        this.sessionMode = 			paramList.addInteger(0, kLastPadMode, "sessionMode");
-        this.drumMode = 			paramList.addInteger(0, kLastPadMode, "drumMode");
-        this.huiMode =              paramList.addInteger(0, HuiModes.length - 1, "huiMode");
 
+        this.modes = new Modes( paramList );
         Host.Signals.advise("LaunchkeyMK3", this);
     }
 
     this.paramChanged = function (param)
     {
-        log(param);
     }
 
     this.notify = function(subject, msg)
@@ -50,6 +46,8 @@ function LaunchKeyMK3BasicComponent ()
         {
             if( this[msg.getArg(0).name] )
                 this[msg.getArg(0).name].setValue(msg.getArg(0).value, true);
+            else if( this.modes.params[msg.getArg(0).name] )
+                this.modes.params[msg.getArg(0).name].setValue(msg.getArg(0).value, true);
         }
     }
 }
