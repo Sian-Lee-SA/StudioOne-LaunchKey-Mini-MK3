@@ -64,6 +64,7 @@ function Modes( paramList, bankCount )
 
     this.drumElement;
     this.sessionElement;
+    this.userDefinedElement;
 
     this.params = {
         device_pad: paramList.addInteger(0, 126, "devicePadMode"),
@@ -116,22 +117,24 @@ function Modes( paramList, bankCount )
         }
     }
 
-    this.setupSessionModes = function( _padElement, _bankMenuElement )
+    this.setupSessionModes = function( _padElement, _userDefined, _bankMenuElement )
     {
         this.sessionElement = _padElement;
+        this.userDefinedElement = _userDefined;
 
         let padComponent = _padElement.component;
         padComponent.setPadColoringSupported(true);
+        _userDefined.component.setPadColoringSupported(true);
 
-        // let i = 0;
-        // for( let key in Color.PRESONUS_SNAP )
-        // {
-        //     if( i++ % 2 ) continue;
-        //     padComponent.addPadPaletteColor('#' + Color.convert(key).hex );
-        // }
-        //
-        // for( let i in Color.SnapColors )
-        //     padComponent.addPadPaletteColor(Color.SnapColors[i]);
+        let i = 0;
+        for( let key in Color.PRESONUS_SNAP )
+        {
+            if( i++ % 2 ) continue;
+            _userDefined.component.addPadPaletteColor('#' + Color.convert(key).hex );
+        }
+
+        for( let i in Color.SnapColors )
+            _userDefined.component.addPadPaletteColor(Color.SnapColors[i]);
 
         for(let i = 0; i < Modes.SessionModes.length; i++)
         {
@@ -158,9 +161,14 @@ function Modes( paramList, bankCount )
                 case 'setup':
                     {
                         let commands = [];
+                        let userCommands = [];
+
                         // make first 8 pads user-assignable
                         for(let ii = 0; ii < 8; ii++)
-                            PadSection.addCommand(commands, ii, "", "", PadSection.kCommandItemUserAssignable);
+                            PadSection.addCommand(userCommands, ii, "", "", PadSection.kCommandItemUserAssignable);
+                        _userDefined.component.addCommandInputHandler(userCommands);
+                        // We activate userdefined commands her as the xml will only enable this component in setup mode
+                        _userDefined.component.setActiveHandler(0);
 
                         PadSection.addCommand(commands, 8, "Transport", "Tap Tempo", PadSection.kCommandItemDirect, null, '#0000FF');
 
@@ -296,7 +304,17 @@ function Modes( paramList, bankCount )
 
     this.activateSessionHandler = function()
     {
+        let mode = this.getCurrentSessionMode()[1];
         this.sessionElement.component.setActiveHandler(this.params.session.value);
+        if( mode.name == 'setup' )
+        {
+            log('Activating user defined');
+            this.userDefinedElement.component.suspendProcessing(false);
+        } else {
+            log('De-Activating user defined');
+            this.userDefinedElement.component.suspendProcessing(true);
+            // this.userDefinedElement.component.setActiveHandler(0);
+        }
     }
 
     this.toggleNextSessionMode = function()

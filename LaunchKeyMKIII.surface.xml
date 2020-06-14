@@ -303,6 +303,9 @@
         <!-- ******************************************************************************************** -->
         <!-- NOTE PAD SECTION -->
         <!-- ******************************************************************************************** -->
+
+
+
         <PadSection name="PadSessionSectionElement" rows="2" roles="stepedit">
             <foreach variable="$i" count="8">
                 <Pad name="sessionHigherPad[$i]" control="sessionHigherPad[$i]">
@@ -315,6 +318,21 @@
                     <Value control="sessionLowerPadState[$i]" param="state" />
                     <PlainValue control="sessionLowerPadLED[$i]" param="color" />
                 </Pad>
+            </foreach>
+        </PadSection>
+
+        <!-- ** Hackable Workaround... Add own user defined pad section to avoid using pad snap colors on other pad sections -->
+        <!-- Place below session so the values will override -->
+        <PadSection name="PadUserDefinedSectionElement" rows="1" roles="">
+            <foreach variable="$i" count="8">
+                <ParamVariant using="@global" param="sessionMode" strict="true">
+                    <Group value="$SESSION[SETUP_MODE]">
+                        <Pad name="sessionHigherPad[$i]" control="sessionHigherPad[$i]">
+                            <Value control="sessionHigherPadState[$i]" param="state" />
+                            <PlainValue control="sessionHigherPadLED[$i]" param="color" />
+                        </Pad>
+                    </Group>
+                </ParamVariant>
             </foreach>
         </PadSection>
 
@@ -436,6 +454,17 @@
         <!-- NOTE REPEAT MAPPING -->
         <!-- ******************************************************************************************** -->
         <DeviceMapping name="NoteRepeatElement" device="NoteRepeater" onConnect="onConnectNoteRepeat">
+
+            <ParamVariant device="@global" param="devicePadMode">
+                <Group value="$DEVICE_PAD_MODE_DRUM">
+                    <Invoke control="scene" onReceive="onNoteRepeatButtonPressed" />
+                    <ParamVariant param="active">
+                        <Group />
+                        <using device="@global"><PlainValue control="sceneLED" param="BLUE" /></using>
+                    </ParamVariant>
+                </Group>
+            </ParamVariant>
+
             <ParamInvoke param="active" onChanged="onActivateNoteRepeat" />
             <ParamInvoke param="spread" onChanged="onSpreadModeChanged" />
 
@@ -542,13 +571,15 @@
                 </Group>
 
                 <Group value="$DEVICE_PAD_MODE_DRUM">
+                    <!-- For other Drum Mode settings, see NoteRepeater element -->
+                    <!-- <Invoke control="scene" onReceive="onNoteRepeatButtonPressed" /> -->
 
-                    <Invoke control="scene" onReceive="onNoteRepeatButtonPressed" />
                     <ParamVariant param="shiftModifier">
                         <Group>
                             <Toggle control="ssm" param="fullVelocityMode" />
                         </Group>
-                        <Group />
+                        <Group>
+                        </Group>
                     </ParamVariant>
 
                     <Invoke control="f_chord" onReceive="togglePadDisplayMode" />
@@ -559,25 +590,24 @@
                     </ParamVariant>
 
                     <ParamVariant param="fullVelocityMode">
-                        <PlainValue control="ssmLED" param="MONO_OFF" />
+                        <Group />
                         <Group>
                             <PlainValue control="ssmLED" param="PURPLE" />
                             <PlainValue control="ssmEffect" param="EFFECT_PULSE" />
                         </Group>
                     </ParamVariant>
 
-                    <ParamVariant using="device:///NoteRepeater" param="active">
+                    <!-- <ParamVariant using="device:///NoteRepeater" param="active">
                         <Group />
                         <Group>
                             <PlainValue control="sceneLED" param="BLUE" />
                         </Group>
-                    </ParamVariant>
+                    </ParamVariant> -->
 
                 </Group>
 
-                <Group value="$DEVICE_PAD_MODE_CUSTOM">
-
-                </Group>
+                <!-- Currently not used -->
+                <Group value="$DEVICE_PAD_MODE_CUSTOM"></Group>
 
             </ParamVariant>
 

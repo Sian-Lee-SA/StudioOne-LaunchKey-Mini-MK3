@@ -33,6 +33,7 @@ function LaunchKeyMK3ExtendedComponent()
         // Elements
         this.padSessionSection =    root.find("PadSessionSectionElement");
         this.padDrumSection =       root.find("PadDrumSectionElement");
+        this.padUserDefinedSection =       root.find("PadUserDefinedSectionElement");
 
         this.focusChannelElement =  root.find("MixerElement").find("FocusBankElement").getElement (0);
         this.noteRepeatElement =    root.find("NoteRepeatElement");
@@ -67,7 +68,7 @@ function LaunchKeyMK3ExtendedComponent()
             NoteRepeat.k16thTPpq,
             NoteRepeat.k32thTPpq
         ] );
-        this.modes.setupSessionModes( this.padSessionSection, this.bankMenu );
+        this.modes.setupSessionModes( this.padSessionSection, this.padUserDefinedSection, this.bankMenu );
 
         for( let key in Color.Values )
             paramList.addInteger(Color.Values[key], Color.Values[key], key);
@@ -144,6 +145,7 @@ function LaunchKeyMK3ExtendedComponent()
     {
         if( ! state )
             return;
+
         this.modes.toggleNextPadDisplayMode();
     }
 
@@ -205,6 +207,13 @@ function LaunchKeyMK3ExtendedComponent()
         this.modes.setSessionMode('loopedit');
     }
 
+    this.onHuiModePressed = function(value)
+    {
+        if( ! value )
+            return;
+        this.modes.toggleNextHuiMode();
+    }
+
     this.onConnectNoteRepeat = function ()
     {
         this.noteRepeatElement.connectAliasParam(this.repeatRateAlias, NoteRepeat.kRate);
@@ -245,37 +254,30 @@ function LaunchKeyMK3ExtendedComponent()
         }
     }
 
-    this.onNoteRepeatSpreadPressed = function (state)
-    {
-        if( ! state )
-            return;
-
-        let spreadActive = this.noteRepeatElement.getParamValue(NoteRepeat.kSpread);
-        // let repeatActive = this.noteRepeatElement.getParamValue(NoteRepeat.kActive);
-
-        this.noteRepeatElement.setParamValue(NoteRepeat.kSpread, !spreadActive);
-    }
-
     this.onActivateNoteRepeat = function (value)
     {
         if( value )
         {
-            if(this.noteRepeatElement.getParamValue(NoteRepeat.kSpread))
-                return this.modes.setDrumMode('rate_trigger');
+            if( this.noteRepeatElement.getParamValue(NoteRepeat.kSpread) )
+                this.modes.setDrumMode('rate_trigger');
+            return;
         }
 
         if(this.modes.getCurrentDrumMode()[1].name == 'rate_trigger')
             return this.modes.setDrumMode('play');
-
     }
 
     this.onSpreadModeChanged = function (value)
     {
-        if( ! value )
+        if( value )
+        {
+            if( this.noteRepeatElement.getParamValue(NoteRepeat.kActive) )
+                this.modes.setDrumMode('rate_trigger');
             return;
+        }
 
-        if( this.noteRepeatElement.getParamValue(NoteRepeat.kActive) )
-            this.modes.setDrumMode('rate_trigger');
+        if(this.modes.getCurrentDrumMode()[1].name == 'rate_trigger')
+            return this.modes.setDrumMode('play');
     }
 
     this.renderDrumMode = function()
@@ -318,13 +320,6 @@ function LaunchKeyMK3ExtendedComponent()
         this.huiColor.fromString( hui.color );
         this.huiLowerColorOff.fromString( hui.toggleColor[0] );
         this.huiLowerColorOn.fromString( hui.toggleColor[1] );
-    }
-
-    this.onHuiModePressed = function(value)
-    {
-        if( ! value )
-            return;
-        this.modes.toggleNextHuiMode();
     }
 
     this.notify = function (subject, msg)
