@@ -37,7 +37,7 @@ Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of t
 
 # Extended Mode
 
-Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for the DAW. Using ARP mode will act as normal as this is internally controlled, holding arp and using the corresponding knobs will also act normally for the arp functions. This is also the same with Fixed Chord and Octave control.
+Selecting Midi Port 2 (Both In and Out) for LaunchKey Mini MK3 Extended will give advanced controls for the DAW. Using ARP mode will act as normal as this is internally controlled. Holding ARP and using the corresponding knobs will also act natively. Fixed Chord, Octave and Transpose controls are also natively controlled.
 
 ### Global Commands
 
@@ -52,7 +52,7 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | Button                                                  | Action                            |
 |:-------------------------------------------------------:| --------------------------------- |
 | ![play-button](./resources/play-button.png)             | Toggles Loop *(the button will light 50% if loop is enabled)* |
-| ![record-button](./resources/record-button.png)         | Toggles Track Arm & Monitor for selected track *(the button will light 50% if armed track is enabled)* |
+| ![record-button](./resources/record-button.png)         | Toggles Track Arm & Monitor for selected track *(the button will light 50% if the selected track is armed)* |
 | ![arp-button](./resources/arp-button.png)               | If loop is enabled then return time cursor to loop start otherwise set cursor to zero |
 
 ![scene-hold-button](./resources/scene-hold-button.png)
@@ -81,8 +81,8 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 
 | Button                                                  | Action                                     |
 |:-------------------------------------------------------:| ------------------------------------------ |
-| ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode)* |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle NoteRepeat Single Mode                                                           |
+| ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode; Off, Dimmed and Bright)* |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat Single Mode             |
 
 ## Custom Mode
 Use Novation's component software to assign your own custom midi controls to this mode
@@ -98,13 +98,13 @@ Session mode consists of 4 different scenes. Each scene consists of different co
 
 ![Edit Scene](https://via.placeholder.com/24/AAAA00/000000?text=+)
 #### Edit Scene
-This scene will display a mode relevant to the capabilities of the selected track or clip.
+This scene will display a mode relevant to the capabilities of the selected track or clip. When this scene is active then the editor view will automatically display and focus.
 
 1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that step.
 
-1. Standard edit mode will give generic commands on pads 7, 8, 11 and 16
+1. Keyboard mode changes the pad's to emulate a keyboard.
 
-> This scene automatically displays and focus the edit view
+1. Standard edit mode will give generic commands on pads 7, 8, 11 and 16
 
 | Pad   | Color                                                     | Command               |
 | ----- |:---------------------------------------------------------:| --------------------- |
