@@ -100,7 +100,7 @@ Session mode consists of 4 different scenes. Each scene consists of different co
 #### Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip. When this scene is active then the editor view will automatically display and focus.
 
-1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that step.
+1. Step edit mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that step. This mode will automatically show when the selected event or track is a pattern event
 
 1. Keyboard mode changes the pad's to emulate a keyboard.
 
@@ -135,7 +135,7 @@ In step edit mode, holding down the scene button will add accents to the pad ste
 ![Loop Editor Scene](https://via.placeholder.com/24/00FFFF/000000?text=+)
 #### Loop Editor
 
-Loop editor is activated by holding scene + play
+Loop editor is activated by holding scene + play. The change scene button will skip this scene to simplify navigating modes and to provide an efficient flow. This scene can be activated from any device mode or session scene.
 
 | Pad   | Color                                                     | Command                       |
 | ----- |:---------------------------------------------------------:| ----------------------------- |
@@ -155,7 +155,7 @@ Loop editor is activated by holding scene + play
 ![Setup Scene](https://via.placeholder.com/24/0000FF/000000?text=+)
 #### Setup Scene
 
-Setup scene gives generic setup commands. User assignable commands can be assigned to the top row pads. Open the device assignment view and right click the pads to assign a command. You can then click the pad and assign a color to that pad.
+Setup scene gives generic setup commands. User assignable commands can be assigned to the top row pads. Open the device assignment view and right click the pads to assign a command. You can then click the pad and assign it a color.
 
 | Pad                                          | On Color                                                  | Off Color                                                 | Command     |
 |:--------------------------------------------:|:---------------------------------------------------------:|:---------------------------------------------------------:| ----------- |
@@ -185,9 +185,9 @@ Bank scene allows selection of a specific bank for selected devices. Banks are c
 ![HUI Scene](https://via.placeholder.com/24/38FFCC/000000?text=+)
 #### HUI Scene
 
-HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo or Mute. A lighter color on the lower pad means the toggle is off for that track while a darker color is toggled on. The pads and knobs are organised in columns and each column is assigned to a track bank.
+HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo or Mute. A lighter color on the lower pad means the toggle is off for that track while a darker color is toggled on. The pads and knobs are organised in columns and each column is assigned to a track bank. This scene will automatically display the console view when active.
 
-> This scene automatically displays the console view
+> Currently this layout uses the remote bank. An unedited remote back automatically reflects the standard bank layout.
 
 ![stop-solo-mute-button](./resources/ssm-button.png)
 
@@ -204,7 +204,7 @@ HUI scene is like a mixer console. Triggering SSM will change the lower toggle r
 |:-------------------------------------------------------:| ------------------------------------------- |
 | ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggles the Console view on or off          |
 
-The upper row allows for track selection which also is colored based on the track color. If the track for that pad is selected then the pad will pulse.
+The upper row allows for track selection which also is colored based on the track color. If the track for that bank is selected then the pad will pulse.
 
 ###### Pot / Knob Controls
 
