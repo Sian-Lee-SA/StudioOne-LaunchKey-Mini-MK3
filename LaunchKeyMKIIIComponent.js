@@ -232,7 +232,7 @@ function LaunchKeyMK3ExtendedComponent()
         let repeatActive = this.noteRepeatElement.getParamValue (NoteRepeat.kActive);
         let spreadActive = this.noteRepeatElement.getParamValue (NoteRepeat.kSpread);
 
-        if(shiftPressed)
+        if(!shiftPressed)
         {
             if(spreadActive)
                 this.noteRepeatElement.setParamValue (NoteRepeat.kSpread, false);

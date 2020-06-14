@@ -1,8 +1,8 @@
 # About
 
-This repo is a modified device control for LaunchKey Mini Mk3 to be used with PreSonus Studio One. This is heavily borrowed from the PreSonus ATOM controller and resembles many of the actions and controls that ATOM offers.
+This repo is a modified device control for LaunchKey Mini Mk3 to be used with PreSonus Studio One. This is heavily borrowed from the PreSonus ATOM controller and resembles many of the actions and controls that ATOM offers. The development of this code is not affiliated with PreSonus or Novation and had be crafted during my own spare time. A lot of the process was through trial and error while referencing other devices code and guessing/assuming what does what. There is no official documentation from PreSonus for an api; or at least publicly available. There is also little to no community support or effort with this kind of development so a lot of functions from this code relies heavily on hackable workarounds yet I had tried to keep it as simple and clean as possible.
 
-#### Legend
+### Legend
 
 | Symbol                                        | Meaning                              |
 | --------------------------------------------- | ------------------------------------ |
@@ -39,7 +39,7 @@ Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of t
 
 Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for the DAW. Using ARP mode will act as normal as this is internally controlled, holding arp and using the corresponding knobs will also act normally for the arp functions. This is also the same with Fixed Chord and Octave control.
 
-###### Global Commands
+### Global Commands
 
 | Button                                          | Action                            |
 |:-----------------------------------------------:| --------------------------------- |
@@ -63,7 +63,11 @@ Selecting Midi Port 2 for LaunchKey MK3 Extended will give advanced controls for
 | ![record-button](./resources/record-button.png)         | Undo                                                     |
 
 # Extended Device Modes
-Selecting device modes is the same as the standard for the device. Holding down shift will light up the pads to a mode selection. Selecting a different mode allows for different controls.
+Holding down shift will light up the pads to a mode selection *(this is a native LaunchKey control)*. Selecting a different mode allows for different controls. The three pad modes are Session, Drum and Custom. Custom mode is set using the Novation component software.
+
+The Session mode has separate scenes that's mostly relative to a session sense. Session Mode Scenes consists of Edit, Setup, Bank Menu and HUI.
+
+The Drum mode is more geared towards playing an instrument. The pads will light up differently depending on the instrument and event type etc. Activating the Note Repeat single mode will light the left half of the pad representing a Repeat Rate. The first 4 knobs in Note Repeat mode will change Rate, Quantize, Gate and Aftertouch.
 
 ## Drum Mode
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
@@ -71,19 +75,20 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 | Button                                                  | Action                                     |
 |:-------------------------------------------------------:| ------------------------------------------ |
 | ![scene-button](./resources/scene-button_sm.png)        | Toggle Full Velocity *(the button will pulse purple if activated)*  |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle NoteRepeat *(the button will light blue when activated)*     |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat *(the button will light blue when activated)*    |
 
 ![shift-button](./resources/shift-button.png)
 
 | Button                                                  | Action                                     |
 |:-------------------------------------------------------:| ------------------------------------------ |
 | ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode)* |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle NoteRepeat Single Mode                                                           |
 
 ## Custom Mode
 Use Novation's component software to assign your own custom midi controls to this mode
 
 ## Session Mode
-Session mode consists of 5 different scenes. Each scene consists of different controls thats relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected.
+Session mode consists of 4 different scenes. Each scene consists of different controls that's relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected.
 
 > To change scenes, simply press the scene button.
 
@@ -95,7 +100,7 @@ Session mode consists of 5 different scenes. Each scene consists of different co
 #### Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip.
 
-1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that pad.
+1. Pattern sequence mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that step.
 
 1. Standard edit mode will give generic commands on pads 7, 8, 11 and 16
 
@@ -144,7 +149,6 @@ Loop editor is activated by holding scene + play
 | 16    | ![+](https://via.placeholder.com/24/FF0000/000000?text=+) | Set Loop End                  |
 
 > Due to the lack of documentations for any api for studio one, I'm unable to find a good way to get host variables like the Toggle Follows Selection etc. If I can find a solution then I'll be able to change the pad lighting depending on the value
-
 
 ---
 

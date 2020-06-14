@@ -455,7 +455,7 @@
         <!-- ******************************************************************************************** -->
         <DeviceMapping name="NoteRepeatElement" device="NoteRepeater" onConnect="onConnectNoteRepeat">
 
-            <ParamVariant device="@global" param="devicePadMode">
+            <ParamVariant using="@global" param="devicePadMode" strict="true">
                 <Group value="$DEVICE_PAD_MODE_DRUM">
                     <Invoke control="scene" onReceive="onNoteRepeatButtonPressed" />
                     <ParamVariant param="active">
@@ -471,7 +471,7 @@
             <ParamVariant param="active">
                 <Group />
                 <Group>
-                    <ParamVariant using="@global" param="devicePadMode">
+                    <ParamVariant using="@global" param="devicePadMode" strict="true">
                         <Group value="$DEVICE_PAD_MODE_DRUM">
                             <Value control="knob[0]" param="rate" />
                             <Value control="knob[1]" param="quantize" />
