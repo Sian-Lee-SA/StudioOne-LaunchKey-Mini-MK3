@@ -33,30 +33,30 @@ function LaunchKeyMK3ExtendedComponent()
         // Elements
         this.padSessionSection =    root.find("PadSessionSectionElement");
         this.padDrumSection =       root.find("PadDrumSectionElement");
-        this.padUserDefinedSection =       root.find("PadUserDefinedSectionElement");
+        this.padUserDefinedSection = root.find("PadUserDefinedSectionElement");
 
         this.focusChannelElement =  root.find("MixerElement").find("FocusBankElement").getElement (0);
         this.noteRepeatElement =    root.find("NoteRepeatElement");
+        this.transportPanelElement = root.find("TransportPanelElement");
+        this.metronomeElement =     root.find("MetronomeElement");
 
         // Params
         let paramList = 		    hostComponent.paramList;
-        this.modes = new Modes( paramList, kBankCount );
+        this.modes = new Modes( hostComponent, kBankCount );
 
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.sceneHold = 	        paramList.addParam("sceneHold");
 
-        this.sessionModeColor =     paramList.addColor('sessionModeColor');
-        this.huiColor =             paramList.addColor("huiColor");
-        this.huiLowerColorOn =      paramList.addColor("huiLowerColorOn");
-        this.huiLowerColorOff =     paramList.addColor("huiLowerColorOff");
-
         this.fullVelocityMode =     paramList.addParam("fullVelocityMode");
         this.bankMenu =             paramList.addInteger(0, kBankCount-1, "bankMenu");
         this.repeatRateAlias =      paramList.addAlias("repeatRate");
+        this.repeatQuantizeAlias =  paramList.addAlias("repeatQuantize");
         this.editorModeActive =     paramList.addParam("editorModeActive");
 
         this.bankMenuColor =        paramList.addColor("bankButtonColor");
         this.updateBankMenuColor();
+
+        log( this.model.root.find("MixerElement/RemoteBankElement"), true );
 
         this.modes.setupDrumModes( this.padDrumSection, [
             NoteRepeat.k4thPpq,
@@ -67,7 +67,7 @@ function LaunchKeyMK3ExtendedComponent()
             NoteRepeat.k8thTPpq,
             NoteRepeat.k16thTPpq,
             NoteRepeat.k32thTPpq
-        ] );
+        ], this.repeatRateAlias );
         this.modes.setupSessionModes( this.padSessionSection, this.padUserDefinedSection, this.bankMenu );
 
         for( let key in Color.Values )
@@ -81,20 +81,17 @@ function LaunchKeyMK3ExtendedComponent()
         paramList.addInteger(1, 1, "EFFECT_BLINK");
         paramList.addInteger(2, 2, "EFFECT_PULSE");
 
-        paramList.addColor("loopColor").fromString('aqua');
-        paramList.addColor("padFocusOnColor").fromString("orange");
-        paramList.addColor("padFocusOffColor").fromString("blue");
-
         HostUtils.enableEngineEditNotifications(this, true);
 
         Host.Signals.advise(this.padDrumSection.component, this);
         Host.Signals.advise(this.padSessionSection.component, this);
     }
 
-
+    // Using this as the Initiation
     this.onHuiMixerConnect = function()
     {
         this.modes.setDevicePadMode('drum');
+        this.modes.setDevicePotMode('device');
         this.modes.setDrumMode('play');
         this.modes.setPadFocusWhenPressed(true);
 
@@ -113,10 +110,12 @@ function LaunchKeyMK3ExtendedComponent()
         switch( param )
         {
             case this.modes.params.device_pad:
-                let padMode = this.modes.getCurrentDevicePadMode()[1];
-                if(padMode.name != 'session')
-                    this.editorModeActive.value = false;
+                this.renderDrumMode();
+                this.renderSessionMode();
                 break;
+
+            case this.modes.params.device_pot:
+                return this.updateChannels();
 
             case this.sceneHold:
                 return this.modes.setModifierActive(param.value);
@@ -145,21 +144,19 @@ function LaunchKeyMK3ExtendedComponent()
     {
         if( ! state )
             return;
-
         this.modes.toggleNextPadDisplayMode();
     }
 
-
     this.onScenePressed = function(state)
     {
-        if( ! state )
+        if( ! state || this.shiftModifier.value )
             return;
 
-        let mode = this.modes.getCurrentDevicePadMode()[1];
-        switch( mode.name )
+        let mode = this.modes.getCurrentDevicePadMode();
+        switch( mode.id )
         {
             case 'session':
-                if( this.modes.getCurrentSessionMode()[1].name == 'loopedit' )
+                if( this.modes.getCurrentSessionMode().id == 'loopedit' )
                     return this.onToggleLoopEditMode( true );
                 return this.modes.toggleNextSessionMode();
             case 'drum':
@@ -171,12 +168,12 @@ function LaunchKeyMK3ExtendedComponent()
 
     this.onTrackEditorChanged = function(editor)
     {
-        let mode = this.modes.getCurrentSessionMode()[1];
+        let mode = this.modes.getCurrentSessionMode();
         let editorType = HostUtils.getEditorType(editor);
 
         this.modes.lastTrackEditorType = editorType; // remember last track editor type
 
-        if(mode.name == 'stepedit' || mode.name == 'eventedit')
+        if(mode.id == 'stepedit' || mode.id == 'eventedit')
         {
             if(editorType == HostUtils.kEditorTypePattern)
                 this.modes.setSessionMode('stepedit');
@@ -197,7 +194,7 @@ function LaunchKeyMK3ExtendedComponent()
         if( ! state )
             return;
 
-        if( this.modes.getCurrentSessionMode()[1].name == 'loopedit' )
+        if( this.modes.getCurrentSessionMode().id == 'loopedit' )
         {
             return this.modes.restoreState();
         }
@@ -207,16 +204,18 @@ function LaunchKeyMK3ExtendedComponent()
         this.modes.setSessionMode('loopedit');
     }
 
-    this.onHuiModePressed = function(value)
+    this.onHuiModePressed = function(state)
     {
-        if( ! value )
+        if( ! state )
             return;
         this.modes.toggleNextHuiMode();
+        this.updateChannels();
     }
 
-    this.onConnectNoteRepeat = function ()
+    this.onConnectNoteRepeat = function()
     {
         this.noteRepeatElement.connectAliasParam(this.repeatRateAlias, NoteRepeat.kRate);
+        this.noteRepeatElement.connectAliasParam(this.repeatQuantizeAlias, 'quantize');
 
         // init pad mode based on note repeat settings
         let repeatActive = this.noteRepeatElement.getParamValue(NoteRepeat.kActive);
@@ -225,7 +224,7 @@ function LaunchKeyMK3ExtendedComponent()
 
     this.onNoteRepeatButtonPressed = function (state)
     {
-        if( ! state )
+        if( ! state || this.modes.getCurrentDevicePadMode().id != 'drum' )
             return;
 
         let shiftPressed = this.shiftModifier.value;
@@ -260,11 +259,11 @@ function LaunchKeyMK3ExtendedComponent()
         {
             if( this.noteRepeatElement.getParamValue(NoteRepeat.kSpread) )
                 this.modes.setDrumMode('rate_trigger');
-            return;
-        }
 
-        if(this.modes.getCurrentDrumMode()[1].name == 'rate_trigger')
-            return this.modes.setDrumMode('play');
+        } else if(this.modes.getCurrentDrumMode().id == 'rate_trigger') {
+            this.modes.setDrumMode('play');
+        }
+        this.renderDrumMode();
     }
 
     this.onSpreadModeChanged = function (value)
@@ -276,22 +275,52 @@ function LaunchKeyMK3ExtendedComponent()
             return;
         }
 
-        if(this.modes.getCurrentDrumMode()[1].name == 'rate_trigger')
+        if(this.modes.getCurrentDrumMode().id == 'rate_trigger')
             return this.modes.setDrumMode('play');
+    }
+
+    this.onNoteRepeatSceneHold = function( value )
+    {
+        if( this.modes.getCurrentDevicePadMode().id != 'drum' || ! this.noteRepeatElement.getParamValue('active') )
+            return;
+
+        if( value )
+        {
+            return this.modes.setDrumMode('repeat_menu');
+        }
+        return this.modes.setDrumMode('play');
     }
 
     this.renderDrumMode = function()
     {
         this.modes.activateDrumHandler();
+        this.modes.getCurrentDrumMode().render(this, this.model.root);
+
+        if( this.modes.isDrumMode() )
+        {
+            this.modes.getCurrentDrumMode().activeRender(this, this.model.root);
+            if( this.noteRepeatElement.getParamValue(NoteRepeat.kActive) )
+            {
+                this.modes.params.scene_button.color.fromString('#0000FF');
+            }
+
+            this.modes.params.ssm_button.effect.setValue(Effect.PULSE);
+            if( this.fullVelocityMode.value )
+            {
+                this.modes.params.ssm_button.color.fromString('purple');
+            } else {
+                this.modes.params.ssm_button.color.setValue(0);
+            }
+        }
+
+        this.updateChannels();
     }
 
     this.renderSessionMode = function ()
     {
-        let mode = this.modes.getCurrentSessionMode()[1];
+        let mode = this.modes.getCurrentSessionMode();
 
-        this.sessionModeColor.fromString(mode.color);
-
-        switch(mode.name)
+        switch(mode.id)
         {
             case 'bank':
                 this.bankMenu.value = this.padSessionSection.component.getCurrentBank (); // make sure value is up-to-date
@@ -303,23 +332,133 @@ function LaunchKeyMK3ExtendedComponent()
 
         this.modes.activateSessionHandler();
 
-        // Hui Mode needs to be updated after the handler has changed as they would override
-        if( mode.name == 'hui' )
-            this.renderHuiMode();
+        this.editorModeActive.value = ( this.modes.getCurrentDevicePadMode().id == 'session' && ( mode.id == 'eventedit' || mode.id == 'stepedit' ) );
+        this.modes.getCurrentSessionMode().render(this, this.model.root);
 
-        this.editorModeActive.value = ( mode.name == 'eventedit' || mode.name == 'stepedit' );
+        if( this.modes.isSessionMode() )
+        {
+            this.modes.getCurrentSessionMode().activeRender(this, this.model.root);
+            // Render here as above method resets sub buttons
+            if( mode.id == 'hui' )
+                this.renderHuiMode();
+        }
+
+        this.updateChannels();
     }
 
     this.renderHuiMode = function()
     {
-        let hui = this.modes.getCurrentHuiMode()[1];
+        let hui = this.modes.getCurrentHuiMode();
 
         for( let i = 0; i < kPadCount; i++ )
             this.padSessionSection.component.setPadState(i, 1);
+        this.modes.params.ssm_button.color.fromString( hui.color );
+    }
 
-        this.huiColor.fromString( hui.color );
-        this.huiLowerColorOff.fromString( hui.toggleColor[0] );
-        this.huiLowerColorOn.fromString( hui.toggleColor[1] );
+    this.onHuiScrollOptions = function(state)
+    {
+        let mode = this.modes.getCurrentSessionMode();
+        if( state )
+        {
+            for( let i = 0; i < this.modes.channels.length; i++ )
+            {
+                this.modes.channels[i].setToggleGeneric();
+                this.modes.channels[i].padToggleColor.setValue(0);
+                this.modes.channels[i].padToggleEffect.setValue( Effect.NONE );
+            }
+
+            this.modes.channels[0].padToggleColor.fromString('#00FF00');
+            this.modes.channels[1].padToggleColor.fromString('#002200');
+            this.modes.channels[6].padToggleColor.fromString('#002200');
+            this.modes.channels[7].padToggleColor.fromString('#00FF00');
+        } else {
+            this.updateChannels();
+        }
+    }
+
+    this.updateChannels = function()
+    {
+        // Reset all pots to genereic
+        for( let i = 0; i < kBankCount; i++ )
+        {
+            this.modes.channels[i].setPadGeneric();
+            this.modes.channels[i].setPotGeneric();
+        }
+
+        if( this.modes.isDrumMode() )
+        {
+            if( this.noteRepeatElement.getParamValue(NoteRepeat.kActive) )
+            {
+                this.modes.channels[0].connectPot( this.noteRepeatElement, 'rate' );
+                this.modes.channels[2].connectPot( this.noteRepeatElement, 'gate' );
+            }
+        }
+
+        if( this.modes.isSessionMode() )
+        {
+            switch( this.modes.getCurrentSessionMode().id )
+            {
+                case 'setup':
+                    this.modes.channels[0].connectPot( this.transportPanelElement, 'tempo' );
+                    break;
+
+                case 'hui':
+                    for(let i = 0; i < this.modes.channels.length; i++)
+                        this.updateChannel(i);
+                    break;
+
+            }
+        }
+    }
+
+    this.updateChannel = function( i )
+    {
+        if( this.modes.getCurrentSessionMode().id != 'hui' )
+            return;
+
+        let channel = this.modes.channels[i];
+        let potMode = this.modes.getCurrentDevicePotMode();
+        let huiMode = this.modes.getCurrentHuiMode();
+
+        channel.connectSelect( 'selected' );
+        channel.connectSelectColor( 'color' );
+        channel.updateSelectEffect();
+
+        switch( potMode.id )
+        {
+            case 'volume':
+                channel.connectPot( 'volume' );
+                break;
+            case 'pan':
+                channel.connectPot( 'pan' );
+                break;
+            case 'sendA':
+                channel.connectPot( channel.sendsBankElement.getElement(0), "sendlevel");
+                break;
+            case 'sendB':
+                channel.connectPot( channel.sendsBankElement.getElement(1), "sendlevel");
+                break;
+        }
+
+        if( this.sceneHold.value )
+            return;
+
+        switch( huiMode.id )
+        {
+            case 'monitor':
+                channel.connectToggle( 'monitor' );
+                break;
+            case 'arm':
+                channel.connectToggle( 'recordArmed' );
+                break;
+            case 'solo':
+                channel.connectToggle( 'solo' );
+                break;
+            case 'mute':
+                channel.connectToggle( 'mute' );
+                break;
+        }
+        channel.updateToggle( huiMode.toggleColor[0], huiMode.toggleColor[1], huiMode.effect );
     }
 
     this.notify = function (subject, msg)

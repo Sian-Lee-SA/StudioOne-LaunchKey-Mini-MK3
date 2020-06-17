@@ -324,6 +324,13 @@ Color.PRESONUS_SNAP = {
 	15460857: 68
 };
 
+Color.Toggle = function( value, color_off, color_on )
+{
+    if( value )
+        return color_on;
+    return color_off;
+}
+
 Color.convert = function( value )
 {
     let r = value & 0xFF;
@@ -356,6 +363,12 @@ Color.intToRGB = function(int)
         (int & 65280) >> 8,
         int & 255
     ];
+}
+
+Color.hexToInt = function(rrggbb) {
+    rrggbb = rrggbb.replace('#', '');
+    var bbggrr = rrggbb.substr(4, 2) + rrggbb.substr(2, 2) + rrggbb.substr(0, 2);
+    return parseInt(bbggrr, 16);
 }
 
 function Color( _v ) {

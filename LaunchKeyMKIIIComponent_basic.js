@@ -32,7 +32,7 @@ function LaunchKeyMK3BasicComponent ()
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.sceneHold = 	        paramList.addParam("sceneHold");
 
-        this.modes = new Modes( paramList );
+        this.modes = new Modes( hostComponent );
         Host.Signals.advise("LaunchkeyMK3", this);
     }
 
