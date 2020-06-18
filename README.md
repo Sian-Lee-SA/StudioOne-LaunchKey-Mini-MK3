@@ -224,7 +224,7 @@ Holding down the scene button will change the lower pads to scroll bank mode wit
 | ![+](https://via.placeholder.com/24/008800/000000?text=+) | Step Scroll |
 | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | Page Scroll |
 
-The lower center blue toggles are bank switches and will switch banks as follows
+The lower center pads will have blue toggles which are bank switches and will switch banks as follows
 
 | Pad  | Bank          |
 |:----:| ------------- |
