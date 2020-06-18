@@ -68,15 +68,15 @@ Holding down shift will light up the pads to a mode selection *(this is a native
 
 The Session mode has separate scenes that's mostly relative to a session sense. Session Mode Scenes consists of Edit, Setup, Bank Menu and HUI.
 
-The Drum mode is more geared towards playing an instrument. The pads will light up differently depending on the instrument and event type etc. Activating the Note Repeat single mode will light the left half of the pad representing a Repeat Rate.
+The Drum mode is more geared towards playing an instrument. The pads will light up differently depending on the instrument and event type etc.
 
 ## Drum Mode
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
 
-| Button                                                  | Action                                     |
-|:-------------------------------------------------------:| ------------------------------------------ |
-| ![scene-button](./resources/scene-button_sm.png)        | Toggle Full Velocity *(the button will pulse purple if activated)*  |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat *(the button will light blue when activated)*    |
+| Button                                                  | Action                                                               |
+|:-------------------------------------------------------:| -------------------------------------------------------------------- |
+| ![scene-button](./resources/scene-button_sm.png)        | Toggle Note Repeat *(the button will light blue when activated)*     |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Full Velocity *(the button will pulse purple if activated)*   |
 
 ![shift-button](./resources/shift-button.png)
 
@@ -85,7 +85,7 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 | ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode; Off, Dimmed and Bright)* |
 | ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat Single Mode             |
 
-#### Note Repeat (Active)
+#### Note Repeat (Active) *scene button will light blue to notify if active*
 
 | Knob	| Note Repeat Action        |
 |:-----:| ------------------------- |
@@ -138,7 +138,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 
 In step edit mode, holding down the scene button will add accents to the pad steps
 
->  _Tip_: If using basic device then change the channel to 16 (shift + transpose) which will allow you to change the selected sequence by using the touch modulation (as long as the editor window is focused).
+>  _Tip_: If using basic device then change the channel to 16 (shift + transpose + pad 16) which will allow you to change the selected sequence by using the touch modulation (as long as the editor window is focused).
 
 ---
 
