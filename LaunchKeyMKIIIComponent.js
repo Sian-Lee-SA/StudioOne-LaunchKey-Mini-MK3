@@ -20,6 +20,8 @@ include_file("Modes.js");
 LaunchKeyMK3ExtendedComponent.prototype = new ControlSurfaceComponent ();
 function LaunchKeyMK3ExtendedComponent()
 {
+    this.interfaces = [Host.Interfaces.IParamObserver];
+
     this.onInit = function (hostComponent)
     {
         ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
@@ -36,7 +38,8 @@ function LaunchKeyMK3ExtendedComponent()
         this.padUserDefinedSection = root.find("PadUserDefinedSectionElement");
 
         this.windowManagerElement = root.find("WindowManagerElement");
-        this.focusChannelElement =  root.find("MixerElement").find("FocusBankElement").getElement (0);
+        this.focusChannelElement =  root.find("MixerElement/FocusBankElement").getElement(0);
+        this.channelBankElement =  root.find("MixerElement/RemoteBankElement");
         this.noteRepeatElement =    root.find("NoteRepeatElement");
         this.transportPanelElement = root.find("TransportPanelElement");
         this.metronomeElement =     root.find("MetronomeElement");
@@ -59,6 +62,14 @@ function LaunchKeyMK3ExtendedComponent()
 
         this.bankMenuColor =        paramList.addColor("bankButtonColor");
         this.updateBankMenuColor();
+
+        // add parameter for bank selection
+        this.bankList = paramList.addList("bankList");
+        this.bankList.appendString(Banks.kAll);
+        this.bankList.appendString(Banks.kAudioTrack);
+        this.bankList.appendString(Banks.kAudioBus);
+        this.bankList.appendString(Banks.kUser);
+        this.bankList.value = 0;
 
         this.modes.setupDrumModes( this.padDrumSection, [
             NoteRepeat.k4thPpq,
@@ -139,6 +150,12 @@ function LaunchKeyMK3ExtendedComponent()
 
             case this.bankMenu:
                 return this.modes.setCurrentBank(param.value);
+
+            case this.bankList:
+                log(this.bankList.value);
+                this.channelBankElement.selectBank(this.bankList.string);
+                this.onHuiScrollOptions( this.sceneHold.value );
+
         }
     }
 
@@ -416,6 +433,9 @@ function LaunchKeyMK3ExtendedComponent()
             this.modes.channels[1].padToggleColor.fromString('#002200');
             this.modes.channels[6].padToggleColor.fromString('#002200');
             this.modes.channels[7].padToggleColor.fromString('#00FF00');
+
+            for( let i = 2; i < 6; i++ )
+                this.modes.channels[i].padToggleColor.fromString(( this.bankList.value == i - 2 ) ? '#00FFFF' : '#003333');
         } else {
             this.updateChannels();
         }

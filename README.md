@@ -213,7 +213,7 @@ The upper row allows for track selection which also is colored based on the trac
 
 Changing the device pot mode to either volume, pan or sends will set the knobs to that mode for the track column bank. Sends has a sub toggle that allows controlling the level of send 1 or 2 for the bank track.
 
-###### Track Bank Scrolling
+###### Track Bank Scrolling and Bank Slection
 
 Holding down the scene button will change the lower pads to scroll bank mode with the far right being scroll right and far left being scroll left.
 
@@ -223,3 +223,12 @@ Holding down the scene button will change the lower pads to scroll bank mode wit
 |:---------------------------------------------------------:| ----------- |
 | ![+](https://via.placeholder.com/24/008800/000000?text=+) | Step Scroll |
 | ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | Page Scroll |
+
+The lower center blue toggles are bank switches and will switch banks as follows
+
+| Pad  | Bank          |
+|:----:| ------------- |
+| 3    | All           |
+| 4    | Audio Only    |
+| 5    | Bus Only      |
+| 6    | User / Remote |

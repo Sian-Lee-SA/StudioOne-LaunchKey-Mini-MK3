@@ -385,6 +385,11 @@
                         <ScrollButton control="sessionLowerPad[1]" direction="stepleft" />
                         <ScrollButton control="sessionLowerPad[6]" direction="stepright" />
                         <ScrollButton control="sessionLowerPad[7]" direction="pageright" />
+
+                        <using device="@global"><Radio control="sessionLowerPad[2]" param="bankList" value="0" /></using>
+                        <using device="@global"><Radio control="sessionLowerPad[3]" param="bankList" value="1" /></using>
+                        <using device="@global"><Radio control="sessionLowerPad[4]" param="bankList" value="2" /></using>
+                        <using device="@global"><Radio control="sessionLowerPad[5]" param="bankList" value="3" /></using>
                     </Group>
                 </Variant>
             </ScrollBank>
