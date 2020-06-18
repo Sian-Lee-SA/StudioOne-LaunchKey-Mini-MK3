@@ -20,8 +20,6 @@ include_file("Modes.js");
 LaunchKeyMK3ExtendedComponent.prototype = new ControlSurfaceComponent ();
 function LaunchKeyMK3ExtendedComponent()
 {
-    this.interfaces = [Host.Interfaces.IParamObserver];
-
     this.onInit = function (hostComponent)
     {
         ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
@@ -69,7 +67,6 @@ function LaunchKeyMK3ExtendedComponent()
         this.bankList.appendString(Banks.kAudioTrack);
         this.bankList.appendString(Banks.kAudioBus);
         this.bankList.appendString(Banks.kUser);
-        this.bankList.value = 0;
 
         this.modes.setupDrumModes( this.padDrumSection, [
             NoteRepeat.k4thPpq,
@@ -95,10 +92,9 @@ function LaunchKeyMK3ExtendedComponent()
         paramList.addInteger(2, 2, "EFFECT_PULSE");
 
         HostUtils.enableEngineEditNotifications(this, true);
-
         Host.Signals.advise(this.padDrumSection.component, this);
         Host.Signals.advise(this.padSessionSection.component, this);
-    }
+    };
 
     // Using this as the Initiation
     this.onHuiMixerConnect = function()
@@ -114,7 +110,7 @@ function LaunchKeyMK3ExtendedComponent()
 
         this.renderDrumMode();
         this.renderSessionMode();
-    }
+    };
 
     this.paramChanged = function(param)
     {
@@ -152,19 +148,19 @@ function LaunchKeyMK3ExtendedComponent()
                 return this.modes.setCurrentBank(param.value);
 
             case this.bankList:
-                log(this.bankList.value);
                 this.channelBankElement.selectBank(this.bankList.string);
                 this.onHuiScrollOptions( this.sceneHold.value );
+                return;
 
         }
-    }
+    };
 
     this.togglePadDisplayMode = function(state)
     {
         if( ! state )
             return;
         this.modes.toggleNextPadDisplayMode();
-    }
+    };
 
     this.onScenePressed = function(state)
     {
@@ -183,7 +179,7 @@ function LaunchKeyMK3ExtendedComponent()
             case 'custom':
                 return;
         }
-    }
+    };
 
     /**
      * Known params Editor|Console|Browser|TransportPanel
@@ -204,7 +200,7 @@ function LaunchKeyMK3ExtendedComponent()
         }
 
         return this.windowManagerElement.setParamValue('Editor', 1);
-    }
+    };
 
     this.onTrackEditorChanged = function(editor)
     {
@@ -394,7 +390,9 @@ function LaunchKeyMK3ExtendedComponent()
 
         this.modes.activateSessionHandler();
 
-        this.editorModeActive.value = ( this.modes.getCurrentDevicePadMode().id == 'session' && ( mode.id == 'eventedit' || mode.id == 'stepedit' ) );
+        if( this.modes.getCurrentDevicePadMode().id == 'session' )
+            this.editorModeActive.value = mode.id == 'eventedit' || mode.id == 'stepedit' ;
+
         this.modes.getCurrentSessionMode().render(this, this.model.root);
 
         if( this.modes.isSessionMode() )
@@ -474,9 +472,9 @@ function LaunchKeyMK3ExtendedComponent()
 
             }
         }
-    }
+    };
 
-    this.updateChannel = function( i )
+    this.updateChannel = function(i)
     {
         if( this.modes.getCurrentSessionMode().id != 'hui' )
             return;
@@ -525,17 +523,17 @@ function LaunchKeyMK3ExtendedComponent()
                 break;
         }
         channel.updateToggle( huiMode.toggleColor[0], huiMode.toggleColor[1], huiMode.effect );
-    }
+    };
 
-    this.notify = function (subject, msg)
+    this.notify = function(subject, msg)
     {
-        log(subject + ': ' + msg.id);
+        // log(subject + ': ' + msg.id);
         if(msg.id == HostUtils.kTrackEditorChanged)
             this.onTrackEditorChanged( msg.getArg (0) );
 
         else if(msg.id == PadSection.kCurrentBankChanged)
             this.updateBankMenuColor();
-    }
+    };
 
     this.updateBankMenuColor = function()
     {
@@ -546,7 +544,7 @@ function LaunchKeyMK3ExtendedComponent()
         let bankIndex = d.getCurrentBank();
         let bankColor = Color.Bank[bankIndex];
         this.bankMenuColor.fromString (bankColor);
-    }
+    };
 
     this.onExit = function ()
     {
@@ -558,7 +556,7 @@ function LaunchKeyMK3ExtendedComponent()
         HostUtils.enableEngineEditNotifications (this, false);
 
         ControlSurfaceComponent.prototype.onExit.call (this);
-    }
+    };
 }
 
 // factory entry called by host
