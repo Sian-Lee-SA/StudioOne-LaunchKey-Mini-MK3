@@ -209,11 +209,11 @@ HUI scene is like a mixer console. Triggering SSM will change the lower toggle r
 
 The upper row allows for track selection which also is colored based on the track color. If the track for that bank is selected then the pad will pulse.
 
-###### Pot / Knob Controls
+##### Pot / Knob Controls
 
 Changing the device pot mode to either volume, pan or sends will set the knobs to that mode for the track column bank. Sends has a sub toggle that allows controlling the level of send 1 or 2 for the bank track.
 
-###### Track Bank Scrolling and Bank Slection
+##### Track Bank Scrolling and Bank Selection
 
 Holding down the scene button will change the lower pads to scroll bank mode with the far right being scroll right and far left being scroll left.
 
