@@ -76,14 +76,13 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 | Button                                                  | Action                                                               |
 |:-------------------------------------------------------:| -------------------------------------------------------------------- |
 | ![scene-button](./resources/scene-button_sm.png)        | Toggle Note Repeat *(the button will light blue when activated)*     |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Full Velocity *(the button will pulse purple if activated)*   |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Full Velocity on the pads *(the button will pulse purple if activated)*   |
 
 ![shift-button](./resources/shift-button.png)
 
 | Button                                                  | Action                                     |
 |:-------------------------------------------------------:| ------------------------------------------ |
 | ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode; Off, Dimmed and Bright)* |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat Single Mode             |
 
 #### Note Repeat (Active) *scene button will light blue to notify if active*
 

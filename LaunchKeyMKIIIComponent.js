@@ -48,6 +48,9 @@ function LaunchKeyMK3ExtendedComponent()
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.sceneHold = 	        paramList.addParam("sceneHold");
 
+        this.playLED = 	            paramList.addInteger(0, 0x7F, "playLED");
+        this.recordLED = 	        paramList.addInteger(0, 0x7F, "recordLED");
+
         this.fullVelocityMode =     paramList.addParam("fullVelocityMode");
         this.bankMenu =             paramList.addInteger(0, kBankCount-1, "bankMenu");
         this.repeatRateAlias =      paramList.addAlias("repeatRate");
@@ -309,6 +312,28 @@ function LaunchKeyMK3ExtendedComponent()
             return this.modes.setDrumMode('repeat_menu');
         }
         return this.modes.setDrumMode('play');
+    }
+
+
+    this.renderGlobals = function()
+    {
+        let play = 0;
+        let record = 0;
+
+        if( this.transportPanelElement.getParamValue('loop') )
+            play = 0x05;
+
+        if( this.transportPanelElement.getParamValue('start') )
+            play = 0x7F;
+
+        if( this.focusChannelElement.getParamValue('recordArmed') )
+            record = 0x05;
+
+        if( this.transportPanelElement.getParamValue('record') )
+            record = 0x7F;
+
+        this.playLED.setValue(play, true);
+        this.recordLED.setValue(record, true);
     }
 
     this.renderDrumMode = function()

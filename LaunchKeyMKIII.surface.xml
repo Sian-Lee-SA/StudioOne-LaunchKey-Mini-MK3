@@ -270,17 +270,6 @@
         <define name="$DEVICE_PAD_MODE_DRUM" value="1" />
         <define name="$DEVICE_PAD_MODE_CUSTOM" value="0" />
 
-        <define name="$DEVICE_POT_MODE_DEVICE" value="2" />
-        <define name="$DEVICE_POT_MODE_VOLUME" value="1" />
-        <define name="$DEVICE_POT_MODE_PAN" value="3" />
-        <define name="$DEVICE_POT_MODE_SEND" value="4" />
-        <define name="$DEVICE_POT_MODE_CUSTOM" value="0" />
-
-        <define name="$HUI_MONITOR_MODE" value="0" />
-        <define name="$HUI_ARM_MODE" value="1" />
-        <define name="$HUI_SOLO_MODE" value="2" />
-        <define name="$HUI_MUTE_MODE" value="3" />
-
         <!-- ******************************************************************************************** -->
         <!-- GENERIC MAPPING (used for "on the fly" control assignment) -->
         <!-- ******************************************************************************************** -->
@@ -367,13 +356,8 @@
         <DeviceMapping device="MixerConsole" name="MixerElement" onConnect="onHuiMixerConnect">
 
             <ScrollBank target="FollowBank" name="FocusBankElement">
-                <Strip>
-                    <ParamVariant param="recordArmed">
-                        <Group />
-                        <using device="@global">
-                            <PlainValue control="recordLED" param="MONO_HALF"/>
-                        </using>
-                    </ParamVariant>
+                <Strip onConnect="renderGlobals">
+                    <ParamInvoke param="recordArmed" onChanged="renderGlobals" />
                 </Strip> <!-- element representing the focus channel for use in script -->
             </ScrollBank>
 
@@ -388,14 +372,14 @@
                         <ParamInvoke param="mute" onChanged="updateChannel($channel)" />
 
                         <Bank target="Sends" name="SendsBankElement">
-                            <Strip />
-                            <Strip />
+                            <Strip name="SendA" />
+                            <Strip name="SendB" />
                         </Bank>
                     </Strip>
                 </foreach>
 
                 <Variant control="sceneHold" options="nonlatching">
-                    <Group />
+                    <Null />
                     <Group>
                         <ScrollButton control="sessionLowerPad[0]" direction="pageleft" />
                         <ScrollButton control="sessionLowerPad[1]" direction="stepleft" />
@@ -434,13 +418,16 @@
             <PlainValue control="ssmLED" param="ssmColor" />
             <PlainValue control="ssmEffect" param="ssmEffect" />
 
+            <PlainValue control="playLED" param="playLED" />
+            <PlainValue control="recordLED" param="recordLED" />
+
             <Value control="devicePadMode" param="devicePadMode" />
             <Value control="devicePotMode" param="devicePotMode" />
 
             <Invoke control="scene" onReceive="onScenePressed" />
 
             <Variant control="sceneHold">
-                <Group />
+                <Null />
                 <Group>
                     <PlainValue control="sceneLED" param="GREEN" />
                     <PlainValue control="sceneEffect" param="EFFECT_PULSE" />
@@ -495,9 +482,7 @@
 
 
             <foreach variable="$ch" count="8">
-                
                 <Value control="knob[$ch]" param="potValue$ch" />
-
                 <ParamVariant param="sessionMode" strict="true">
                     <Group value="$SESSION[HUI_MODE]">
                         <Toggle control="sessionHigherPad[$ch]" param="padSelectValue$ch" />
@@ -508,7 +493,6 @@
                         <PlainValue control="sessionLowerPadEffect[$ch]" param="padToggleEffectValue$ch" />
                     </Group>
                 </ParamVariant>
-
             </foreach>
 
         </Global>
@@ -516,21 +500,13 @@
         <!-- ******************************************************************************************** -->
         <!-- NOTE TRANSPORT PANEL -->
         <!-- ******************************************************************************************** -->
-        <DeviceMapping device="TransportPanel" name="TransportPanelElement">
+        <DeviceMapping device="TransportPanel" name="TransportPanelElement" onConnect="renderGlobals">
+
             <Segmented control="timeCode" param="primaryTime"/>
 
-            <ParamVariant param="start">
-                <ParamVariant param="loop">
-                    <Group />
-                    <using device="@global"><PlainValue control="playLED" param="MONO_HALF" /></using>
-                </ParamVariant>
-                <using device="@global"><PlainValue control="playLED" param="MONO_FULL" /></using>
-            </ParamVariant>
-
-            <ParamVariant param="record">
-                <Group />
-                <using device="@global"><PlainValue control="recordLED" param="MONO_FULL" /></using>
-            </ParamVariant>
+            <ParamInvoke param="start" onChanged="renderGlobals" />
+            <ParamInvoke param="record" onChanged="renderGlobals" />
+            <ParamInvoke param="loop" onChanged="renderGlobals" />
 
             <ParamVariant param="loop">
                 <Command control="arp" command.category="Transport" command.name="Return to Zero" />
@@ -538,7 +514,7 @@
             </ParamVariant>
 
             <ParamVariant using="@global" param="shiftModifier">
-                <ParamVariant using="@global" param="sceneHold">
+                <Variant control="sceneHold">
                     <Group><!-- SCENE MODIFER OFF -->
                         <Command control="play" command.category="Transport" command.name="Toggle Start" />
                         <Command control="record" command.category="Transport" command.name="Record" />
@@ -547,7 +523,7 @@
                         <Invoke control="play" onReceive="onToggleLoopEditMode" />
                         <Command control="record" command.category="Edit" command.name="Undo" />
                     </Group>
-                </ParamVariant>
+                </Variant>
                 <Group>
                     <Toggle control="play" param="loop" />
                     <Command control="record" command.category="Track" command.name="Arm" />
