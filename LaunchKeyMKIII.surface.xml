@@ -351,6 +351,15 @@
             </foreach>
         </PadSection>
 
+        <!-- ******************************************************************************************** -->
+        <!-- NOTE WINDOW MANAGER -->
+        <!-- ******************************************************************************************** -->
+        <DeviceMapping device="WindowManager" name="WindowManagerElement">
+            <Variant control="sceneHold">
+                <Null />
+                <Invoke control="ssm" onReceive="onToggleWindow" />
+            </Variant>
+        </DeviceMapping>
 
         <!-- ******************************************************************************************** -->
         <!-- NOTE MIXER CONSOLE -->
@@ -450,15 +459,8 @@
 
                         <Group value="$SESSION[STEP_EDIT_MODE],$SESSION[EVENT_EDIT_MODE],$SESSION[INSTRUMENT_EDIT_MODE]" default="true">
                             <ParamVariant param="shiftModifier">
-                                <Group>
-                                    <Variant control="sceneHold">
-                                        <Group />
-                                        <Command control="ssm" command.category="View" command.name="Editor" />
-                                    </Variant>
-                                </Group>
-                                <Group>
-                                    <Invoke control="ssm" onReceive="openEditorAndFocus" />
-                                </Group>
+                                <Null />
+                                <Invoke control="ssm" onReceive="openEditorAndFocus" />
                             </ParamVariant>
                         </Group>
 
@@ -467,7 +469,7 @@
 
                             <Variant control="sceneHold">
                                 <Invoke control="ssm" onReceive="onHuiModePressed" />
-                                <Command control="ssm" command.category="View" command.name="Console" />
+                                <Null />
                             </Variant>
                         </Group>
 
@@ -476,10 +478,10 @@
 
                 <Group value="$DEVICE_PAD_MODE_DRUM">
                     <ParamInvoke param="fullVelocityMode" onChanged="renderDrumMode" />
-                    <ParamVariant param="shiftModifier">
+                    <Variant control="sceneHold">
                         <Toggle control="ssm" param="fullVelocityMode" />
-                        <Group />
-                    </ParamVariant>
+                        <Null />
+                    </Variant>
 
                     <Invoke control="f_chord" onReceive="togglePadDisplayMode" />
                     <ParamVariant param="padDisplayMode">
@@ -493,6 +495,7 @@
 
 
             <foreach variable="$ch" count="8">
+                
                 <Value control="knob[$ch]" param="potValue$ch" />
 
                 <ParamVariant param="sessionMode" strict="true">
@@ -505,6 +508,7 @@
                         <PlainValue control="sessionLowerPadEffect[$ch]" param="padToggleEffectValue$ch" />
                     </Group>
                 </ParamVariant>
+
             </foreach>
 
         </Global>

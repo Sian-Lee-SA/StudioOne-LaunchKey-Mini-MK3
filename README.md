@@ -61,13 +61,14 @@ Selecting Midi Port 2 (Both In and Out) for LaunchKey Mini MK3 Extended will giv
 |:-------------------------------------------------------:| -------------------------------------------------------- |
 | ![play-button](./resources/play-button.png)             | Activates Loop Edit Mode see [Loop Editor](#Loop-Editor) |
 | ![record-button](./resources/record-button.png)         | Undo                                                     |
+| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggles window from Editor to Console to Transport Panel |
 
 # Extended Device Modes
 Holding down shift will light up the pads to a mode selection *(this is a native LaunchKey control)*. Selecting a different mode allows for different controls. The three pad modes are Session, Drum and Custom. Custom mode is set using the Novation component software.
 
 The Session mode has separate scenes that's mostly relative to a session sense. Session Mode Scenes consists of Edit, Setup, Bank Menu and HUI.
 
-The Drum mode is more geared towards playing an instrument. The pads will light up differently depending on the instrument and event type etc. Activating the Note Repeat single mode will light the left half of the pad representing a Repeat Rate. The first 4 knobs in Note Repeat mode will change Rate, Quantize, Gate and Aftertouch.
+The Drum mode is more geared towards playing an instrument. The pads will light up differently depending on the instrument and event type etc. Activating the Note Repeat single mode will light the left half of the pad representing a Repeat Rate.
 
 ## Drum Mode
 Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will represent the pad colors to those on Impact XT.
@@ -83,6 +84,21 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 |:-------------------------------------------------------:| ------------------------------------------ |
 | ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode; Off, Dimmed and Bright)* |
 | ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat Single Mode             |
+
+#### Note Repeat
+
+| Knob	| Note Repeat Action        |
+|:-----:| ------------------------- |
+| 1		| Rate                      |
+| 3		| Gate                      |
+
+With Note Repeat active and holding down the scene button shows the following toggles
+
+| Pad  	| On Color                                                  | Off Color                                                 | Action        |
+|:-----:|:---------------------------------------------------------:|:---------------------------------------------------------:| ------------- |
+| 7		| ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | ![+](https://via.placeholder.com/24/888800/222200?text=+) | Quantize      |
+| 8		| ![+](https://via.placeholder.com/24/00FF00/000000?text=+) | ![+](https://via.placeholder.com/24/888800/222200?text=+) | Aftertouch    |
+
 
 ## Custom Mode
 Use Novation's component software to assign your own custom midi controls to this mode
@@ -119,12 +135,6 @@ This scene will display a mode relevant to the capabilities of the selected trac
 | Button                                                  | Action                                      |
 |:-------------------------------------------------------:| ------------------------------------------- |
 | ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Show Instrument For Selected track   |
-
-![scene-hold-button](./resources/scene-hold-button.png)
-
-| Button                                                  | Action                                      |
-|:-------------------------------------------------------:| ------------------------------------------- |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggles the Edit view on or off             |
 
 In step edit mode, holding down the scene button will add accents to the pad steps
 
@@ -198,17 +208,11 @@ HUI scene is like a mixer console. Triggering SSM will change the lower toggle r
 | ![+](https://via.placeholder.com/24/FFE126/000000?text=+) | Solo        |
 | ![+](https://via.placeholder.com/24/874CFF/000000?text=+) | Mute        |
 
-![scene-hold-button](./resources/scene-hold-button.png)
-
-| Button                                                  | Action                                      |
-|:-------------------------------------------------------:| ------------------------------------------- |
-| ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggles the Console view on or off          |
-
 The upper row allows for track selection which also is colored based on the track color. If the track for that bank is selected then the pad will pulse.
 
 ###### Pot / Knob Controls
 
-Changing the device pot mode to either volume or pan will set the knobs to that mode for the track column bank.
+Changing the device pot mode to either volume, pan or sends will set the knobs to that mode for the track column bank. Sends has a sub toggle that allows controlling the level of send 1 or 2 for the bank track.
 
 ###### Track Bank Scrolling
 

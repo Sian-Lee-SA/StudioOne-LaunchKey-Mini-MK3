@@ -35,6 +35,7 @@ function LaunchKeyMK3ExtendedComponent()
         this.padDrumSection =       root.find("PadDrumSectionElement");
         this.padUserDefinedSection = root.find("PadUserDefinedSectionElement");
 
+        this.windowManagerElement = root.find("WindowManagerElement");
         this.focusChannelElement =  root.find("MixerElement").find("FocusBankElement").getElement (0);
         this.noteRepeatElement =    root.find("NoteRepeatElement");
         this.transportPanelElement = root.find("TransportPanelElement");
@@ -55,8 +56,6 @@ function LaunchKeyMK3ExtendedComponent()
 
         this.bankMenuColor =        paramList.addColor("bankButtonColor");
         this.updateBankMenuColor();
-
-        log( this.model.root.find("MixerElement/RemoteBankElement"), true );
 
         this.modes.setupDrumModes( this.padDrumSection, [
             NoteRepeat.k4thPpq,
@@ -164,6 +163,27 @@ function LaunchKeyMK3ExtendedComponent()
             case 'custom':
                 return;
         }
+    }
+
+    /**
+     * Known params Editor|Console|Browser|TransportPanel
+     * @param  {bool}   state     Whether button is down or up
+     */
+    this.onToggleWindow = function(state)
+    {
+        if( ! state )
+            return;
+
+        if( this.windowManagerElement.getParamValue('Editor') )
+        {
+            return this.windowManagerElement.setParamValue('Console', 1);
+        }
+        if( this.windowManagerElement.getParamValue('Console') )
+        {
+            return this.windowManagerElement.setParamValue('Console', 0);
+        }
+
+        return this.windowManagerElement.setParamValue('Editor', 1);
     }
 
     this.onTrackEditorChanged = function(editor)
@@ -440,6 +460,7 @@ function LaunchKeyMK3ExtendedComponent()
                 break;
         }
 
+        // If scene hold is true then bankScrolling is active
         if( this.sceneHold.value )
             return;
 
