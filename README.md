@@ -85,7 +85,7 @@ Drum mode acts as a standard drum pad. Like the ATOM controller, drum mode will 
 | ![fixedchord-button](./resources/fixedchord-button.png) | Changes the pad lighting mode *(the button will light up reflecting the lighting mode; Off, Dimmed and Bright)* |
 | ![stop-solo-mute-button](./resources/ssm-button_sm.png) | Toggle Note Repeat Single Mode             |
 
-#### Note Repeat
+#### Note Repeat (Active)
 
 | Knob	| Note Repeat Action        |
 |:-----:| ------------------------- |
@@ -106,7 +106,7 @@ Use Novation's component software to assign your own custom midi controls to thi
 ## Session Mode
 Session mode consists of 4 different scenes. Each scene consists of different controls that's relevant for the scene. Each scene mode lights up a color on the scene button that corresponds to the scene selected.
 
-> To change scenes, simply press the scene button.
+> To change scenes, simply press the scene button except for Loop Edit which is activated by pressing scene + play buttons together.
 
 ![scene-button](./resources/scene-button.png)
 
@@ -138,7 +138,7 @@ This scene will display a mode relevant to the capabilities of the selected trac
 
 In step edit mode, holding down the scene button will add accents to the pad steps
 
->  _Tip_: If using basic device then change the channel to 16 (shift + transpose) which will allow you to change the selected sequence by using the touch modulation.
+>  _Tip_: If using basic device then change the channel to 16 (shift + transpose) which will allow you to change the selected sequence by using the touch modulation (as long as the editor window is focused).
 
 ---
 
