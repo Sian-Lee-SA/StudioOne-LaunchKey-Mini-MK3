@@ -9,6 +9,16 @@ This repo is a modified device control for LaunchKey Mini Mk3 to be used with Pr
 | ![shift-button](./resources/shift-button.png) | Any table following this will execute such commands / actions while the shift button is being held down  |
 | ![shift-button](./resources/scene-hold-button.png) | Any table following this will execute such commands / actions while the scene button is being held down. The scene button will pulse green to indicate that the scene modifier is active  |
 
+# Installation
+
+Clone this repo and place files into [studio one path]/devices/Novation/Launchkey MK3. Next open StudioOne and open options then ensure external devices is selected.
+
+Click add and add the following
+
+![installation-basic](./resources/installation-basic.png)
+
+![installation-extended](./resources/installation-extended.png)
+
 # Basic mode
 
 Selecting the standard Midi Port for LaunchKey MK3 Basic allows for the use of the touch controls as separate functions depending on channel selected. You will have to use different channels to those defined below if you wish to use the pitch or modulation with your instruments.
