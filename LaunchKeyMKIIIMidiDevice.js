@@ -186,9 +186,6 @@ function LaunchKeyMK3ExtendedMidiDevice()
     this.onInit = function (hostDevice)
     {
         ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
-
-        this.debugLog = true;
-        new Debug(this);
     }
 
     this.createHandler = function (name, attributes)

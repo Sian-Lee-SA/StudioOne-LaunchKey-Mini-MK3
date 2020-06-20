@@ -84,85 +84,85 @@
         <Control name="sessionLowerPadEffect[7]"    options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
 
-        <Control name="drumPad[0]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="36" options="through" /> </Control>
-        <Control name="drumPadLED[0]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="36" /> </Control>
-        <Control name="drumPadState[0]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[0]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[1]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="37" options="through" /> </Control>
-        <Control name="drumPadLED[1]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="37" /> </Control>
-        <Control name="drumPadState[1]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[1]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[2]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="38" options="through" /> </Control>
-        <Control name="drumPadLED[2]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="38" /> </Control>
-        <Control name="drumPadState[2]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[2]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[3]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="39" options="through" /> </Control>
-        <Control name="drumPadLED[3]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="39" /> </Control>
-        <Control name="drumPadState[3]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[3]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[4]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="40" options="through" /> </Control>
-        <Control name="drumPadLED[4]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="40" /> </Control>
-        <Control name="drumPadState[4]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[4]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[5]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="41" options="through" /> </Control>
-        <Control name="drumPadLED[5]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="41" /> </Control>
-        <Control name="drumPadState[5]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[5]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[6]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="42" options="through" /> </Control>
-        <Control name="drumPadLED[6]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="42" /> </Control>
-        <Control name="drumPadState[6]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[6]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[7]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="43" options="through" /> </Control>
-        <Control name="drumPadLED[7]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="43" /> </Control>
-        <Control name="drumPadState[7]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[7]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
-
-        <Control name="drumPad[8]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="44" options="through"/> </Control>
-        <Control name="drumPadLED[8]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="44" /> </Control>
+        <Control name="drumPad[8]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="36" options="through" /> </Control>
+        <Control name="drumPadLED[8]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="36" /> </Control>
         <Control name="drumPadState[8]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
         <Control name="drumPadEffect[8]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[9]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="45" options="through"/> </Control>
-        <Control name="drumPadLED[9]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="45" /> </Control>
+        <Control name="drumPad[9]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="37" options="through" /> </Control>
+        <Control name="drumPadLED[9]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="37" /> </Control>
         <Control name="drumPadState[9]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
         <Control name="drumPadEffect[9]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[10]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="46" options="through"/> </Control>
-        <Control name="drumPadLED[10]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="46" /> </Control>
-        <Control name="drumPadState[10]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[10]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+        <Control name="drumPad[10]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="38" options="through" /> </Control>
+        <Control name="drumPadLED[10]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="38" /> </Control>
+        <Control name="drumPadState[10]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[10]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[11]"                 type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="47" options="through"/> </Control>
-        <Control name="drumPadLED[11]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="47" /> </Control>
-        <Control name="drumPadState[11]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[11]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+        <Control name="drumPad[11]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="39" options="through" /> </Control>
+        <Control name="drumPadLED[11]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="39" /> </Control>
+        <Control name="drumPadState[11]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[11]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[12]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="48" options="through"/> </Control>
-        <Control name="drumPadLED[12]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="48" /> </Control>
-        <Control name="drumPadState[12]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[12]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+        <Control name="drumPad[0]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="40" options="through" /> </Control>
+        <Control name="drumPadLED[0]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="40" /> </Control>
+        <Control name="drumPadState[0]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[0]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[13]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="49" options="through"/> </Control>
-        <Control name="drumPadLED[13]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="49" /> </Control>
-        <Control name="drumPadState[13]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
-        <Control name="drumPadEffect[13]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+        <Control name="drumPad[1]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="41" options="through" /> </Control>
+        <Control name="drumPadLED[1]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="41" /> </Control>
+        <Control name="drumPadState[1]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[1]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[14]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="50" options="through"/> </Control>
-        <Control name="drumPadLED[14]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="50" /> </Control>
+        <Control name="drumPad[2]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="42" options="through" /> </Control>
+        <Control name="drumPadLED[2]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="42" /> </Control>
+        <Control name="drumPadState[2]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[2]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[3]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="43" options="through" /> </Control>
+        <Control name="drumPadLED[3]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="43" /> </Control>
+        <Control name="drumPadState[3]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[3]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[12]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="44" options="through"/> </Control>
+        <Control name="drumPadLED[12]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="44" /> </Control>
+        <Control name="drumPadState[12]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[12]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[13]"                  type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="45" options="through"/> </Control>
+        <Control name="drumPadLED[13]"               type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="45" /> </Control>
+        <Control name="drumPadState[13]"             options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[13]"            options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[14]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="46" options="through"/> </Control>
+        <Control name="drumPadLED[14]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="46" /> </Control>
         <Control name="drumPadState[14]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
         <Control name="drumPadEffect[14]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
-        <Control name="drumPad[15]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="51" options="through"/> </Control>
-        <Control name="drumPadLED[15]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="51" /> </Control>
+        <Control name="drumPad[15]"                 type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="47" options="through"/> </Control>
+        <Control name="drumPadLED[15]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="47" /> </Control>
         <Control name="drumPadState[15]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
         <Control name="drumPadEffect[15]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[4]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="48" options="through"/> </Control>
+        <Control name="drumPadLED[4]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="48" /> </Control>
+        <Control name="drumPadState[4]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[4]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[5]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="49" options="through"/> </Control>
+        <Control name="drumPadLED[5]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="49" /> </Control>
+        <Control name="drumPadState[5]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[5]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[6]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="50" options="through"/> </Control>
+        <Control name="drumPadLED[6]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="50" /> </Control>
+        <Control name="drumPadState[6]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[6]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
+
+        <Control name="drumPad[7]"	                type="trigger" options="receive"> <MidiMessage status="NoteTrigger" address="51" options="through"/> </Control>
+        <Control name="drumPadLED[7]"              type="rgb" options="transmit fastupdate"> <Handler class="ColorLEDHandler" status="153" address="51" /> </Control>
+        <Control name="drumPadState[7]"            options="transmit fastupdate"> <Handler class="ColorStateHandler" /> </Control>
+        <Control name="drumPadEffect[7]"           options="transmit fastupdate"> <Handler class="ColorEffectHandler" /> </Control>
 
         <Control name="knob[0]" title="Tempo" type="knob" options="receive public">
             <MidiMessage status="Controller" address="#15" />

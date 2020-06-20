@@ -324,12 +324,12 @@ function Modes( hostComponent, bankCount )
                     {
                         let commands = [];
 
-                        PadSection.addCommand(commands, 14, "Note Repeat", "Quantize");
-                        PadSection.addCommand(commands, 15, "Note Repeat", "Aftertouch");
+                        PadSection.addCommand(commands, 6, "Note Repeat", "Quantize");
+                        PadSection.addCommand(commands, 7, "Note Repeat", "Aftertouch");
                         mode.addRenderHandler( function(host, root) {
                             let ele = host.noteRepeatElement;
-                            this.toggle(14, ele.getParamValue('quantize'), '#222200', '#00FF00');
-                            this.toggle(15, ele.getParamValue('pressureHandling'), '#222200', '#00FF00');
+                            this.toggle(6, ele.getParamValue('quantize'), '#222200', '#00FF00');
+                            this.toggle(7, ele.getParamValue('pressureHandling'), '#222200', '#00FF00');
                         });
                         padComponent.addCommandInputHandler(commands);
                     } break;

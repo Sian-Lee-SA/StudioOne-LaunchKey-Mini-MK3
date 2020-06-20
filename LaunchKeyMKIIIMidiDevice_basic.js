@@ -13,8 +13,6 @@ include_file("resource://com.presonus.musicdevices/sdk/midiprotocol.js");
 include_file("resource://com.presonus.musicdevices/sdk/controlsurfacedevice.js");
 include_file("Debug.js");
 
-const kDebug = new Debug;
-
 TouchModHandler.prototype = new ControlHandler();
 function TouchModHandler(name, channel)
 {
@@ -154,16 +152,12 @@ function LaunchKeyMK3BasicDevice()
     this.onInit = function(hostDevice)
     {
         ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
-
-        this.debugLog = true;
-        new Debug(this);
     }
 
     this.createHandler = function (name, attributes)
     {
         // additional handlers created on the fly via <Handler> in XML
         let className = attributes.getAttribute("class");
-
 
         let handler = null;
 

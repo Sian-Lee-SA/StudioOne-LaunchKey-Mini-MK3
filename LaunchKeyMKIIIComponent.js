@@ -24,9 +24,6 @@ function LaunchKeyMK3ExtendedComponent()
     {
         ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
 
-        this.debugLog =             true;
-        new Debug(this);
-
         this.model = 	            hostComponent.model;
         let root = 		            this.model.root;
 
@@ -44,7 +41,7 @@ function LaunchKeyMK3ExtendedComponent()
 
         // Params
         let paramList = 		    hostComponent.paramList;
-        this.modes = new Modes( hostComponent, kBankCount );
+        this.modes =                new Modes( hostComponent, kBankCount );
 
         this.shiftModifier = 	    paramList.addParam("shiftModifier");
         this.sceneHold = 	        paramList.addParam("sceneHold");
@@ -60,6 +57,8 @@ function LaunchKeyMK3ExtendedComponent()
 
         this.bankMenuColor =        paramList.addColor("bankButtonColor");
         this.updateBankMenuColor();
+
+
 
         // add parameter for bank selection
         this.bankList = paramList.addList("bankList");
@@ -92,6 +91,7 @@ function LaunchKeyMK3ExtendedComponent()
         paramList.addInteger(2, 2, "EFFECT_PULSE");
 
         HostUtils.enableEngineEditNotifications(this, true);
+        HostUtils.enableEditorNotifications(this, true);
         Host.Signals.advise(this.padDrumSection.component, this);
         Host.Signals.advise(this.padSessionSection.component, this);
     };
@@ -527,7 +527,7 @@ function LaunchKeyMK3ExtendedComponent()
 
     this.notify = function(subject, msg)
     {
-        // log(subject + ': ' + msg.id);
+        log(subject + ': ' + msg.id);
         if(msg.id == HostUtils.kTrackEditorChanged)
             this.onTrackEditorChanged( msg.getArg (0) );
 

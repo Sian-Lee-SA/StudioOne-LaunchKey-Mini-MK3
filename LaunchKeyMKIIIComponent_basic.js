@@ -23,9 +23,6 @@ function LaunchKeyMK3BasicComponent ()
     {
         ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
 
-        this.debugLog =             true;
-        new Debug(this);
-
         this.model = 	            hostComponent.model;
 
         let paramList = 		    hostComponent.paramList;
