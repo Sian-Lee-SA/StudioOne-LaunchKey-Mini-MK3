@@ -206,8 +206,6 @@ Bank scene allows selection of a specific bank for selected devices. Banks are c
 
 HUI scene is like a mixer console. Triggering SSM will change the lower toggle rows for the columned track to be either Monitor, Record Arm, Solo or Mute. A lighter color on the lower pad means the toggle is off for that track while a darker color is toggled on. The pads and knobs are organised in columns and each column is assigned to a track bank. This scene will automatically display the console view when active.
 
-> Currently this layout uses the remote bank. An unedited remote back automatically reflects the standard bank layout.
-
 ![stop-solo-mute-button](./resources/ssm-button.png)
 
 | Color                                                     | Toggle      |
