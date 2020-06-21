@@ -125,7 +125,7 @@ Session mode consists of 4 different scenes. Each scene consists of different co
 #### Edit Scene
 This scene will display a mode relevant to the capabilities of the selected track or clip. When this scene is active then the editor view will automatically display and focus.
 
-1. Step edit mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down SSM then selecting a pad will place an accent for that step. This mode will automatically show when the selected event or track is a pattern event
+1. Step edit mode will act as a step sequencer. The pads will color to the key track color while making on values and accent values a different variation to said color. Holding down Scene then selecting a pad will place an accent for that step. This mode will automatically show when the selected event or track is a pattern event
 
 1. Keyboard mode changes the pad's to emulate a keyboard.
 
