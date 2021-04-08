@@ -13,7 +13,7 @@ include_file("resource://com.presonus.musicdevices/sdk/midiprotocol.js");
 include_file("resource://com.presonus.musicdevices/sdk/controlsurfacedevice.js");
 include_file("Debug.js");
 
-TouchModHandler.prototype = new ControlHandler();
+TouchModHandler.prototype = new PreSonus.ControlHandler();
 function TouchModHandler(name, channel)
 {
     this.name = name;
@@ -45,7 +45,7 @@ function TouchModHandler(name, channel)
 
 };
 
-TouchPitchHandler.prototype = new ControlHandler();
+TouchPitchHandler.prototype = new PreSonus.ControlHandler();
 function TouchPitchHandler(name, channel)
 {
     this.name = name;
@@ -91,7 +91,7 @@ function TouchPitchHandler(name, channel)
     }
 };
 
-TouchDoubleTapHandler.prototype = new ControlHandler();
+TouchDoubleTapHandler.prototype = new PreSonus.ControlHandler();
 function TouchDoubleTapHandler(name, channel)
 {
     this.name = name;
@@ -142,7 +142,7 @@ function TouchDoubleTapHandler(name, channel)
     }
 }
 
-LaunchKeyMK3BasicDevice.prototype = new ControlSurfaceDevice ();
+LaunchKeyMK3BasicDevice.prototype = new PreSonus.ControlSurfaceDevice ();
 function LaunchKeyMK3BasicDevice()
 {
     this.handlers = {};
@@ -151,7 +151,7 @@ function LaunchKeyMK3BasicDevice()
 
     this.onInit = function(hostDevice)
     {
-        ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
+        PreSonus.ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
     }
 
     this.createHandler = function (name, attributes)
@@ -195,7 +195,7 @@ function LaunchKeyMK3BasicDevice()
 
     this.onMidiOutConnected = function(state)
     {
-        ControlSurfaceDevice.prototype.onMidiOutConnected.call (this, state);
+        PreSonus.ControlSurfaceDevice.prototype.onMidiOutConnected.call (this, state);
 
         if(state)
         {
@@ -206,7 +206,7 @@ function LaunchKeyMK3BasicDevice()
 
     this.onExit = function ()
     {
-        ControlSurfaceDevice.prototype.onExit.call (this);
+        PreSonus.ControlSurfaceDevice.prototype.onExit.call (this);
     }
 }
 

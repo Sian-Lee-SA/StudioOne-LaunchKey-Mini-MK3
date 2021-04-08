@@ -297,7 +297,7 @@ function Modes( hostComponent, bankCount )
     for( let i = 0; i < 8; i++ )
         SessionMode.EffectParams.push( paramList.addInteger(0, 2, "sessionLowerPadEffect["+i+"]") );
 
-    this.lastTrackEditorType = HostUtils.kEditorTypeNone;
+    this.lastTrackEditorType = PreSonus.HostUtils.kEditorTypeNone;
 
     this.setupDrumModes = function( _padElement, _repeatRates, _repeatRateAlias )
     {
@@ -313,9 +313,9 @@ function Modes( hostComponent, bankCount )
             {
                 case 'play':
                     {
-                        padComponent.addHandlerForRole(PadSectionRole.kMusicInput);
+                        padComponent.addHandlerForRole(PreSonus.PadSectionRole.kMusicInput);
                         this.params.display.setValue( 1, true );
-                        padComponent.getHandler(i).setDisplayMode(MusicPadDisplayMode.kDimmedColors);
+                        padComponent.getHandler(i).setDisplayMode(PreSonus.MusicPadDisplayMode.kDimmedColors);
                         padComponent.getHandler(i).setPadColor(Color.References['default_bank']);
                         for(let ii = 0; ii < this.bankCount; ii++)
                             padComponent.getHandler(i).setBankColor(ii, Color.Bank[i]);
@@ -324,8 +324,8 @@ function Modes( hostComponent, bankCount )
                     {
                         let commands = [];
 
-                        PadSection.addCommand(commands, 6, "Note Repeat", "Quantize");
-                        PadSection.addCommand(commands, 7, "Note Repeat", "Aftertouch");
+                        PreSonus.PadSection.addCommand(commands, 6, "Note Repeat", "Quantize");
+                        PreSonus.PadSection.addCommand(commands, 7, "Note Repeat", "Aftertouch");
                         mode.addRenderHandler( function(host, root) {
                             let ele = host.noteRepeatElement;
                             this.toggle(6, ele.getParamValue('quantize'), '#222200', '#00FF00');
@@ -335,7 +335,7 @@ function Modes( hostComponent, bankCount )
                     } break;
                 case 'rate_trigger':
                     {
-                        padComponent.addHandlerForRole(PadSectionRole.kRateTrigger);
+                        padComponent.addHandlerForRole(PreSonus.PadSectionRole.kRateTrigger);
                         padComponent.getHandler(i).setPadColor(Color.References['rate_trigger']);
                         for( let key in _repeatRates)
                             padComponent.setPadRate(key, _repeatRates[key]);
@@ -375,18 +375,18 @@ function Modes( hostComponent, bankCount )
             switch(mode.id)
             {
                 case 'stepedit':
-                    padComponent.addHandlerForRole(PadSectionRole.kStepEdit);
+                    padComponent.addHandlerForRole(PreSonus.PadSectionRole.kStepEdit);
                     padComponent.getHandler(i).setPadColor(Color.References['command']);
                     break;
 
                 case 'eventedit':
                     {
                         let commands = [];
-                        PadSection.addCommand (commands, 10, "Edit", "Duplicate", 0, null, '#E2D762');
-                        PadSection.addCommand (commands, 15, "Edit", "Delete", 0, null, '#FF0000');
+                        PreSonus.PadSection.addCommand (commands, 10, "Edit", "Duplicate", 0, null, '#E2D762');
+                        PreSonus.PadSection.addCommand (commands, 15, "Edit", "Delete", 0, null, '#FF0000');
                         // NOTE: macro command names contain the base64-encoded macro filename (e.g. "Vel +10")
-                        PadSection.addCommand (commands, 6, "Macros", "Macro VmVsIC0xMA==", 0, null, '#448800');
-                        PadSection.addCommand (commands, 7, "Macros", "Macro VmVsICsxMA==", 0, null, '#00AA00');
+                        PreSonus.PadSection.addCommand (commands, 6, "Macros", "Macro VmVsIC0xMA==", 0, null, '#448800');
+                        PreSonus.PadSection.addCommand (commands, 7, "Macros", "Macro VmVsICsxMA==", 0, null, '#00AA00');
 
                         padComponent.addCommandInputHandler(commands);
                         padComponent.getHandler(i).setPadColor(Color.References['command']);
@@ -399,19 +399,19 @@ function Modes( hostComponent, bankCount )
 
                         // make first 8 pads user-assignable
                         for(let ii = 0; ii < 8; ii++)
-                            PadSection.addCommand(userCommands, ii, "", "", PadSection.kCommandItemUserAssignable);
+                            PreSonus.PadSection.addCommand(userCommands, ii, "", "", PreSonus.PadSection.kCommandItemUserAssignable);
                         _userDefined.component.addCommandInputHandler(userCommands);
                         // We activate userdefined commands her as the xml will only enable this component in setup mode
                         _userDefined.component.setActiveHandler(0);
 
-                        PadSection.addCommand(commands, 8, "Transport", "Tap Tempo", PadSection.kCommandItemDirect, null, '#0000FF');
+                        PreSonus.PadSection.addCommand(commands, 8, "Transport", "Tap Tempo", PreSonus.PadSection.kCommandItemDirect, null, '#0000FF');
 
-                        PadSection.addCommand(commands, 10, "Edit", "Duplicate", 0, null, '#E2D762');
+                        PreSonus.PadSection.addCommand(commands, 10, "Edit", "Duplicate", 0, null, '#E2D762');
 
-                        PadSection.addCommand(commands, 12, "Transport", "Click");
-                        PadSection.addCommand(commands, 13, "Transport", "Precount");
+                        PreSonus.PadSection.addCommand(commands, 12, "Transport", "Click");
+                        PreSonus.PadSection.addCommand(commands, 13, "Transport", "Precount");
 
-                        PadSection.addCommand(commands, 15, "Edit", "Delete", 0, null, '#FF0000');
+                        PreSonus.PadSection.addCommand(commands, 15, "Edit", "Delete", 0, null, '#FF0000');
 
                         mode.addRenderHandler( function(host, root) {
                             this.setEffect(8, Effect.PULSE);
@@ -437,17 +437,17 @@ function Modes( hostComponent, bankCount )
                 case 'loopedit':
                     {
                         let commands = [];
-                        PadSection.addCommand(commands, 0, "Zoom", "Zoom to Loop", 0, null, '#00FFFF');
+                        PreSonus.PadSection.addCommand(commands, 0, "Zoom", "Zoom to Loop", 0, null, '#00FFFF');
 
-						PadSection.addCommand(commands, 1, "Transport", "Loop Follows Selection", 0, null, '#005500');
+						PreSonus.PadSection.addCommand(commands, 1, "Transport", "Loop Follows Selection", 0, null, '#005500');
 
-                        PadSection.addCommand(commands, 6, "Transport", "Shift Loop Backwards");
-                        PadSection.addCommand(commands, 7, "Transport", "Shift Loop");
+                        PreSonus.PadSection.addCommand(commands, 6, "Transport", "Shift Loop Backwards");
+                        PreSonus.PadSection.addCommand(commands, 7, "Transport", "Shift Loop");
 
-                        PadSection.addCommand(commands, 8, "Transport", "Set Loop Start", 0, null, '#00AA00');
-                        PadSection.addCommand(commands, 9, "Transport", "Rewind Bar", 'autorepeat', null, '#0000FF');
-                        PadSection.addCommand(commands, 14, "Transport", "Forward Bar", 'autorepeat', null, '#0000FF');
-                        PadSection.addCommand(commands, 15, "Transport", "Set Loop End", 0, null, '#FF0000');
+                        PreSonus.PadSection.addCommand(commands, 8, "Transport", "Set Loop Start", 0, null, '#00AA00');
+                        PreSonus.PadSection.addCommand(commands, 9, "Transport", "Rewind Bar", 'autorepeat', null, '#0000FF');
+                        PreSonus.PadSection.addCommand(commands, 14, "Transport", "Forward Bar", 'autorepeat', null, '#0000FF');
+                        PreSonus.PadSection.addCommand(commands, 15, "Transport", "Set Loop End", 0, null, '#FF0000');
 
                         padComponent.addCommandInputHandler(commands);
                         padComponent.getHandler(i).setPadColor(Color.References['command']);
@@ -573,7 +573,7 @@ function Modes( hostComponent, bankCount )
 
         if( mode.id == 'stepedit' || mode.id == 'eventedit' )
         {
-            if( this.lastTrackEditorType == HostUtils.kEditorTypePattern )
+            if( this.lastTrackEditorType == PreSonus.HostUtils.kEditorTypePattern )
             {
                 index = this.getSessionMode('stepedit').index;
             } else {
@@ -677,9 +677,9 @@ function Modes( hostComponent, bankCount )
     this.setPadDisplayMode = function( mode )
     {
         let modes = [
-            MusicPadDisplayMode.kNoColors,
-            MusicPadDisplayMode.kDimmedColors,
-            MusicPadDisplayMode.kBrightColors,
+            PreSonus.MusicPadDisplayMode.kNoColors,
+            PreSonus.MusicPadDisplayMode.kDimmedColors,
+            PreSonus.MusicPadDisplayMode.kBrightColors,
         ];
 
         this.params.display.setValue( mode, true );

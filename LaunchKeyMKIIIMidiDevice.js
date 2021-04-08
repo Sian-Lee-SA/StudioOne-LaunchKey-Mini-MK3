@@ -14,7 +14,7 @@ include_file("resource://com.presonus.musicdevices/sdk/controlsurfacedevice.js")
 include_file("Debug.js");
 include_file("Color.js");
 
-ColorLEDHandler.prototype = new ControlHandler ();
+ColorLEDHandler.prototype = new PreSonus.ControlHandler ();
 function ColorLEDHandler (name, status, address)
 {
     this.name = name;
@@ -54,7 +54,7 @@ function ColorLEDHandler (name, status, address)
     }
 }
 
-ColorEffectHandler.prototype = new ControlHandler ();
+ColorEffectHandler.prototype = new PreSonus.ControlHandler ();
 function ColorEffectHandler(name, handler)
 {
     this.name = name;
@@ -66,7 +66,7 @@ function ColorEffectHandler(name, handler)
     }
 }
 
-ColorStateHandler.prototype = new ControlHandler();
+ColorStateHandler.prototype = new PreSonus.ControlHandler();
 function ColorStateHandler( name, handler )
 {
     this.name = name;
@@ -79,7 +79,7 @@ function ColorStateHandler( name, handler )
     }
 }
 
-MonoLEDHandler.prototype = new ControlHandler ();
+MonoLEDHandler.prototype = new PreSonus.ControlHandler ();
 function MonoLEDHandler (name, address)
 {
     this.name = name;
@@ -92,7 +92,7 @@ function MonoLEDHandler (name, address)
     }
 }
 
-ButtonHandler.prototype = new ControlHandler ();
+ButtonHandler.prototype = new PreSonus.ControlHandler ();
 function ButtonHandler(name, status, address)
 {
     this.name = name;
@@ -100,7 +100,7 @@ function ButtonHandler(name, status, address)
     this.address = address;
 }
 
-ButtonHoldHandler.prototype = new ControlHandler ();
+ButtonHoldHandler.prototype = new PreSonus.ControlHandler ();
 function ButtonHoldHandler(name, status, address)
 {
     this.name = name;
@@ -171,7 +171,7 @@ function ButtonHoldHandler(name, status, address)
     }
 }
 
-LaunchKeyMK3ExtendedMidiDevice.prototype = new ControlSurfaceDevice ();
+LaunchKeyMK3ExtendedMidiDevice.prototype = new PreSonus.ControlSurfaceDevice ();
 function LaunchKeyMK3ExtendedMidiDevice()
 {
     this.handlers = {};
@@ -185,7 +185,7 @@ function LaunchKeyMK3ExtendedMidiDevice()
 
     this.onInit = function (hostDevice)
     {
-        ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
+        PreSonus.ControlSurfaceDevice.prototype.onInit.call (this, hostDevice);
     }
 
     this.createHandler = function (name, attributes)
@@ -246,7 +246,7 @@ function LaunchKeyMK3ExtendedMidiDevice()
 
     this.onMidiOutConnected = function (state)
     {
-        ControlSurfaceDevice.prototype.onMidiOutConnected.call (this, state);
+        PreSonus.ControlSurfaceDevice.prototype.onMidiOutConnected.call (this, state);
 
         if(state)
         {
@@ -265,7 +265,7 @@ function LaunchKeyMK3ExtendedMidiDevice()
         this.sendMidi(0xBF, 0x03, 0x01);
         this.enableInControlMode( false );
 
-        ControlSurfaceDevice.prototype.onExit.call (this);
+        PreSonus.ControlSurfaceDevice.prototype.onExit.call (this);
     }
 }
 

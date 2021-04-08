@@ -12,7 +12,7 @@ include_file("resource://com.presonus.musicdevices/sdk/controlsurfacecomponent.j
 include_file("Debug.js");
 include_file("Modes.js");
 
-LaunchKeyMK3BasicComponent.prototype = new ControlSurfaceComponent ();
+LaunchKeyMK3BasicComponent.prototype = new PreSonus.ControlSurfaceComponent ();
 function LaunchKeyMK3BasicComponent ()
 {
 
@@ -21,7 +21,7 @@ function LaunchKeyMK3BasicComponent ()
 
     this.onInit = function (hostComponent)
     {
-        ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
+        PreSonus.ControlSurfaceComponent.prototype.onInit.call (this, hostComponent);
 
         this.model = 	            hostComponent.model;
 
