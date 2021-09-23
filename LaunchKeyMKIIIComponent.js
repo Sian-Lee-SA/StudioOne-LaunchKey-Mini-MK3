@@ -541,8 +541,8 @@ function LaunchKeyMK3ExtendedComponent()
         let d = this.padDrumSection.component;
         let bankIndex = c.getCurrentBank();
         let bankColor = Color.Bank[bankIndex];
-        let bankIndex = d.getCurrentBank();
-        let bankColor = Color.Bank[bankIndex];
+        bankIndex = d.getCurrentBank();
+        bankColor = Color.Bank[bankIndex];
         this.bankMenuColor.fromString (bankColor);
     };
 
